@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Citizen Profile & Dossier — SchemeMatch AI</title>
+  <meta name="description" content="Complete your citizen profile to unlock personalized government schemes and document prerequisites.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23075E50'><path d='M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm-2 16l-4-4 1.41-1.41L10 15.17l6.59-6.59L18 10l-8 8z'/></svg>">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gov: {
+              DEFAULT: '#075E50',
+              hover: '#064C41',
+              soft: '#E5F1ED',
+              dark: '#04362E',
+              bg: '#F7F8F5',
+              surface: '#FFFFFF',
+              muted: '#F0F3EF',
+              border: '#DDE4DE',
+              text: '#202923',
+              subtext: '#5D6962',
+              accent: '#D99A42'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="js/auth-nav.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gov-bg text-gov-text min-h-screen flex flex-col font-sans antialiased selection:bg-gov-soft selection:text-gov">
+
+  <!-- Header -->
+  <header class="border-b border-gov-border bg-white sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Logo -->
+      <a href="home.html" class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-lg bg-gov flex items-center justify-center text-white font-bold text-lg shadow-sm">
+          <i data-lucide="shield-check" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="font-bold text-lg tracking-tight text-gov-text">SchemeMatch AI</span>
+          <span class="hidden md:inline-block text-xs text-gov-subtext ml-2 pl-2 border-l border-gov-border">Citizen Profile Dossier</span>
+        </div>
+      </a>
+
+      <!-- Navigation Tabs -->
+      <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
+        <a href="home.html" class="px-3.5 py-2 rounded-xl text-xs font-medium text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-2">
+          <i data-lucide="home" class="w-4 h-4"></i>
+          <span>Home</span>
+        </a>
+        <a href="chat.html" class="px-3.5 py-2 rounded-xl text-xs font-medium text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-2">
+          <i data-lucide="bot" class="w-4 h-4"></i>
+          <span>AI Chat</span>
+        </a>
+        <a href="profile.html" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-gov text-white shadow-xs flex items-center gap-2">
+          <i data-lucide="user-check" class="w-4 h-4"></i>
+          <span>Profile</span>
+        </a>
+        <a href="settings.html" class="px-3.5 py-2 rounded-xl text-xs font-medium text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-2">
+          <i data-lucide="settings" class="w-4 h-4"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <!-- Right Header Actions -->
+      <div class="flex items-center space-x-3">
+        <div class="flex items-center gap-2 pl-2 border-l border-gov-border">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-gov-border shadow-2xs">
+          <div class="hidden lg:block text-left">
+            <div class="text-xs font-bold text-gov-text leading-tight" id="header-user-name">Priya Sharma</div>
+            <div class="text-[10px] text-gov-subtext">Citizen Services</div>
+          </div>
+        </div>
+        <a href="index.html" title="Sign Out" class="p-2 rounded-xl text-gov-subtext hover:text-red-600 hover:bg-red-50 transition">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================================== -->
+  <!-- 3. CITIZEN PROFILE PAGE -->
+  <!-- ============================================================================== -->
+  <main class="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    
+    <!-- Completeness Header Banner -->
+    <div class="card-elevated p-6 rounded-2xl bg-white border border-gov-border flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div class="flex items-start gap-4">
+        <div class="w-14 h-14 rounded-2xl bg-gov text-white flex items-center justify-center shrink-0 shadow-xs">
+          <i data-lucide="award" class="w-7 h-7 text-emerald-300"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl sm:text-2xl font-bold text-gov-text">Citizen Entitlement Dossier</h1>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">Verified UIDAI</span>
+          </div>
+          <p class="text-xs sm:text-sm text-gov-subtext mt-1">
+            Complete and maintain your attributes to automatically evaluate schemes against live government gazettes.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-end gap-2 bg-gov-soft/40 p-4 rounded-xl border border-gov-border shrink-0 min-w-[200px]">
+        <div class="flex items-center justify-between w-full text-xs">
+          <span class="font-semibold text-gov-subtext">Profile Completion</span>
+          <span class="font-bold text-gov text-sm" id="score-text">85%</span>
+        </div>
+        <div class="w-full bg-gray-200 h-2.5 rounded-full overflow-hidden">
+          <div class="bg-gov h-full rounded-full transition-all duration-500" style="width: 85%" id="score-bar"></div>
+        </div>
+        <div class="text-[11px] text-gov-subtext">Unlock 2 more schemes with 7/12 land record</div>
+      </div>
+    </div>
+
+    <!-- Profile Form -->
+    <form id="profile-form" class="space-y-6">
+      
+      <!-- Section 1: Personal Demographics -->
+      <div class="card-elevated p-6 rounded-2xl bg-white border border-gov-border space-y-4">
+        <div class="flex items-center gap-2 pb-3 border-b border-gov-border">
+          <i data-lucide="user" class="w-5 h-5 text-gov"></i>
+          <h2 class="text-base font-bold text-gov-text">1. Personal Demographics</h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+          <div>
+            <label class="block font-semibold text-gov-text mb-1">Full Legal Name</label>
+            <input type="text" id="prof-name" value="Priya Sharma" class="w-full p-2.5 rounded-xl border border-gov-border focus:border-gov focus:ring-1 focus:ring-gov">
+          </div>
+          <div>
+            <label class="block font-semibold text-gov-text mb-1">Age (Years)</label>
+            <input type="number" id="prof-age" value="28" min="1" max="120" class="w-full p-2.5 rounded-xl border border-gov-border focus:border-gov focus:ring-1 focus:ring-gov">
+          </div>
+          <div>
+            <label class="block font-semibold text-gov-text mb-1">Gender</label>
+            <select id="prof-gender" class="w-full p-2.5 rounded-xl border border-gov-border focus:border-gov focus:ring-1 focus:ring-gov">
+              <option value="female" selected>Female</option>
+              <option value="male">Male</option>
+              <option value="transgender">Transgender</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-gov-text mb-1">Domicile State</label>
+            <select id="prof-state" class="w-full p-2.5 rounded-xl border border-gov-border focus:border-gov focus:ring-1 focus:ring-gov">
+              <option value="Maharashtra" selected>Maharashtra</option>
+              <option value="Gujarat">Gujarat</option>
+              <option value="Madhya Pradesh">Madhya Pradesh</option>
+              <option value="Karnataka">Karnataka</option>
+              <option value="Delhi">Delhi</option>
+              <option value="Uttar Pradesh">Uttar Pradesh</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-gov-text mb-1">District</label>
+            <input type="text" id="prof-district" value="Pune" class="w-full p-2.5 rounded-xl border border-gov-border focus:border-gov focus:ring-1 focus:ring-gov">
+          </div>
+          <div>
+            <label class="block font-semibold text-gov-text mb-1">Area Type</label>
+            <select id="prof-area" class="w-full p-2.5 rounded-xl border border-gov-border focus:border-gov focus:ring-1 focus:ring-gov">
+              <option value="semi-urban" selected>Semi-Urban</option>
+              <option value="rural">Rural</option>
+              <option value="urban">Urban</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Household & Economic Data -->
+      <div class="card-elevated p-6 rounded-2xl bg-white border border-gov-border space-y-4">
+        <div class="flex items-center gap-2 pb-3 border-b border-gov-border">
+          <i data-lucide="indian-rupee" class="w-5 h-5 text-gov"></i>
+          <h2 class="text-base font-bold text-gov-text">2. Household & Economic Information</h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+          <div>
+            <label class="block font-semibold text-gov-text mb-1">Annual Family Income (₹)</label>
+            <input type="number" id="prof-income" value="180000" class="w-full p-2.5 rounded-xl border border-gov-border focus:border-gov focus:ring-1 focus:ring-gov">
+            <span class="text-[10px] text-gov-subtext">Must match Tahsildar Income Certificate</span>
+          </div>
+          <div>
+            <label class="block font-semibold text-gov-text mb-1">Land Holding (Acres)</label>
+            <input type="number" id="prof-land" value="1.5" step="0.1" class="w-full p-2.5 rounded-xl border border-gov-border focus:border-gov focus:ring-1 focus:ring-gov">
+            <span class="text-[10px] text-gov-subtext">Required for PM-KISAN & Agritech schemes</span>
+          </div>
+          <div>
+            <label class="block font-semibold text-gov-text mb-1">Primary Occupation</label>
+            <select id="prof-occ" class="w-full p-2.5 rounded-xl border border-gov-border focus:border-gov focus:ring-1 focus:ring-gov">
+              <option value="self-employed" selected>Self-Employed / Small Business</option>
+              <option value="farmer">Farmer / Agriculture</option>
+              <option value="wage-laborer">Daily Wage Laborer</option>
+              <option value="salaried">Salaried (Private / Contract)</option>
+              <option value="student">Student</option>
+              <option value="homemaker">Homemaker</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-gov-text mb-1">Ration Card Category</label>
+            <select id="prof-ration" class="w-full p-2.5 rounded-xl border border-gov-border focus:border-gov focus:ring-1 focus:ring-gov">
+              <option value="yellow" selected>Yellow (BPL - Below Poverty Line)</option>
+              <option value="orange">Orange (State Priority Household)</option>
+              <option value="aay">Antyodaya Anna Yojana (AAY)</option>
+              <option value="white">White (Above Poverty Line)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-gov-text mb-1">Social Category / Caste</label>
+            <select id="prof-caste" class="w-full p-2.5 rounded-xl border border-gov-border focus:border-gov focus:ring-1 focus:ring-gov">
+              <option value="obc" selected>OBC (Other Backward Classes)</option>
+              <option value="general">General / Open</option>
+              <option value="sc">SC (Scheduled Caste)</option>
+              <option value="st">ST (Scheduled Tribe)</option>
+              <option value="ews">EWS (Economically Weaker Section)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-gov-text mb-1">Self-Help Group (SHG) Member?</label>
+            <select id="prof-shg" class="w-full p-2.5 rounded-xl border border-gov-border focus:border-gov focus:ring-1 focus:ring-gov">
+              <option value="yes" selected>Yes, Active Member (Lakhpati Didi eligible)</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Document Readiness Vault -->
+      <div class="card-elevated p-6 rounded-2xl bg-white border border-gov-border space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-gov-border">
+          <div class="flex items-center gap-2">
+            <i data-lucide="file-check" class="w-5 h-5 text-gov"></i>
+            <h2 class="text-base font-bold text-gov-text">3. Digital Document Readiness Checklist</h2>
+          </div>
+          <span class="text-xs text-gov font-bold">4 of 5 Verified</span>
+        </div>
+
+        <div class="space-y-3 text-xs">
+          <div class="flex items-center justify-between p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/40">
+            <div class="flex items-center gap-3">
+              <i data-lucide="check-circle" class="w-5 h-5 text-emerald-700"></i>
+              <div>
+                <div class="font-bold text-emerald-950">Aadhaar Card (Mobile & Bank DBT Seeding Linked)</div>
+                <div class="text-[11px] text-emerald-800">UIDAI Authentication Token Active • Ends in ****8921</div>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 rounded bg-emerald-200 text-emerald-900 text-[10px] font-bold">VERIFIED</span>
+          </div>
+
+          <div class="flex items-center justify-between p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/40">
+            <div class="flex items-center gap-3">
+              <i data-lucide="check-circle" class="w-5 h-5 text-emerald-700"></i>
+              <div>
+                <div class="font-bold text-emerald-950">Maharashtra Domicile Certificate (Age & Residence Proof)</div>
+                <div class="text-[11px] text-emerald-800">Issued by Tahsildar Haveli, Pune • Certificate #MH-DOM-2023-882</div>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 rounded bg-emerald-200 text-emerald-900 text-[10px] font-bold">VERIFIED</span>
+          </div>
+
+          <div class="flex items-center justify-between p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/40">
+            <div class="flex items-center gap-3">
+              <i data-lucide="check-circle" class="w-5 h-5 text-emerald-700"></i>
+              <div>
+                <div class="font-bold text-emerald-950">Annual Income Certificate (&lt; ₹2.50 Lakh)</div>
+                <div class="text-[11px] text-emerald-800">Issued April 2024 • Valid for Financial Year 2024-25</div>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 rounded bg-emerald-200 text-emerald-900 text-[10px] font-bold">VERIFIED</span>
+          </div>
+
+          <div class="flex items-center justify-between p-3.5 rounded-xl border border-amber-300 bg-amber-50/50">
+            <div class="flex items-center gap-3">
+              <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-700"></i>
+              <div>
+                <div class="font-bold text-amber-950">7/12 Land Record (Saat Baara Extract / Khatauni)</div>
+                <div class="text-[11px] text-amber-800">Needed for PM-KISAN Samman Nidhi DBT activation</div>
+              </div>
+            </div>
+            <button type="button" onclick="alert('Select your digital Saat Baara PDF from Bhulekh portal to upload.')" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1">
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+              <span>Upload PDF</span>
+            </button>
+          </div>
+
+          <div class="flex items-center justify-between p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/40">
+            <div class="flex items-center gap-3">
+              <i data-lucide="check-circle" class="w-5 h-5 text-emerald-700"></i>
+              <div>
+                <div class="font-bold text-emerald-950">Bank Account Passbook with Aadhaar NPCI DBT Active</div>
+                <div class="text-[11px] text-emerald-800">State Bank of India • Account ends in ****4012</div>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 rounded bg-emerald-200 text-emerald-900 text-[10px] font-bold">VERIFIED</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Submission Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+        <a href="home.html" class="px-5 py-3 rounded-xl border border-gov-border text-xs font-semibold text-gov-subtext hover:bg-gov-muted transition">
+          ← Back to Dashboard
+        </a>
+
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+          <button type="button" onclick="downloadDossier()" class="px-5 py-3 rounded-xl border border-gov-border text-xs font-semibold text-gov hover:bg-gov-soft transition flex items-center gap-1.5">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>Export Dossier (JSON)</span>
+          </button>
+          <button type="submit" class="flex-1 sm:flex-initial px-7 py-3 rounded-xl bg-gov hover:bg-gov-hover text-white text-xs font-bold shadow-sm flex items-center justify-center gap-2 transition">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            <span>Save & Re-run Scheme Matching</span>
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </main>
+
+  <!-- Interactive Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) window.lucide.createIcons();
+
+      const storedName = localStorage.getItem('schemematch_user_name');
+      if (storedName) {
+        document.getElementById('prof-name').value = storedName;
+        document.getElementById('header-user-name').textContent = storedName;
+      }
+
+      document.getElementById('profile-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('prof-name').value;
+        const income = document.getElementById('prof-income').value;
+        const state = document.getElementById('prof-state').value;
+        
+        localStorage.setItem('schemematch_user_name', name);
+        localStorage.setItem('schemematch_user_income', income);
+        localStorage.setItem('schemematch_user_state', state);
+
+        alert('Citizen profile and entitlement dossier updated! Redirecting to Home Dashboard with live matches...');
+        window.location.href = 'home.html?profileUpdated=true';
+      });
+    });
+
+    function downloadDossier() {
+      const dossier = {
+        name: document.getElementById('prof-name').value,
+        age: document.getElementById('prof-age').value,
+        gender: document.getElementById('prof-gender').value,
+        state: document.getElementById('prof-state').value,
+        district: document.getElementById('prof-district').value,
+        income: document.getElementById('prof-income').value,
+        land_acres: document.getElementById('prof-land').value,
+        occupation: document.getElementById('prof-occ').value,
+        ration_card: document.getElementById('prof-ration').value,
+        caste_category: document.getElementById('prof-caste').value,
+        verified_documents: ['Aadhaar', 'Maharashtra Domicile', 'Income Certificate', 'Bank Passbook'],
+        generated_at: new Date().toISOString()
+      };
+
+      const blob = new Blob([JSON.stringify(dossier, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Citizen_Dossier_${dossier.name.replace(/\s+/g, '_')}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home — Citizen Dashboard & Schemes | SchemeMatch AI</title>
+  <meta name="description" content="Explore reverse-matched government welfare schemes, real-time eligibility criteria analysis, and document prerequisites.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23075E50'><path d='M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm-2 16l-4-4 1.41-1.41L10 15.17l6.59-6.59L18 10l-8 8z'/></svg>">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gov: {
+              DEFAULT: '#075E50',
+              hover: '#064C41',
+              soft: '#E5F1ED',
+              dark: '#04362E',
+              bg: '#F7F8F5',
+              surface: '#FFFFFF',
+              muted: '#F0F3EF',
+              border: '#DDE4DE',
+              text: '#202923',
+              subtext: '#5D6962',
+              accent: '#D99A42'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="js/auth-nav.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gov-bg text-gov-text min-h-screen flex flex-col font-sans antialiased selection:bg-gov-soft selection:text-gov">
+
+  <!-- ============================================================================== -->
+  <!-- MAIN HEADER & NAVIGATION (Common across logged-in pages) -->
+  <!-- ============================================================================== -->
+  <header class="border-b border-gov-border bg-white sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Logo -->
+      <a href="home.html" class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-lg bg-gov flex items-center justify-center text-white font-bold text-lg shadow-sm">
+          <i data-lucide="shield-check" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="font-bold text-lg tracking-tight text-gov-text">SchemeMatch AI</span>
+          <span class="hidden md:inline-block text-xs text-gov-subtext ml-2 pl-2 border-l border-gov-border">Citizen Dashboard</span>
+        </div>
+      </a>
+
+      <!-- Navigation Tabs -->
+      <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
+        <a href="home.html" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-gov text-white shadow-xs flex items-center gap-2">
+          <i data-lucide="home" class="w-4 h-4"></i>
+          <span>Home</span>
+        </a>
+        <a href="chat.html" class="px-3.5 py-2 rounded-xl text-xs font-medium text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-2">
+          <i data-lucide="bot" class="w-4 h-4"></i>
+          <span>AI Chat</span>
+        </a>
+        <a href="profile.html" class="px-3.5 py-2 rounded-xl text-xs font-medium text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-2">
+          <i data-lucide="user-check" class="w-4 h-4"></i>
+          <span>Profile</span>
+        </a>
+        <a href="settings.html" class="px-3.5 py-2 rounded-xl text-xs font-medium text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-2">
+          <i data-lucide="settings" class="w-4 h-4"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <!-- Right Header Actions -->
+      <div class="flex items-center space-x-3">
+        <!-- Search bar -->
+        <div class="relative hidden sm:block w-48 lg:w-64">
+          <i data-lucide="search" class="w-3.5 h-3.5 text-gov-subtext absolute left-3 top-2.5"></i>
+          <input type="text" id="scheme-search-input" placeholder="Search schemes or benefits..." class="w-full bg-gov-muted border border-gov-border rounded-xl pl-8 pr-3 py-1.5 text-xs text-gov-text focus:bg-white focus:border-gov transition">
+        </div>
+
+        <!-- AI Assistant quick jump -->
+        <a href="chat.html" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gov-border text-xs text-gov hover:bg-gov-soft transition font-medium">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-600"></i>
+          <span>Ask AI</span>
+        </a>
+
+        <!-- User profile info -->
+        <a href="profile.html" class="flex items-center gap-2 pl-2 border-l border-gov-border">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-gov-border shadow-2xs">
+          <div class="hidden lg:block text-left">
+            <div class="text-xs font-bold text-gov-text leading-tight" id="display-user-name">Priya Sharma</div>
+            <div class="text-[10px] text-gov-subtext">Verified Citizen</div>
+          </div>
+        </a>
+
+        <!-- Sign Out -->
+        <a href="index.html" title="Sign Out" class="p-2 rounded-xl text-gov-subtext hover:text-red-600 hover:bg-red-50 transition">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Mobile Sub-navigation bar -->
+    <div class="md:hidden flex border-t border-gov-border bg-gov-muted/40 px-4 py-2 justify-around text-xs">
+      <a href="home.html" class="font-bold text-gov flex items-center gap-1">
+        <i data-lucide="home" class="w-4 h-4"></i> Home
+      </a>
+      <a href="chat.html" class="text-gov-subtext flex items-center gap-1">
+        <i data-lucide="bot" class="w-4 h-4"></i> AI Chat
+      </a>
+      <a href="profile.html" class="text-gov-subtext flex items-center gap-1">
+        <i data-lucide="user" class="w-4 h-4"></i> Profile
+      </a>
+      <a href="settings.html" class="text-gov-subtext flex items-center gap-1">
+        <i data-lucide="settings" class="w-4 h-4"></i> Settings
+      </a>
+    </div>
+  </header>
+
+  <!-- ============================================================================== -->
+  <!-- 1. CITIZEN HOME PAGE CONTENT -->
+  <!-- ============================================================================== -->
+  <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    
+    <!-- Welcome Header & Profile Readiness Banner -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-gov-border shadow-xs">
+      <div class="flex items-start gap-4">
+        <div class="w-12 h-12 rounded-xl bg-gov text-white flex items-center justify-center shrink-0 shadow-xs">
+          <i data-lucide="user-check" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h1 class="text-2xl font-bold text-gov-text">Namaste, <span id="welcome-name">Priya Sharma</span> 👋</h1>
+          <p class="text-xs sm:text-sm text-gov-subtext mt-1">
+            Resident of <strong class="text-gov">Maharashtra (Pune)</strong> • Annual Income: <strong class="text-gov">₹1,80,000</strong>
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4 bg-gov-soft/50 p-3.5 rounded-xl border border-gov-border">
+        <div class="text-left">
+          <div class="text-[11px] font-semibold text-gov-subtext uppercase tracking-wider">Citizen Dossier</div>
+          <div class="text-sm font-bold text-gov">85% Complete</div>
+        </div>
+        <div class="w-24 bg-gray-200 h-2.5 rounded-full overflow-hidden">
+          <div class="bg-gov h-full rounded-full" style="width: 85%"></div>
+        </div>
+        <a href="profile.html" class="text-xs font-semibold text-gov hover:underline flex items-center gap-1">
+          <span>Edit</span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Reverse-Matching Engine Natural Language Input Hero -->
+    <div class="card-elevated rounded-2xl p-6 sm:p-8 bg-white border border-gov-border relative overflow-hidden">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-gov-soft text-gov text-xs font-bold uppercase tracking-wider mb-3">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+        <span>Reverse-Matching Engine</span>
+      </div>
+      <h2 class="text-xl sm:text-2xl font-bold text-gov-text">Tell us about your current circumstances</h2>
+      <p class="text-xs sm:text-sm text-gov-subtext mt-1">
+        Type in your own words. The engine automatically matches state and central gazette rules against your profile.
+      </p>
+
+      <!-- Natural Language Textarea -->
+      <div class="mt-4">
+        <textarea id="prompt-query" rows="2" placeholder="Example: I am a woman running a tailoring setup in Pune, looking for business subsidies and monthly support." class="w-full p-4 rounded-xl border border-gov-border bg-gov-muted/30 text-sm text-gov-text focus:bg-white focus:border-gov focus:ring-1 focus:ring-gov transition resize-none"></textarea>
+      </div>
+
+      <!-- Try asking suggestions -->
+      <div class="mt-3 flex flex-wrap items-center gap-2">
+        <span class="text-xs font-semibold text-gov-subtext uppercase">Try matching:</span>
+        <button onclick="setPrompt('Female applicant looking for monthly financial support in Maharashtra')" class="text-xs px-3 py-1.5 rounded-lg bg-gov-muted hover:bg-gov-soft hover:text-gov border border-gov-border text-gov-text transition flex items-center gap-1.5">
+          <i data-lucide="heart" class="w-3.5 h-3.5 text-pink-600"></i>
+          <span>Ladki Bahin Yojana</span>
+        </button>
+        <button onclick="setPrompt('Small farmer with 2 acres land looking for direct income support')" class="text-xs px-3 py-1.5 rounded-lg bg-gov-muted hover:bg-gov-soft hover:text-gov border border-gov-border text-gov-text transition flex items-center gap-1.5">
+          <i data-lucide="sprout" class="w-3.5 h-3.5 text-emerald-600"></i>
+          <span>PM-KISAN Samman</span>
+        </button>
+        <button onclick="setPrompt('Homeowner wanting rooftop solar electricity panels')" class="text-xs px-3 py-1.5 rounded-lg bg-gov-muted hover:bg-gov-soft hover:text-gov border border-gov-border text-gov-text transition flex items-center gap-1.5">
+          <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-600"></i>
+          <span>PM Surya Ghar</span>
+        </button>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="mt-6 pt-4 border-t border-gov-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-2 text-xs text-gov-subtext">
+          <i data-lucide="shield-alert" class="w-4 h-4 text-gov"></i>
+          <span>Real-time cross-referenced with Central & Maharashtra Gazettes</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="chat.html" id="btn-chat-schemebot" class="px-4 py-2.5 rounded-xl border border-gov-border text-xs font-semibold text-gov-text hover:bg-gov-muted transition flex items-center gap-1.5">
+            <i data-lucide="bot" class="w-4 h-4 text-gov"></i>
+            <span>Chat with SchemeBot</span>
+          </a>
+          <button id="btn-run-match" class="px-6 py-2.5 rounded-xl bg-gov hover:bg-gov-hover text-white text-xs font-bold flex items-center gap-2 shadow-sm transition">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            <span>Find Matching Schemes</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Eligibility Stats Counter -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="card-elevated p-5 rounded-2xl bg-white border border-gov-border">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-gov-subtext">Verified Schemes</span>
+          <i data-lucide="database" class="w-4 h-4 text-gov"></i>
+        </div>
+        <div class="text-2xl font-bold text-gov-text mt-2">6</div>
+        <div class="text-[11px] text-gov-subtext mt-1">Public Registry</div>
+      </div>
+
+      <div class="card-elevated p-5 rounded-2xl bg-white border border-emerald-200">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-emerald-800">Directly Eligible</span>
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+        </div>
+        <div class="text-2xl font-bold text-emerald-800 mt-2" id="stat-met">4</div>
+        <div class="text-[11px] text-emerald-700 mt-1">All criteria met</div>
+      </div>
+
+      <div class="card-elevated p-5 rounded-2xl bg-white border border-amber-200">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-amber-800">Action Needed</span>
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+        </div>
+        <div class="text-2xl font-bold text-amber-800 mt-2" id="stat-unknown">1</div>
+        <div class="text-[11px] text-amber-700 mt-1">Missing 7/12 Land Record</div>
+      </div>
+
+      <div class="card-elevated p-5 rounded-2xl bg-white border border-gov-border">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-gov-subtext">Estimated Benefits</span>
+          <i data-lucide="trending-up" class="w-4 h-4 text-emerald-600"></i>
+        </div>
+        <div class="text-2xl font-bold text-gov mt-2">₹1,02,000+</div>
+        <div class="text-[11px] text-gov-subtext mt-1">Annual entitlement value</div>
+      </div>
+    </div>
+
+    <!-- Schemes Explorer Filters & Cards Section -->
+    <section class="space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-xl font-bold text-gov-text">Available Welfare Schemes</h2>
+          <p class="text-xs text-gov-subtext">Showing schemes evaluated against your citizen dossier</p>
+        </div>
+
+        <!-- Filter buttons -->
+        <div class="flex flex-wrap items-center gap-2" id="category-filters">
+          <button class="filter-btn active px-3 py-1.5 rounded-xl text-xs font-semibold bg-gov text-white transition" data-filter="all">All</button>
+          <button class="filter-btn px-3 py-1.5 rounded-xl text-xs font-medium text-gov-subtext bg-white border border-gov-border hover:bg-gov-soft hover:text-gov transition" data-filter="women">Women & Child</button>
+          <button class="filter-btn px-3 py-1.5 rounded-xl text-xs font-medium text-gov-subtext bg-white border border-gov-border hover:bg-gov-soft hover:text-gov transition" data-filter="agriculture">Agriculture</button>
+          <button class="filter-btn px-3 py-1.5 rounded-xl text-xs font-medium text-gov-subtext bg-white border border-gov-border hover:bg-gov-soft hover:text-gov transition" data-filter="health">Health</button>
+          <button class="filter-btn px-3 py-1.5 rounded-xl text-xs font-medium text-gov-subtext bg-white border border-gov-border hover:bg-gov-soft hover:text-gov transition" data-filter="energy">Energy</button>
+          <button class="filter-btn px-3 py-1.5 rounded-xl text-xs font-medium text-gov-subtext bg-white border border-gov-border hover:bg-gov-soft hover:text-gov transition" data-filter="business">Business</button>
+        </div>
+      </div>
+
+      <!-- Scheme Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="schemes-grid">
+        
+        <!-- CARD 1: Ladki Bahin -->
+        <div class="scheme-card card-elevated rounded-2xl p-6 bg-white border border-gov-border flex flex-col justify-between" data-category="women" data-status="met">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-pink-100 text-pink-800">Maharashtra State</span>
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 flex items-center gap-1">
+                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                <span>DIRECTLY ELIGIBLE</span>
+              </span>
+            </div>
+            <h3 class="text-base font-bold text-gov-text">Mukhyamantri Majhi Ladki Bahin Yojana</h3>
+            <div class="text-sm font-bold text-gov mt-1">₹1,500 / month (₹18,000 / year)</div>
+            <p class="text-xs text-gov-subtext mt-2 leading-relaxed">
+              Direct benefit transfer providing financial independence and health nutrition security for resident women in Maharashtra.
+            </p>
+
+            <div class="mt-4 pt-3 border-t border-gov-border space-y-2 text-xs">
+              <div class="flex items-center justify-between text-emerald-800 font-medium">
+                <span>Age: 21–65 Years</span>
+                <span class="flex items-center gap-1 text-[11px] font-bold"><i data-lucide="check" class="w-3 h-3"></i> Met (Age: 28)</span>
+              </div>
+              <div class="flex items-center justify-between text-emerald-800 font-medium">
+                <span>Income: &lt; ₹2.5 Lakh/yr</span>
+                <span class="flex items-center gap-1 text-[11px] font-bold"><i data-lucide="check" class="w-3 h-3"></i> Met (₹1.8L)</span>
+              </div>
+              <div class="flex items-center justify-between text-emerald-800 font-medium">
+                <span>Domicile: Maharashtra</span>
+                <span class="flex items-center gap-1 text-[11px] font-bold"><i data-lucide="check" class="w-3 h-3"></i> Met (Pune)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-gov-border flex items-center justify-between gap-2">
+            <button onclick="openSchemeModal('ladki-bahin')" class="text-xs font-bold text-gov hover:text-gov-hover flex items-center gap-1">
+              <span>View Dossier</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </button>
+            <a href="https://ladakibahin.maharashtra.gov.in/" target="_blank" class="px-3.5 py-1.5 rounded-xl bg-gov hover:bg-gov-hover text-white text-xs font-semibold transition">
+              Apply on Portal ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- CARD 2: PM-KISAN -->
+        <div class="scheme-card card-elevated rounded-2xl p-6 bg-white border border-gov-border flex flex-col justify-between" data-category="agriculture" data-status="unknown">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-100 text-emerald-800">Central Scheme</span>
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 flex items-center gap-1">
+                <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                <span>ACTION REQUIRED</span>
+              </span>
+            </div>
+            <h3 class="text-base font-bold text-gov-text">PM-KISAN Samman Nidhi</h3>
+            <div class="text-sm font-bold text-gov mt-1">₹6,000 / year (3 installments)</div>
+            <p class="text-xs text-gov-subtext mt-2 leading-relaxed">
+              Income support to all landholding farmers' families in the country to cultivate agricultural and allied inputs.
+            </p>
+
+            <div class="mt-4 pt-3 border-t border-gov-border space-y-2 text-xs">
+              <div class="flex items-center justify-between text-emerald-800 font-medium">
+                <span>Domicile: All India</span>
+                <span class="flex items-center gap-1 text-[11px] font-bold"><i data-lucide="check" class="w-3 h-3"></i> Met</span>
+              </div>
+              <div class="flex items-center justify-between text-amber-800 font-medium">
+                <span>Landholding Record: 7/12</span>
+                <span class="flex items-center gap-1 text-[11px] font-bold"><i data-lucide="help-circle" class="w-3 h-3"></i> Missing 7/12 Extract</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-gov-border flex items-center justify-between gap-2">
+            <a href="profile.html" class="text-xs font-bold text-amber-700 hover:underline flex items-center gap-1">
+              <span>Upload 7/12 in Profile</span>
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+            </a>
+            <a href="https://pmkisan.gov.in/" target="_blank" class="px-3.5 py-1.5 rounded-xl border border-gov-border text-gov text-xs font-semibold hover:bg-gov-soft transition">
+              Portal ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- CARD 3: Ayushman Bharat PM-JAY -->
+        <div class="scheme-card card-elevated rounded-2xl p-6 bg-white border border-gov-border flex flex-col justify-between" data-category="health" data-status="met">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-blue-100 text-blue-800">Healthcare</span>
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 flex items-center gap-1">
+                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                <span>DIRECTLY ELIGIBLE</span>
+              </span>
+            </div>
+            <h3 class="text-base font-bold text-gov-text">Ayushman Bharat (PM-JAY)</h3>
+            <div class="text-sm font-bold text-gov mt-1">₹5,00,000 / year Health Cover</div>
+            <p class="text-xs text-gov-subtext mt-2 leading-relaxed">
+              World's largest government-funded health assurance scheme providing secondary and tertiary hospitalisation care.
+            </p>
+
+            <div class="mt-4 pt-3 border-t border-gov-border space-y-2 text-xs">
+              <div class="flex items-center justify-between text-emerald-800 font-medium">
+                <span>Ration Card: BPL / Antyodaya</span>
+                <span class="flex items-center gap-1 text-[11px] font-bold"><i data-lucide="check" class="w-3 h-3"></i> Met (Yellow Ration)</span>
+              </div>
+              <div class="flex items-center justify-between text-emerald-800 font-medium">
+                <span>Cashless Treatment</span>
+                <span class="flex items-center gap-1 text-[11px] font-bold"><i data-lucide="check" class="w-3 h-3"></i> 27,000+ Hospitals</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-gov-border flex items-center justify-between gap-2">
+            <button onclick="alert('Viewing Ayushman Bharat cashless guidelines...')" class="text-xs font-bold text-gov hover:text-gov-hover flex items-center gap-1">
+              <span>View Hospitals</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </button>
+            <a href="https://pmjay.gov.in/" target="_blank" class="px-3.5 py-1.5 rounded-xl bg-gov hover:bg-gov-hover text-white text-xs font-semibold transition">
+              Get Ayushman Card ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- CARD 4: PM Surya Ghar Muft Bijli -->
+        <div class="scheme-card card-elevated rounded-2xl p-6 bg-white border border-gov-border flex flex-col justify-between" data-category="energy" data-status="met">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-amber-100 text-amber-800">Renewable Energy</span>
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 flex items-center gap-1">
+                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                <span>DIRECTLY ELIGIBLE</span>
+              </span>
+            </div>
+            <h3 class="text-base font-bold text-gov-text">PM Surya Ghar: Muft Bijli Yojana</h3>
+            <div class="text-sm font-bold text-gov mt-1">Up to ₹78,000 Subsidy + 300 Units Free</div>
+            <p class="text-xs text-gov-subtext mt-2 leading-relaxed">
+              Provides direct central financial assistance for installing rooftop solar systems for domestic residential households.
+            </p>
+
+            <div class="mt-4 pt-3 border-t border-gov-border space-y-2 text-xs">
+              <div class="flex items-center justify-between text-emerald-800 font-medium">
+                <span>Electricity Consumer Connection</span>
+                <span class="flex items-center gap-1 text-[11px] font-bold"><i data-lucide="check" class="w-3 h-3"></i> Valid MSEDCL</span>
+              </div>
+              <div class="flex items-center justify-between text-emerald-800 font-medium">
+                <span>Rooftop Ownership</span>
+                <span class="flex items-center gap-1 text-[11px] font-bold"><i data-lucide="check" class="w-3 h-3"></i> Residential</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-gov-border flex items-center justify-between gap-2">
+            <button onclick="alert('Estimated Rooftop Solar Subsidy: ₹78,000 for 3kW setup.')" class="text-xs font-bold text-gov hover:text-gov-hover flex items-center gap-1">
+              <span>Calculator</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </button>
+            <a href="https://pmsuryaghar.gov.in/" target="_blank" class="px-3.5 py-1.5 rounded-xl bg-gov hover:bg-gov-hover text-white text-xs font-semibold transition">
+              Apply on Portal ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- CARD 5: PMEGP Scheme -->
+        <div class="scheme-card card-elevated rounded-2xl p-6 bg-white border border-gov-border flex flex-col justify-between" data-category="business" data-status="met">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-purple-100 text-purple-800">Business / MSME</span>
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 flex items-center gap-1">
+                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                <span>DIRECTLY ELIGIBLE</span>
+              </span>
+            </div>
+            <h3 class="text-base font-bold text-gov-text">Prime Minister's Employment Generation (PMEGP)</h3>
+            <div class="text-sm font-bold text-gov mt-1">Up to ₹50 Lakh Loan with 25-35% Subsidy</div>
+            <p class="text-xs text-gov-subtext mt-2 leading-relaxed">
+              Credit-linked subsidy programme to generate self-employment opportunities through micro-enterprises in non-farm sector.
+            </p>
+
+            <div class="mt-4 pt-3 border-t border-gov-border space-y-2 text-xs">
+              <div class="flex items-center justify-between text-emerald-800 font-medium">
+                <span>Age: Above 18 Years</span>
+                <span class="flex items-center gap-1 text-[11px] font-bold"><i data-lucide="check" class="w-3 h-3"></i> Met (Age 28)</span>
+              </div>
+              <div class="flex items-center justify-between text-emerald-800 font-medium">
+                <span>Subsidy: Special Category</span>
+                <span class="flex items-center gap-1 text-[11px] font-bold"><i data-lucide="check" class="w-3 h-3"></i> 35% Rural / 25% Urban</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-gov-border flex items-center justify-between gap-2">
+            <button onclick="alert('PMEGP Project DPR template is ready for download.')" class="text-xs font-bold text-gov hover:text-gov-hover flex items-center gap-1">
+              <span>Project DPR</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </button>
+            <a href="https://www.kviconline.gov.in/pmegpeportal/" target="_blank" class="px-3.5 py-1.5 rounded-xl bg-gov hover:bg-gov-hover text-white text-xs font-semibold transition">
+              Apply on Portal ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- CARD 6: Lakhpati Didi -->
+        <div class="scheme-card card-elevated rounded-2xl p-6 bg-white border border-gov-border flex flex-col justify-between" data-category="women" data-status="met">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-pink-100 text-pink-800">Women Livelihood</span>
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 flex items-center gap-1">
+                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                <span>DIRECTLY ELIGIBLE</span>
+              </span>
+            </div>
+            <h3 class="text-base font-bold text-gov-text">Lakhpati Didi Initiative</h3>
+            <div class="text-sm font-bold text-gov mt-1">Financial Training, SHG Credit & Tools</div>
+            <p class="text-xs text-gov-subtext mt-2 leading-relaxed">
+              Empowering Self-Help Group (SHG) women to earn sustainable annual income of at least ₹1 Lakh through skill training and micro-enterprise.
+            </p>
+
+            <div class="mt-4 pt-3 border-t border-gov-border space-y-2 text-xs">
+              <div class="flex items-center justify-between text-emerald-800 font-medium">
+                <span>SHG Membership</span>
+                <span class="flex items-center gap-1 text-[11px] font-bold"><i data-lucide="check" class="w-3 h-3"></i> Registered Member</span>
+              </div>
+              <div class="flex items-center justify-between text-emerald-800 font-medium">
+                <span>Enterprise Support</span>
+                <span class="flex items-center gap-1 text-[11px] font-bold"><i data-lucide="check" class="w-3 h-3"></i> Drone Didi & Agritech</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-gov-border flex items-center justify-between gap-2">
+            <button onclick="alert('Connecting with National Rural Livelihoods Mission coordinator...')" class="text-xs font-bold text-gov hover:text-gov-hover flex items-center gap-1">
+              <span>SHG Linkage</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </button>
+            <a href="https://nrlm.gov.in/" target="_blank" class="px-3.5 py-1.5 rounded-xl bg-gov hover:bg-gov-hover text-white text-xs font-semibold transition">
+              NRLM Portal ↗
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Scheme Detail Modal (Dossier Slide-out) -->
+  <div id="scheme-detail-modal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs hidden flex items-center justify-center p-4">
+    <div class="card-elevated rounded-2xl w-full max-w-2xl p-6 sm:p-8 bg-white relative max-h-[90vh] overflow-y-auto">
+      <button onclick="closeSchemeModal()" class="absolute top-4 right-4 text-gov-subtext hover:text-gov p-1 rounded-lg">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-2 mb-2">
+        <span class="px-2.5 py-0.5 rounded-md bg-pink-100 text-pink-800 text-[10px] font-bold uppercase">Maharashtra Government</span>
+        <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">100% Eligible</span>
+      </div>
+
+      <h2 class="text-2xl font-bold text-gov-text">Mukhyamantri Majhi Ladki Bahin Yojana</h2>
+      <div class="text-base font-bold text-gov mt-1">₹1,500 / month Direct Bank Transfer (DBT)</div>
+
+      <div class="mt-6 space-y-4 text-xs text-gov-subtext">
+        <div class="p-4 rounded-xl bg-gov-soft/40 border border-gov-border">
+          <div class="font-bold text-gov-text text-sm mb-1">Official Gazette Criteria Validation</div>
+          <p>Every female resident of Maharashtra between the ages of 21 and 65 with total annual family income not exceeding ₹2,50,000 is entitled to receive monthly financial assistance.</p>
+        </div>
+
+        <div>
+          <div class="font-bold text-gov-text text-sm mb-2">Document Readiness Checklist:</div>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between p-2.5 rounded-lg border border-emerald-200 bg-emerald-50/50">
+              <span class="font-medium text-emerald-900">Aadhaar Card (Linked to Mobile & Bank DBT)</span>
+              <span class="text-xs font-bold text-emerald-700">✓ Verified & Ready</span>
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg border border-emerald-200 bg-emerald-50/50">
+              <span class="font-medium text-emerald-900">Maharashtra Domicile Certificate / 15-Yr Residence</span>
+              <span class="text-xs font-bold text-emerald-700">✓ Verified & Ready</span>
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg border border-emerald-200 bg-emerald-50/50">
+              <span class="font-medium text-emerald-900">Income Certificate &lt; ₹2.5 Lakh from Tahsildar</span>
+              <span class="text-xs font-bold text-emerald-700">✓ Verified & Ready</span>
+            </div>
+            <div class="flex items-center justify-between p-2.5 rounded-lg border border-emerald-200 bg-emerald-50/50">
+              <span class="font-medium text-emerald-900">Bank Passbook Copy (Aadhaar Seeding Done)</span>
+              <span class="text-xs font-bold text-emerald-700">✓ Verified & Ready</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-gov-border flex items-center justify-between gap-3">
+        <button onclick="closeSchemeModal()" class="px-5 py-2.5 rounded-xl border border-gov-border text-xs font-semibold text-gov-text hover:bg-gov-muted transition">
+          Close
+        </button>
+        <a href="https://ladakibahin.maharashtra.gov.in/" target="_blank" class="px-6 py-2.5 rounded-xl bg-gov hover:bg-gov-hover text-white text-xs font-bold transition flex items-center gap-1.5">
+          <span>Go to Official Maharashtra Application Portal</span>
+          <i data-lucide="external-link" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Scripts -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) window.lucide.createIcons();
+
+      // Check stored user name
+      const storedName = localStorage.getItem('schemematch_user_name');
+      if (storedName) {
+        document.getElementById('display-user-name').textContent = storedName;
+        document.getElementById('welcome-name').textContent = storedName;
+      }
+
+      // Check URL params for category filter
+      const urlParams = new URLSearchParams(window.location.search);
+      const catParam = urlParams.get('cat');
+      if (catParam) {
+        filterCategory(catParam);
+      }
+
+      // Category filter buttons
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const cat = btn.getAttribute('data-filter');
+          filterCategory(cat);
+        });
+      });
+
+      function filterCategory(cat) {
+        filterBtns.forEach(b => {
+          if (b.getAttribute('data-filter') === cat) {
+            b.className = 'filter-btn active px-3 py-1.5 rounded-xl text-xs font-semibold bg-gov text-white transition';
+          } else {
+            b.className = 'filter-btn px-3 py-1.5 rounded-xl text-xs font-medium text-gov-subtext bg-white border border-gov-border hover:bg-gov-soft hover:text-gov transition';
+          }
+        });
+
+        const cards = document.querySelectorAll('.scheme-card');
+        cards.forEach(card => {
+          const cardCat = card.getAttribute('data-category');
+          if (cat === 'all' || cardCat === cat) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      }
+
+      // Search input filtering
+      document.getElementById('scheme-search-input')?.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        const cards = document.querySelectorAll('.scheme-card');
+        cards.forEach(card => {
+          const text = card.textContent.toLowerCase();
+          if (text.includes(query)) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+
+      // Natural language matching button
+      document.getElementById('btn-run-match')?.addEventListener('click', () => {
+        const prompt = document.getElementById('prompt-query').value.trim();
+        if (!prompt) {
+          alert('Please enter your situation or select one of the suggested prompts.');
+          return;
+        }
+        // Smooth scroll to schemes grid
+        document.getElementById('schemes-grid').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      // Pass natural language prompt directly to AI Chatbot if entered
+      document.getElementById('btn-chat-schemebot')?.addEventListener('click', (e) => {
+        const prompt = document.getElementById('prompt-query')?.value?.trim();
+        if (prompt) {
+          e.preventDefault();
+          window.location.href = `chat.html?q=${encodeURIComponent(prompt)}`;
+        }
+      });
+    });
+
+    function setPrompt(text) {
+      const ta = document.getElementById('prompt-query');
+      ta.value = text;
+      ta.focus();
+    }
+
+    function openSchemeModal(id) {
+      document.getElementById('scheme-detail-modal').classList.remove('hidden');
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function closeSchemeModal() {
+      document.getElementById('scheme-detail-modal').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

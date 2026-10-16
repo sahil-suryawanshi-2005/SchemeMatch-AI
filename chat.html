@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chat Interface — SchemeBot | SchemeMatch AI</title>
+  <meta name="description" content="Chat with SchemeBot AI to reverse-match government welfare schemes, decode gazette eligibility rules, and verify document prerequisites.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23075E50'><path d='M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm-2 16l-4-4 1.41-1.41L10 15.17l6.59-6.59L18 10l-8 8z'/></svg>">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gov: {
+              DEFAULT: '#075E50',
+              hover: '#064C41',
+              soft: '#E5F1ED',
+              dark: '#04362E',
+              bg: '#F7F8F5',
+              surface: '#FFFFFF',
+              muted: '#F0F3EF',
+              border: '#DDE4DE',
+              text: '#202923',
+              subtext: '#5D6962',
+              accent: '#D99A42'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="js/auth-nav.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gov-bg text-gov-text min-h-screen flex flex-col font-sans antialiased selection:bg-gov-soft selection:text-gov">
+
+  <!-- Header -->
+  <header class="border-b border-gov-border bg-white sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Logo -->
+      <a href="home.html" class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-lg bg-gov flex items-center justify-center text-white font-bold text-lg shadow-sm">
+          <i data-lucide="shield-check" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="font-bold text-lg tracking-tight text-gov-text">SchemeMatch AI</span>
+          <span class="hidden md:inline-block text-xs text-gov-subtext ml-2 pl-2 border-l border-gov-border">SchemeBot AI Assistant</span>
+        </div>
+      </a>
+
+      <!-- Navigation Tabs -->
+      <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
+        <a href="home.html" class="px-3.5 py-2 rounded-xl text-xs font-medium text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-2">
+          <i data-lucide="home" class="w-4 h-4"></i>
+          <span>Home</span>
+        </a>
+        <a href="chat.html" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-gov text-white shadow-xs flex items-center gap-2">
+          <i data-lucide="bot" class="w-4 h-4"></i>
+          <span>AI Chat</span>
+        </a>
+        <a href="profile.html" class="px-3.5 py-2 rounded-xl text-xs font-medium text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-2">
+          <i data-lucide="user-check" class="w-4 h-4"></i>
+          <span>Profile</span>
+        </a>
+        <a href="settings.html" class="px-3.5 py-2 rounded-xl text-xs font-medium text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-2">
+          <i data-lucide="settings" class="w-4 h-4"></i>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <!-- Right Header Actions -->
+      <div class="flex items-center space-x-3">
+        <a href="profile.html" class="flex items-center gap-2 pl-2 border-l border-gov-border">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-gov-border shadow-2xs">
+          <div class="hidden lg:block text-left">
+            <div class="text-xs font-bold text-gov-text leading-tight">Priya Sharma</div>
+            <div class="text-[10px] text-gov-subtext">Citizen Services</div>
+          </div>
+        </a>
+        <a href="index.html" title="Sign Out" class="p-2 rounded-xl text-gov-subtext hover:text-red-600 hover:bg-red-50 transition">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================================== -->
+  <!-- 2. AI CHAT INTERFACE (SchemeBot AI) -->
+  <!-- ============================================================================== -->
+  <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row gap-6 h-[calc(100vh-4.5rem)]">
+    
+    <!-- Left Sidebar: Consultation & Prompt Shortcuts -->
+    <aside class="hidden md:flex flex-col w-72 shrink-0 bg-white border border-gov-border rounded-2xl p-4 justify-between">
+      <div>
+        <button onclick="startNewChat()" class="w-full py-2.5 px-4 rounded-xl bg-gov hover:bg-gov-hover text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-xs transition">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span>New Consultation</span>
+        </button>
+
+        <div class="mt-6">
+          <div class="text-[11px] font-bold text-gov-subtext uppercase tracking-wider mb-2">Suggested Topics</div>
+          <div class="space-y-1.5">
+            <button onclick="askPrompt('Am I eligible for Majhi Ladki Bahin Yojana if my family income is ₹1.8 Lakh?')" class="w-full text-left p-2.5 rounded-xl text-xs hover:bg-gov-soft text-gov-text hover:text-gov border border-transparent hover:border-gov-border transition">
+              <span class="font-medium">Ladki Bahin Income Rules</span>
+              <div class="text-[10px] text-gov-subtext mt-0.5">Maharashtra Govt criteria</div>
+            </button>
+            <button onclick="askPrompt('What documents do I need to apply for PM-KISAN 6,000 yearly benefit?')" class="w-full text-left p-2.5 rounded-xl text-xs hover:bg-gov-soft text-gov-text hover:text-gov border border-transparent hover:border-gov-border transition">
+              <span class="font-medium">PM-KISAN Document Gap</span>
+              <div class="text-[10px] text-gov-subtext mt-0.5">7/12 Land record details</div>
+            </button>
+            <button onclick="askPrompt('How can I get free solar rooftop subsidy under PM Surya Ghar?')" class="w-full text-left p-2.5 rounded-xl text-xs hover:bg-gov-soft text-gov-text hover:text-gov border border-transparent hover:border-gov-border transition">
+              <span class="font-medium">PM Surya Ghar Subsidy</span>
+              <div class="text-[10px] text-gov-subtext mt-0.5">Up to ₹78,000 subsidy</div>
+            </button>
+            <button onclick="askPrompt('Can a woman start a business under PMEGP or Lakhpati Didi?')" class="w-full text-left p-2.5 rounded-xl text-xs hover:bg-gov-soft text-gov-text hover:text-gov border border-transparent hover:border-gov-border transition">
+              <span class="font-medium">Women Business Subsidies</span>
+              <div class="text-[10px] text-gov-subtext mt-0.5">SHG loans and 35% subsidy</div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Info -->
+      <div class="pt-4 border-t border-gov-border text-[11px] text-gov-subtext">
+        <div class="flex items-center gap-1.5 text-gov font-medium mb-1">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+          <span>Official Gazette Synced</span>
+        </div>
+        <div>Answers cite verified rules from government notifications.</div>
+      </div>
+    </aside>
+
+    <!-- Main Chat Window -->
+    <div class="flex-1 flex flex-col bg-white border border-gov-border rounded-2xl overflow-hidden shadow-xs">
+      
+      <!-- Chat Header -->
+      <div class="h-14 border-b border-gov-border px-6 flex items-center justify-between shrink-0 bg-gov-muted/20">
+        <div class="flex items-center gap-3">
+          <div class="relative">
+            <div class="w-8 h-8 rounded-lg bg-gov text-white flex items-center justify-center font-bold text-sm shadow-xs">
+              <i data-lucide="bot" class="w-4 h-4"></i>
+            </div>
+            <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white"></span>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-gov-text flex items-center gap-1.5">
+              <span>SchemeBot AI</span>
+              <span id="chat-status-badge" class="px-1.5 py-0.5 rounded text-[10px] bg-emerald-100 text-emerald-800 font-semibold">Connecting...</span>
+            </div>
+            <div id="chat-model-label" class="text-[10px] text-gov-subtext">Qwen 2.5 7B • Central & Maharashtra Gazettes</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <!-- Language Selector -->
+          <div class="flex items-center gap-1.5 text-xs text-gov-subtext">
+            <i data-lucide="globe" class="w-3.5 h-3.5 text-gov"></i>
+            <select id="chat-language" class="text-xs font-medium bg-transparent border-0 text-gov focus:ring-0 cursor-pointer">
+              <option value="en">English</option>
+              <option value="hi">हिन्दी (Hindi)</option>
+              <option value="mr">मराठी (Marathi)</option>
+            </select>
+          </div>
+
+          <!-- Clear Chat -->
+          <button onclick="clearChat()" class="text-gov-subtext hover:text-gov p-1.5 rounded-lg hover:bg-gov-muted transition" title="Clear Chat">
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Messages Stream -->
+      <div id="chat-messages" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+        
+        <!-- Bot Introduction -->
+        <div class="flex items-start gap-3 max-w-2xl">
+          <div class="w-8 h-8 rounded-lg bg-gov text-white flex items-center justify-center shrink-0 text-xs font-bold shadow-xs">
+            <i data-lucide="bot" class="w-4 h-4"></i>
+          </div>
+          <div class="space-y-2">
+            <div class="bg-gov-muted/50 p-4 rounded-2xl rounded-tl-xs border border-gov-border text-xs sm:text-sm text-gov-text leading-relaxed">
+              <p class="font-bold text-gov mb-1">Namaste Priya! I am SchemeBot AI.</p>
+              <p>I have scanned your citizen dossier (Female, 28 years old, Resident of Maharashtra, Family Income ₹1,80,000/yr).</p>
+              <p class="mt-2">You are currently <strong>100% eligible</strong> for the <strong>Mukhyamantri Majhi Ladki Bahin Yojana</strong> and <strong>Ayushman Bharat</strong>!</p>
+              <p class="mt-2">How can I assist you today? You can ask about eligibility, document requirements, or how to resolve document gaps.</p>
+            </div>
+            
+            <!-- Quick Suggestion Buttons -->
+            <div class="flex flex-wrap gap-2 pt-1">
+              <button onclick="askPrompt('What documents do I need to prepare for Ladki Bahin application?')" class="text-[11px] px-3 py-1.5 rounded-lg bg-white border border-gov-border hover:bg-gov-soft text-gov transition font-medium">
+                📄 Ladki Bahin Document Checklist
+              </button>
+              <button onclick="askPrompt('Why does PM-KISAN say Action Needed?')" class="text-[11px] px-3 py-1.5 rounded-lg bg-white border border-gov-border hover:bg-gov-soft text-gov transition font-medium">
+                ⚠️ Why PM-KISAN needs action?
+              </button>
+              <button onclick="askPrompt('How to apply for PM Surya Ghar Rooftop Solar?')" class="text-[11px] px-3 py-1.5 rounded-lg bg-white border border-gov-border hover:bg-gov-soft text-gov transition font-medium">
+                ☀️ Solar Subsidies
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Input Bar -->
+      <div class="p-4 border-t border-gov-border bg-white">
+        <form id="chat-form" class="flex items-center gap-2">
+          <div class="relative flex-1">
+            <input type="text" id="chat-input" placeholder="Ask anything about schemes, eligibility rules, documents..." class="w-full px-4 py-3 rounded-xl border border-gov-border bg-gov-muted/30 text-xs sm:text-sm text-gov-text focus:bg-white focus:border-gov focus:ring-1 focus:ring-gov transition pr-10">
+            <button type="button" onclick="alert('Voice input feature activated.')" class="absolute right-3 top-3 text-gov-subtext hover:text-gov">
+              <i data-lucide="mic" class="w-4 h-4"></i>
+            </button>
+          </div>
+          <button type="submit" class="px-5 py-3 rounded-xl bg-gov hover:bg-gov-hover text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition">
+            <span>Send</span>
+            <i data-lucide="send" class="w-4 h-4"></i>
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Interactive Chat Script (FastAPI + Ollama Qwen 2.5 Integration) -->
+  <script type="module">
+    import { CONFIG } from './js/config.js';
+
+    const API_BASE = (CONFIG && CONFIG.API_BASE_URL) ? CONFIG.API_BASE_URL : 'http://127.0.0.1:8000';
+    let conversationHistory = [];
+    let isWaitingForResponse = false;
+    let lastUserQuery = '';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) window.lucide.createIcons();
+
+      const form = document.getElementById('chat-form');
+      const input = document.getElementById('chat-input');
+
+      // Check backend health on initial load
+      checkBackendHealth();
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const text = input.value.trim();
+        if (!text || isWaitingForResponse) return;
+
+        input.value = '';
+        sendChatMessage(text);
+      });
+
+      // Support direct query via URL parameter ?q=...
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialQuery = urlParams.get('q');
+      if (initialQuery) {
+        sendChatMessage(initialQuery);
+      }
+    });
+
+    // Check health endpoint
+    async function checkBackendHealth() {
+      const badge = document.getElementById('chat-status-badge');
+      const label = document.getElementById('chat-model-label');
+      try {
+        const res = await fetch(`${API_BASE}/api/health`);
+        if (!res.ok) throw new Error('Health check failed');
+        const data = await res.json();
+        
+        if (data.ollama_connected) {
+          if (badge) {
+            badge.className = 'px-1.5 py-0.5 rounded text-[10px] bg-emerald-100 text-emerald-800 font-semibold flex items-center gap-1';
+            badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Online (${data.detected_model || 'Qwen 2.5'})`;
+          }
+          if (label && data.detected_model) {
+            label.textContent = `Model: ${data.detected_model} • Indian Central & State Gazettes`;
+          }
+        } else {
+          if (badge) {
+            badge.className = 'px-1.5 py-0.5 rounded text-[10px] bg-amber-100 text-amber-800 font-semibold';
+            badge.textContent = 'Ollama Offline';
+          }
+          if (label) {
+            label.textContent = 'Backend running • Waiting for Ollama (run "ollama serve")';
+          }
+        }
+      } catch (err) {
+        if (badge) {
+          badge.className = 'px-1.5 py-0.5 rounded text-[10px] bg-red-100 text-red-800 font-semibold';
+          badge.textContent = 'Backend Offline';
+        }
+        if (label) {
+          label.textContent = 'FastAPI server not detected at http://127.0.0.1:8000';
+        }
+      }
+    }
+
+    // Get current citizen context from localStorage or fallback to Priya Sharma
+    function getCitizenContext() {
+      try {
+        const stored = localStorage.getItem('schemematch_profile');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          return {
+            full_name: parsed.full_name || 'Citizen',
+            gender: parsed.gender || null,
+            age: parsed.date_of_birth ? calculateAge(parsed.date_of_birth) : 28,
+            domicile_state: parsed.domicile_state || 'Maharashtra',
+            district_taluka: parsed.district_taluka || null,
+            annual_income: parsed.annual_income || 180000,
+            category_reservation: parsed.category_reservation || null,
+            occupation: parsed.occupation || null,
+            land_holding_acres: parsed.land_holding_acres !== undefined ? parsed.land_holding_acres : null,
+            ration_card_category: parsed.ration_card_category || null,
+            npci_dbt_active: parsed.npci_dbt_active !== undefined ? parsed.npci_dbt_active : true
+          };
+        }
+      } catch (e) {
+        console.warn('Citizen context parse note:', e);
+      }
+
+      if (CONFIG && CONFIG.DEFAULT_CITIZEN) {
+        const def = CONFIG.DEFAULT_CITIZEN;
+        return {
+          full_name: def.full_name,
+          gender: def.gender,
+          age: 28,
+          domicile_state: def.domicile_state,
+          district_taluka: def.district_taluka,
+          annual_income: def.annual_income,
+          category_reservation: def.category_reservation,
+          occupation: def.occupation,
+          land_holding_acres: def.land_holding_acres,
+          ration_card_category: def.ration_card_category,
+          npci_dbt_active: def.npci_dbt_active
+        };
+      }
+      return null;
+    }
+
+    function calculateAge(dobString) {
+      const birth = new Date(dobString);
+      const diff = Date.now() - birth.getTime();
+      return Math.abs(new Date(diff).getUTCFullYear() - 1970) || 28;
+    }
+
+    // Send chat message to FastAPI
+    async function sendChatMessage(userText) {
+      if (isWaitingForResponse) return;
+      isWaitingForResponse = true;
+      lastUserQuery = userText;
+
+      appendUserMessage(userText);
+      const loadingId = appendLoadingIndicator();
+
+      const langSelect = document.getElementById('chat-language');
+      const selectedLanguage = langSelect ? langSelect.value : 'en';
+      const citizenContext = getCitizenContext();
+
+      try {
+        const response = await fetch(`${API_BASE}/api/chat`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: userText,
+            conversation_history: conversationHistory,
+            language: selectedLanguage,
+            citizen_context: citizenContext
+          })
+        });
+
+        removeElement(loadingId);
+
+        if (!response.ok) {
+          let errorDetail = 'Failed to generate response.';
+          try {
+            const errorJson = await response.json();
+            errorDetail = errorJson.detail || errorDetail;
+          } catch (_) {
+            errorDetail = `Server returned status ${response.status}: ${response.statusText}`;
+          }
+          appendErrorMessage(errorDetail, true);
+          return;
+        }
+
+        const data = await response.json();
+        const replyText = data.reply || 'No response generated.';
+
+        // Save conversation history (limit to last 10 turns)
+        conversationHistory.push({ role: 'user', content: userText });
+        conversationHistory.push({ role: 'assistant', content: replyText });
+        if (conversationHistory.length > 20) {
+          conversationHistory = conversationHistory.slice(-20);
+        }
+
+        appendBotMessage(replyText, data.model, data.disclaimer);
+
+      } catch (err) {
+        removeElement(loadingId);
+        console.error('Chat error:', err);
+        appendErrorMessage(
+          `Unable to connect to SchemeMatch AI backend at ${API_BASE}. Please ensure FastAPI is running ("uvicorn main:app --port 8000") and Ollama is active ("ollama serve").`,
+          true
+        );
+      } finally {
+        isWaitingForResponse = false;
+      }
+    }
+
+    function appendUserMessage(text) {
+      const container = document.getElementById('chat-messages');
+      const userDiv = document.createElement('div');
+      userDiv.className = 'flex items-start justify-end gap-3 max-w-2xl ml-auto';
+      userDiv.innerHTML = `
+        <div class="bg-gov text-white p-3.5 rounded-2xl rounded-tr-xs text-xs sm:text-sm leading-relaxed shadow-xs">
+          ${escapeHtml(text)}
+        </div>
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-gov-border shrink-0">
+      `;
+      container.appendChild(userDiv);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function appendLoadingIndicator() {
+      const container = document.getElementById('chat-messages');
+      const loadId = 'loading-' + Date.now();
+      const loadDiv = document.createElement('div');
+      loadDiv.id = loadId;
+      loadDiv.className = 'flex items-start gap-3 max-w-2xl';
+      loadDiv.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-gov text-white flex items-center justify-center shrink-0 text-xs font-bold shadow-xs">
+          <i data-lucide="bot" class="w-4 h-4"></i>
+        </div>
+        <div class="bg-gov-muted/60 p-4 rounded-2xl rounded-tl-xs border border-gov-border text-xs text-gov-subtext flex items-center gap-3 shadow-2xs">
+          <div class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-gov animate-bounce" style="animation-delay: 0ms"></span>
+            <span class="w-2 h-2 rounded-full bg-gov animate-bounce" style="animation-delay: 150ms"></span>
+            <span class="w-2 h-2 rounded-full bg-gov animate-bounce" style="animation-delay: 300ms"></span>
+          </div>
+          <span>Consulting gazette rules with local Qwen 2.5 7B...</span>
+        </div>
+      `;
+      container.appendChild(loadDiv);
+      if (window.lucide) window.lucide.createIcons();
+      container.scrollTop = container.scrollHeight;
+      return loadId;
+    }
+
+    function removeElement(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    function appendErrorMessage(message, canRetry = false) {
+      const container = document.getElementById('chat-messages');
+      const errDiv = document.createElement('div');
+      errDiv.className = 'flex items-start gap-3 max-w-2xl';
+      errDiv.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-red-600 text-white flex items-center justify-center shrink-0 text-xs font-bold shadow-xs">
+          <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+        </div>
+        <div class="bg-red-50 p-4 rounded-2xl rounded-tl-xs border border-red-200 text-xs text-red-800 leading-relaxed space-y-2">
+          <div class="font-bold flex items-center gap-1.5 text-red-900">
+            <span>Connection Notice</span>
+          </div>
+          <p>${escapeHtml(message)}</p>
+          ${canRetry ? `
+            <div class="pt-1">
+              <button onclick="window.retryLastMessage()" class="px-3 py-1.5 rounded-lg bg-red-800 hover:bg-red-900 text-white font-semibold text-[11px] inline-flex items-center gap-1.5 transition">
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                <span>Retry Question</span>
+              </button>
+            </div>
+          ` : ''}
+        </div>
+      `;
+      container.appendChild(errDiv);
+      if (window.lucide) window.lucide.createIcons();
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function appendBotMessage(rawText, modelName = 'qwen2.5:7b', disclaimer = '') {
+      const container = document.getElementById('chat-messages');
+      const botDiv = document.createElement('div');
+      botDiv.className = 'flex items-start gap-3 max-w-2xl';
+
+      const formattedHtml = formatMarkdown(rawText);
+
+      botDiv.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-gov text-white flex items-center justify-center shrink-0 text-xs font-bold shadow-xs">
+          <i data-lucide="bot" class="w-4 h-4"></i>
+        </div>
+        <div class="space-y-1.5 w-full">
+          <div class="bg-gov-muted/50 p-4 rounded-2xl rounded-tl-xs border border-gov-border text-xs sm:text-sm text-gov-text leading-relaxed">
+            ${formattedHtml}
+          </div>
+          
+          <div class="flex items-center justify-between text-[10px] text-gov-subtext px-2 pt-0.5">
+            <span class="flex items-center gap-1 font-medium">
+              <i data-lucide="cpu" class="w-3 h-3 text-gov"></i>
+              <span>Generated by ${escapeHtml(modelName)}</span>
+            </span>
+            <span>Grounded in Official Gazettes</span>
+          </div>
+
+          ${disclaimer ? `
+            <div class="text-[10px] text-gov-subtext italic px-2">
+              ⚠️ ${escapeHtml(disclaimer)}
+            </div>
+          ` : ''}
+        </div>
+      `;
+      container.appendChild(botDiv);
+      if (window.lucide) window.lucide.createIcons();
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function formatMarkdown(text) {
+      if (!text) return '';
+
+      let out = escapeHtml(text);
+
+      // Headings
+      out = out.replace(/^### (.*$)/gim, '<h4 class="font-bold text-gov text-xs sm:text-sm mt-3 mb-1">$1</h4>');
+      out = out.replace(/^## (.*$)/gim, '<h3 class="font-bold text-gov text-sm sm:text-base mt-3 mb-1.5">$1</h3>');
+      out = out.replace(/^# (.*$)/gim, '<h2 class="font-bold text-gov text-base mt-4 mb-2">$1</h2>');
+
+      // Horizontal rules
+      out = out.replace(/^---$/gim, '<hr class="my-2.5 border-gov-border">');
+
+      // Bold & italics
+      out = out.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gov-text">$1</strong>');
+      out = out.replace(/\*(.*?)\*/g, '<em class="text-gov-subtext">$1</em>');
+
+      // Visual indicators
+      out = out.replace(/✓/g, '<span class="text-emerald-700 font-bold">✓</span>');
+      out = out.replace(/⚠️/g, '<span class="text-amber-700 font-bold">⚠️</span>');
+
+      // Process lists line-by-line
+      const lines = out.split('\n');
+      let inList = false;
+      const formattedLines = [];
+
+      for (let line of lines) {
+        const listMatch = line.match(/^\s*[\*\-]\s+(.*)/);
+        const numMatch = line.match(/^\s*(\d+)\.\s+(.*)/);
+
+        if (listMatch) {
+          if (!inList) {
+            formattedLines.push('<ul class="list-disc pl-4 space-y-1 my-1.5">');
+            inList = 'ul';
+          }
+          formattedLines.push(`<li>${listMatch[1]}</li>`);
+        } else if (numMatch) {
+          if (!inList) {
+            formattedLines.push('<ol class="list-decimal pl-4 space-y-1 my-1.5">');
+            inList = 'ol';
+          }
+          formattedLines.push(`<li>${numMatch[2]}</li>`);
+        } else {
+          if (inList) {
+            formattedLines.push(inList === 'ul' ? '</ul>' : '</ol>');
+            inList = false;
+          }
+          if (line.trim().length > 0) {
+            formattedLines.push(`<p class="mt-1.5 leading-relaxed">${line}</p>`);
+          }
+        }
+      }
+
+      if (inList) {
+        formattedLines.push(inList === 'ul' ? '</ul>' : '</ol>');
+      }
+
+      return formattedLines.join('');
+    }
+
+    // Window global functions for existing inline button onclick handlers
+    window.askPrompt = function(text) {
+      sendChatMessage(text);
+    };
+
+    window.clearChat = function() {
+      conversationHistory = [];
+      const container = document.getElementById('chat-messages');
+      container.innerHTML = '';
+      appendBotMessage('Chat history cleared. Feel free to ask any question regarding Central or State Government welfare schemes, eligibility rules, or prerequisite documents.');
+    };
+
+    window.startNewChat = function() {
+      window.clearChat();
+    };
+
+    window.retryLastMessage = function() {
+      if (lastUserQuery) {
+        sendChatMessage(lastUserQuery);
+      }
+    };
+  </script>
+</body>
+</html>

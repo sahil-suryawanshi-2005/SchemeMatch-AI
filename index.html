@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SchemeMatch AI — Find Government Schemes Made for You</title>
+  <meta name="description" content="Discover government schemes that match your circumstances, understand eligibility requirements, and identify prerequisite documents.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23075E50'><path d='M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm-2 16l-4-4 1.41-1.41L10 15.17l6.59-6.59L18 10l-8 8z'/></svg>">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gov: {
+              DEFAULT: '#075E50',
+              hover: '#064C41',
+              soft: '#E5F1ED',
+              dark: '#04362E',
+              bg: '#F7F8F5',
+              surface: '#FFFFFF',
+              muted: '#F0F3EF',
+              border: '#DDE4DE',
+              text: '#202923',
+              subtext: '#5D6962',
+              accent: '#D99A42'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Supabase JS Client v2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gov-bg text-gov-text min-h-screen flex flex-col font-sans antialiased selection:bg-gov-soft selection:text-gov">
+
+  <!-- ============================================================================== -->
+  <!-- 5. LANDING PAGE (Public Landing Page) -->
+  <!-- ============================================================================== -->
+  <div class="flex-1 flex flex-col">
+    <!-- Landing Header -->
+    <header class="border-b border-gov-border bg-white sticky top-0 z-40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <a href="index.html" class="flex items-center space-x-3">
+          <div class="w-8 h-8 rounded-lg bg-gov flex items-center justify-center text-white font-bold text-lg shadow-sm">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <span class="font-bold text-lg tracking-tight text-gov-text">SchemeMatch AI</span>
+            <span class="hidden sm:inline-block text-xs text-gov-subtext ml-2 pl-2 border-l border-gov-border">Find schemes. Know your eligibility.</span>
+          </div>
+        </a>
+
+        <nav class="flex items-center space-x-3 sm:space-x-5">
+          <a href="#how-it-works" class="text-sm font-medium text-gov-subtext hover:text-gov transition hidden sm:inline-block">About</a>
+          <a href="home.html" class="text-sm font-medium text-gov-subtext hover:text-gov transition">Explore Schemes</a>
+          <button id="btn-landing-login" class="text-sm font-semibold text-gov hover:text-gov-hover px-4 py-2 rounded-lg border border-gov-border bg-white hover:bg-gov-soft transition">
+            Login
+          </button>
+          <button id="btn-landing-register" class="text-sm font-semibold text-white bg-gov hover:bg-gov-hover px-4 py-2 rounded-lg shadow-sm transition">
+            Sign Up
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="flex-1">
+      <section class="max-w-5xl mx-auto px-4 sm:px-6 pt-16 pb-20 text-center">
+        <!-- AI Badge -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gov-soft border border-emerald-200 text-gov text-xs font-semibold mb-6 shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>AI-Powered Government Scheme Discovery</span>
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-gov"></i>
+        </div>
+
+        <!-- Main Headline -->
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gov-text tracking-tight max-w-4xl mx-auto leading-tight sm:leading-none">
+          Find the Government Schemes Made for You.
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="mt-6 text-base sm:text-lg text-gov-subtext max-w-2xl mx-auto leading-relaxed">
+          Discover government schemes that match your circumstances, understand eligibility requirements, and find the documents you may need—all in one simple place.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="home.html" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gov hover:bg-gov-hover text-white font-semibold text-sm shadow-sm flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5">
+            <span>Explore Schemes Now</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+          <button id="btn-landing-register-cta" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-white border border-gov-border hover:bg-gov-soft text-gov-text font-semibold text-sm flex items-center justify-center gap-2 transition">
+            <span>Register Citizen Account</span>
+            <i data-lucide="user-plus" class="w-4 h-4 text-gov-subtext"></i>
+          </button>
+          <a href="home.html?demo=true" class="w-full sm:w-auto px-5 py-3.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-emerald-100 transition">
+            <i data-lucide="sparkles" class="w-4 h-4 text-emerald-600"></i>
+            <span>Instant Demo Access</span>
+          </a>
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="mt-10 flex flex-wrap items-center justify-center gap-6 text-xs text-gov-subtext font-medium">
+          <div class="flex items-center gap-1.5">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-gov"></i>
+            <span>Simple to use</span>
+          </div>
+          <span class="hidden sm:inline text-gov-border">•</span>
+          <div class="flex items-center gap-1.5">
+            <i data-lucide="shield-check" class="w-4 h-4 text-gov"></i>
+            <span>Clear eligibility guidance</span>
+          </div>
+          <span class="hidden sm:inline text-gov-border">•</span>
+          <div class="flex items-center gap-1.5">
+            <i data-lucide="link" class="w-4 h-4 text-gov"></i>
+            <span>Official scheme links</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Key Scheme Category Highlights -->
+      <section class="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+          <a href="home.html?cat=agriculture" class="card-elevated p-4 rounded-xl text-center hover:border-gov hover:bg-gov-soft/30 transition group">
+            <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto mb-2 group-hover:bg-gov group-hover:text-white transition">
+              <i data-lucide="sprout" class="w-5 h-5"></i>
+            </div>
+            <div class="text-xs font-bold text-gov-text">Agriculture</div>
+            <div class="text-[10px] text-gov-subtext mt-0.5">PM-KISAN, Solar</div>
+          </a>
+
+          <a href="home.html?cat=women" class="card-elevated p-4 rounded-xl text-center hover:border-gov hover:bg-gov-soft/30 transition group">
+            <div class="w-10 h-10 rounded-lg bg-pink-100 text-pink-800 flex items-center justify-center mx-auto mb-2 group-hover:bg-pink-700 group-hover:text-white transition">
+              <i data-lucide="heart" class="w-5 h-5"></i>
+            </div>
+            <div class="text-xs font-bold text-gov-text">Women & Child</div>
+            <div class="text-[10px] text-gov-subtext mt-0.5">Ladki Bahin, Lakhpati</div>
+          </a>
+
+          <a href="home.html?cat=health" class="card-elevated p-4 rounded-xl text-center hover:border-gov hover:bg-gov-soft/30 transition group">
+            <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-800 flex items-center justify-center mx-auto mb-2 group-hover:bg-blue-700 group-hover:text-white transition">
+              <i data-lucide="activity" class="w-5 h-5"></i>
+            </div>
+            <div class="text-xs font-bold text-gov-text">Healthcare</div>
+            <div class="text-[10px] text-gov-subtext mt-0.5">Ayushman PM-JAY</div>
+          </a>
+
+          <a href="home.html?cat=energy" class="card-elevated p-4 rounded-xl text-center hover:border-gov hover:bg-gov-soft/30 transition group">
+            <div class="w-10 h-10 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center mx-auto mb-2 group-hover:bg-amber-700 group-hover:text-white transition">
+              <i data-lucide="sun" class="w-5 h-5"></i>
+            </div>
+            <div class="text-xs font-bold text-gov-text">Energy & Rooftop</div>
+            <div class="text-[10px] text-gov-subtext mt-0.5">PM Surya Ghar</div>
+          </a>
+
+          <a href="home.html?cat=business" class="card-elevated p-4 rounded-xl text-center hover:border-gov hover:bg-gov-soft/30 transition group">
+            <div class="w-10 h-10 rounded-lg bg-purple-100 text-purple-800 flex items-center justify-center mx-auto mb-2 group-hover:bg-purple-700 group-hover:text-white transition">
+              <i data-lucide="briefcase" class="w-5 h-5"></i>
+            </div>
+            <div class="text-xs font-bold text-gov-text">Business & MSME</div>
+            <div class="text-[10px] text-gov-subtext mt-0.5">PMEGP Subsidy</div>
+          </a>
+
+          <a href="chat.html" class="card-elevated p-4 rounded-xl text-center border-gov/40 bg-gov-soft/40 hover:bg-gov hover:text-white transition group">
+            <div class="w-10 h-10 rounded-lg bg-gov text-white flex items-center justify-center mx-auto mb-2 group-hover:bg-white group-hover:text-gov transition">
+              <i data-lucide="bot" class="w-5 h-5"></i>
+            </div>
+            <div class="text-xs font-bold text-gov group-hover:text-white">AI Assistant</div>
+            <div class="text-[10px] text-gov-subtext group-hover:text-white/80 mt-0.5">Ask Anything</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- How It Works Section (3 Step Cards) -->
+      <section id="how-it-works" class="bg-gov-soft/40 py-20 border-y border-gov-border">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+          <div class="text-center mb-12">
+            <span class="text-xs font-bold tracking-widest text-gov uppercase">Structured Workflow</span>
+            <h2 class="text-3xl font-bold text-gov-text mt-2">How It Works</h2>
+            <p class="text-gov-subtext text-sm mt-2">Three intuitive steps from natural language to verified schemes.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Step 1 -->
+            <div class="card-elevated rounded-2xl p-7 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-5">
+                  <span class="px-2.5 py-1 rounded-md bg-gov-soft text-gov text-xs font-bold">01</span>
+                  <div class="w-9 h-9 rounded-lg bg-gov-soft/60 flex items-center justify-center text-gov">
+                    <i data-lucide="user-check" class="w-5 h-5"></i>
+                  </div>
+                </div>
+                <h3 class="text-lg font-bold text-gov-text mb-2">Tell Us About Yourself</h3>
+                <p class="text-xs sm:text-sm text-gov-subtext leading-relaxed">
+                  Share the details needed to discover potentially relevant government schemes—such as occupation, region, age bracket, or household setup.
+                </p>
+              </div>
+              <div class="mt-6 pt-4 border-t border-gov-border">
+                <a href="profile.html" class="text-xs font-semibold text-gov hover:text-gov-hover flex items-center gap-1">
+                  <span>Profile profiling</span>
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="card-elevated rounded-2xl p-7 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-5">
+                  <span class="px-2.5 py-1 rounded-md bg-gov-soft text-gov text-xs font-bold">02</span>
+                  <div class="w-9 h-9 rounded-lg bg-gov-soft/60 flex items-center justify-center text-gov">
+                    <i data-lucide="compass" class="w-5 h-5"></i>
+                  </div>
+                </div>
+                <h3 class="text-lg font-bold text-gov-text mb-2">Discover Matching Schemes</h3>
+                <p class="text-xs sm:text-sm text-gov-subtext leading-relaxed">
+                  Review scheme requirements and understand which eligibility conditions match your information through structured breakdowns and official references.
+                </p>
+              </div>
+              <div class="mt-6 pt-4 border-t border-gov-border">
+                <a href="home.html" class="text-xs font-semibold text-gov hover:text-gov-hover flex items-center gap-1">
+                  <span>Instant rule crosscheck</span>
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="card-elevated rounded-2xl p-7 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-5">
+                  <span class="px-2.5 py-1 rounded-md bg-gov-soft text-gov text-xs font-bold">03</span>
+                  <div class="w-9 h-9 rounded-lg bg-gov-soft/60 flex items-center justify-center text-gov">
+                    <i data-lucide="check-square" class="w-5 h-5"></i>
+                  </div>
+                </div>
+                <h3 class="text-lg font-bold text-gov-text mb-2">Check Your Documents</h3>
+                <p class="text-xs sm:text-sm text-gov-subtext leading-relaxed">
+                  See a helpful checklist of documents that may be required for the schemes you explore, allowing you to identify prerequisites early and prepare reliably.
+                </p>
+              </div>
+              <div class="mt-6 pt-4 border-t border-gov-border">
+                <a href="home.html" class="text-xs font-semibold text-gov hover:text-gov-hover flex items-center gap-1">
+                  <span>Filing readiness</span>
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Transparency Callout Banner -->
+      <section class="max-w-4xl mx-auto px-4 sm:px-6 my-16">
+        <div class="card-elevated rounded-2xl p-8 bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <div class="flex-1">
+            <div class="flex items-center gap-2 text-gov text-xs font-bold mb-2">
+              <i data-lucide="info" class="w-4 h-4"></i>
+              <span>Civic Tech Transparency</span>
+            </div>
+            <h3 class="text-xl font-bold text-gov-text mb-1">About SchemeMatch AI</h3>
+            <p class="text-sm text-gov-subtext">
+              SchemeMatch AI is an open-source civic tech project designed to help people explore government schemes, understand eligibility requirements, and identify potential document gaps through an easy-to-use digital experience.
+            </p>
+          </div>
+          <a href="home.html" class="px-5 py-2.5 rounded-xl bg-gov-soft text-gov hover:bg-gov hover:text-white font-medium text-xs flex items-center gap-2 transition whitespace-nowrap">
+            <span>Explore Schemes</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gov-border py-8 bg-white text-xs text-gov-subtext">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>© 2026 SchemeMatch AI. Open GovTech Civic Platform.</div>
+        <div class="flex items-center gap-6">
+          <a href="home.html" class="hover:text-gov transition">Dashboard</a>
+          <a href="chat.html" class="hover:text-gov transition">AI Assistant</a>
+          <a href="profile.html" class="hover:text-gov transition">Profile</a>
+          <a href="settings.html" class="hover:text-gov transition">Settings</a>
+        </div>
+      </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 text-center sm:text-left text-gov-subtext/80 text-[11px]">
+        SchemeMatch AI provides informational guidance only. Final eligibility and application decisions depend on the relevant government authority.
+      </div>
+    </footer>
+  </div>
+
+  <!-- ============================================================================== -->
+  <!-- 6. SIGN UP / LOG IN POP UP (Exact design match, only Name, Email, Password) -->
+  <!-- ============================================================================== -->
+  <div id="auth-modal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs hidden flex items-center justify-center p-4">
+    <div class="card-elevated rounded-2xl w-full max-w-md p-6 sm:p-8 bg-white relative animate-in fade-in zoom-in-95 duration-200">
+      <button id="btn-close-auth" class="absolute top-4 right-4 text-gov-subtext hover:text-gov p-1 rounded-lg">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- SUB-VIEW 1: SIGN IN POPUP (Email OTP) -->
+      <div id="auth-sub-login">
+        <div class="text-center mb-6">
+          <div class="w-10 h-10 rounded-xl bg-gov text-white flex items-center justify-center mx-auto mb-3">
+            <i data-lucide="shield-check" class="w-6 h-6"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-gov-text">Sign In to SchemeMatch AI</h2>
+          <p class="text-xs text-gov-subtext mt-1">Access your citizen entitlement dossier & scheme matches</p>
+        </div>
+
+        <!-- Quick Demo Access Button -->
+        <a href="home.html?demo=true" class="w-full py-2.5 px-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-semibold flex items-center justify-center gap-2 mb-4 hover:bg-emerald-100 transition shadow-2xs">
+          <i data-lucide="sparkles" class="w-4 h-4 text-emerald-600"></i>
+          <span>Instant Citizen Demo Access (Priya Sharma)</span>
+        </a>
+
+        <div class="relative flex py-2 items-center">
+          <div class="flex-grow border-t border-gov-border"></div>
+          <span class="flex-shrink mx-3 text-[11px] text-gov-subtext font-medium uppercase tracking-wider">Passwordless Sign In</span>
+          <div class="flex-grow border-t border-gov-border"></div>
+        </div>
+
+        <form id="form-login" class="space-y-4 mt-2">
+          <div>
+            <label class="block text-xs font-semibold text-gov-text mb-1">Email Address</label>
+            <input type="email" id="login-email" required placeholder="name@example.com" autocomplete="email" class="w-full px-3.5 py-2.5 rounded-xl border border-gov-border text-sm focus:border-gov focus:ring-1 focus:ring-gov">
+            <span class="text-[11px] text-gov-subtext mt-1 block">We will send a 6-digit one-time password (OTP) to your email.</span>
+          </div>
+
+          <div id="login-error" class="hidden text-xs text-red-600 bg-red-50 p-2.5 rounded-lg border border-red-200"></div>
+
+          <button type="submit" id="btn-submit-login" class="w-full py-3 rounded-xl bg-gov hover:bg-gov-hover text-white font-medium text-sm transition shadow-sm flex items-center justify-center gap-2">
+            <span>Send Sign-In Code</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </form>
+
+        <p class="text-center text-xs text-gov-subtext mt-6">
+          Don't have an account? 
+          <button id="btn-switch-register" class="text-gov font-semibold hover:underline">Register Citizen Account</button>
+        </p>
+      </div>
+
+      <!-- SUB-VIEW 2: REGISTER CITIZEN POPUP (Full Name, Email -> Supabase OTP) -->
+      <div id="auth-sub-register" class="hidden">
+        <div class="text-center mb-6">
+          <div class="w-10 h-10 rounded-xl bg-gov-soft text-gov flex items-center justify-center mx-auto mb-3">
+            <i data-lucide="user-plus" class="w-6 h-6"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-gov-text">Create Citizen Account</h2>
+          <p class="text-xs text-gov-subtext mt-1">Enter your details to generate your reverse-matching dossier</p>
+        </div>
+
+        <form id="form-register" class="space-y-3.5">
+          <div>
+            <label class="block text-xs font-semibold text-gov-text mb-1">Full Name</label>
+            <input type="text" id="reg-name" required placeholder="e.g. Priya Sharma" autocomplete="name" class="w-full px-3.5 py-2.5 rounded-xl border border-gov-border text-sm focus:border-gov focus:ring-1 focus:ring-gov">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gov-text mb-1">Email Address</label>
+            <input type="email" id="reg-email" required placeholder="name@example.com" autocomplete="email" class="w-full px-3.5 py-2.5 rounded-xl border border-gov-border text-sm focus:border-gov focus:ring-1 focus:ring-gov">
+            <span class="text-[11px] text-gov-subtext mt-1 block">A secure one-time password will be sent to this email.</span>
+          </div>
+
+          <div id="register-error" class="hidden text-xs text-red-600 bg-red-50 p-2.5 rounded-lg border border-red-200"></div>
+
+          <button type="submit" id="btn-submit-register" class="w-full py-3 rounded-xl bg-gov hover:bg-gov-hover text-white font-medium text-sm transition shadow-sm mt-3 flex items-center justify-center gap-2">
+            <span>Continue to Verification</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </form>
+
+        <p class="text-center text-xs text-gov-subtext mt-5">
+          Already registered? 
+          <button id="btn-switch-login" class="text-gov font-semibold hover:underline">Sign In</button>
+        </p>
+      </div>
+
+      <!-- SUB-VIEW 3: 6-DIGIT OTP POP UP -->
+      <div id="auth-sub-otp" class="hidden">
+        <div class="text-center mb-6">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto mb-3 shadow-xs">
+            <i data-lucide="shield-check" class="w-6 h-6 text-gov"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-gov-text">Enter 6-Digit Code</h2>
+          <p class="text-xs text-gov-subtext mt-1">
+            We sent a verification code to <br>
+            <strong id="otp-target-email" class="text-gov font-bold text-sm">your email</strong>
+          </p>
+        </div>
+
+        <form id="form-otp" class="space-y-5">
+          <!-- 6 Individual Digit Input Boxes -->
+          <div>
+            <div class="flex items-center justify-center gap-2 sm:gap-2.5" id="otp-boxes-container">
+              <input type="text" inputmode="numeric" maxlength="1" class="otp-digit w-11 h-12 text-center text-xl font-bold rounded-xl border-2 border-gov-border text-gov-text focus:border-gov focus:ring-2 focus:ring-gov/20 outline-none transition" autofocus>
+              <input type="text" inputmode="numeric" maxlength="1" class="otp-digit w-11 h-12 text-center text-xl font-bold rounded-xl border-2 border-gov-border text-gov-text focus:border-gov focus:ring-2 focus:ring-gov/20 outline-none transition">
+              <input type="text" inputmode="numeric" maxlength="1" class="otp-digit w-11 h-12 text-center text-xl font-bold rounded-xl border-2 border-gov-border text-gov-text focus:border-gov focus:ring-2 focus:ring-gov/20 outline-none transition">
+              <input type="text" inputmode="numeric" maxlength="1" class="otp-digit w-11 h-12 text-center text-xl font-bold rounded-xl border-2 border-gov-border text-gov-text focus:border-gov focus:ring-2 focus:ring-gov/20 outline-none transition">
+              <input type="text" inputmode="numeric" maxlength="1" class="otp-digit w-11 h-12 text-center text-xl font-bold rounded-xl border-2 border-gov-border text-gov-text focus:border-gov focus:ring-2 focus:ring-gov/20 outline-none transition">
+              <input type="text" inputmode="numeric" maxlength="1" class="otp-digit w-11 h-12 text-center text-xl font-bold rounded-xl border-2 border-gov-border text-gov-text focus:border-gov focus:ring-2 focus:ring-gov/20 outline-none transition">
+            </div>
+            <input type="hidden" id="otp-combined-value" value="">
+          </div>
+
+          <div id="otp-message" class="hidden text-xs p-3 rounded-xl"></div>
+
+          <button type="submit" id="btn-verify-otp" class="w-full py-3 rounded-xl bg-gov hover:bg-gov-hover text-white font-medium text-sm transition shadow-sm flex items-center justify-center gap-2">
+            <span>Verify & Complete Sign In</span>
+            <i data-lucide="check" class="w-4 h-4"></i>
+          </button>
+
+          <!-- Resend Code Cooldown Timer -->
+          <div class="flex items-center justify-between text-xs text-gov-subtext pt-1">
+            <span>Didn't receive code?</span>
+            <button type="button" id="btn-resend-otp" class="font-semibold text-gov hover:underline flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+              <span id="resend-label">Resend Code</span>
+            </button>
+          </div>
+        </form>
+
+        <div class="text-center mt-5 pt-3 border-t border-gov-border">
+          <button id="btn-back-to-login" class="text-xs text-gov font-semibold hover:underline flex items-center justify-center gap-1 mx-auto">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            <span>Back to Sign In</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+
+  <!-- Client Auth Controller (Supabase Auth Service Layer Integration) -->
+  <script type="module">
+    import { authService, dbService } from './js/supabase.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (window.lucide) window.lucide.createIcons();
+
+      const authModal = document.getElementById('auth-modal');
+      const subLogin = document.getElementById('auth-sub-login');
+      const subRegister = document.getElementById('auth-sub-register');
+      const subOtp = document.getElementById('auth-sub-otp');
+      const otpMessage = document.getElementById('otp-message');
+
+      let resendTimer = null;
+      let resendCooldownSeconds = 0;
+
+      function openModal(sub = 'login') {
+        authModal.classList.remove('hidden');
+        if (sub === 'login') {
+          subLogin.classList.remove('hidden');
+          subRegister.classList.add('hidden');
+          subOtp.classList.add('hidden');
+        } else if (sub === 'register') {
+          subLogin.classList.add('hidden');
+          subRegister.classList.remove('hidden');
+          subOtp.classList.add('hidden');
+        } else if (sub === 'otp') {
+          subLogin.classList.add('hidden');
+          subRegister.classList.add('hidden');
+          subOtp.classList.remove('hidden');
+          setupOtpBoxes();
+        }
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      function closeModal() {
+        authModal.classList.add('hidden');
+      }
+
+      // Check existing authenticated session on page load
+      try {
+        const session = await authService.getSession();
+        if (session?.user) {
+          const loginBtn = document.getElementById('btn-landing-login');
+          if (loginBtn) {
+            loginBtn.textContent = 'Go to Dashboard';
+            loginBtn.onclick = () => window.location.href = 'home.html';
+          }
+        }
+      } catch (err) {
+        console.warn('Session check note:', err);
+      }
+
+      // Listen for auth state changes
+      authService.onAuthStateChange((event, session) => {
+        if (session?.user && event === 'SIGNED_IN') {
+          const loginBtn = document.getElementById('btn-landing-login');
+          if (loginBtn) {
+            loginBtn.textContent = 'Go to Dashboard';
+            loginBtn.onclick = () => window.location.href = 'home.html';
+          }
+        }
+      });
+
+      // Modal trigger buttons
+      document.getElementById('btn-landing-login')?.addEventListener('click', () => openModal('login'));
+      document.getElementById('btn-landing-register')?.addEventListener('click', () => openModal('register'));
+      document.getElementById('btn-landing-register-cta')?.addEventListener('click', () => openModal('register'));
+      document.getElementById('btn-close-auth')?.addEventListener('click', closeModal);
+
+      // Switching between tabs
+      document.getElementById('btn-switch-register')?.addEventListener('click', () => openModal('register'));
+      document.getElementById('btn-switch-login')?.addEventListener('click', () => openModal('login'));
+      document.getElementById('btn-back-to-login')?.addEventListener('click', () => openModal('login'));
+
+      authModal?.addEventListener('click', (e) => {
+        if (e.target === authModal) closeModal();
+      });
+
+      // Helper for button busy states
+      function setBusy(btn, isBusy, text) {
+        if (!btn) return;
+        btn.disabled = isBusy;
+        if (isBusy) {
+          btn.dataset.origText = btn.innerHTML;
+          btn.innerHTML = `<span>${text}</span>`;
+        } else if (btn.dataset.origText) {
+          btn.innerHTML = btn.dataset.origText;
+        }
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      // Start Resend Cooldown Countdown
+      function startResendCooldown(seconds = 30) {
+        const resendBtn = document.getElementById('btn-resend-otp');
+        const resendLabel = document.getElementById('resend-label');
+        if (!resendBtn || !resendLabel) return;
+
+        clearInterval(resendTimer);
+        resendCooldownSeconds = seconds;
+        resendBtn.disabled = true;
+
+        resendTimer = setInterval(() => {
+          resendCooldownSeconds--;
+          if (resendCooldownSeconds > 0) {
+            resendLabel.textContent = `Resend Code (${resendCooldownSeconds}s)`;
+          } else {
+            clearInterval(resendTimer);
+            resendBtn.disabled = false;
+            resendLabel.textContent = 'Resend Code';
+          }
+        }, 1000);
+      }
+
+      // ==============================================================================
+      // 1. REGISTRATION SUBMISSION (signInWithOtp with shouldCreateUser: true)
+      // ==============================================================================
+      document.getElementById('form-register')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const nameInput = document.getElementById('reg-name');
+        const emailInput = document.getElementById('reg-email');
+        const errorEl = document.getElementById('register-error');
+        const submitBtn = document.getElementById('btn-submit-register');
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+
+        if (!name) {
+          errorEl.textContent = 'Please enter your full name.';
+          errorEl.classList.remove('hidden');
+          nameInput.focus();
+          return;
+        }
+
+        if (!email || !emailInput.checkValidity()) {
+          errorEl.textContent = 'Please enter a valid email address.';
+          errorEl.classList.remove('hidden');
+          emailInput.focus();
+          return;
+        }
+
+        errorEl.classList.add('hidden');
+        setBusy(submitBtn, true, 'Requesting OTP...');
+
+        try {
+          // Call Supabase Auth service directly
+          await authService.signInWithOtp(email);
+
+          // Store temporary details until OTP verification succeeds
+          sessionStorage.setItem('schemematch_auth_email', email);
+          sessionStorage.setItem('schemematch_pending_name', name);
+
+          // Display OTP modal ONLY when Supabase accepts request
+          document.getElementById('otp-target-email').textContent = email;
+          otpMessage.textContent = 'We sent a 6-digit one-time password to your email. Please check your inbox and spam folder.';
+          otpMessage.className = 'text-xs p-3 rounded-xl bg-blue-50 text-blue-900 border border-blue-200 block leading-relaxed';
+
+          openModal('otp');
+          startResendCooldown(30);
+        } catch (err) {
+          console.error('Registration OTP request error:', err);
+          errorEl.textContent = err.message || 'Failed to request verification code. Please check your email address.';
+          errorEl.classList.remove('hidden');
+        } finally {
+          setBusy(submitBtn, false);
+        }
+      });
+
+      // ==============================================================================
+      // 2. LOGIN SUBMISSION (Passwordless Email OTP)
+      // ==============================================================================
+      document.getElementById('form-login')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const emailInput = document.getElementById('login-email');
+        const errorEl = document.getElementById('login-error');
+        const submitBtn = document.getElementById('btn-submit-login');
+
+        const email = emailInput.value.trim();
+
+        if (!email || !emailInput.checkValidity()) {
+          errorEl.textContent = 'Please enter a valid registered email address.';
+          errorEl.classList.remove('hidden');
+          emailInput.focus();
+          return;
+        }
+
+        errorEl.classList.add('hidden');
+        setBusy(submitBtn, true, 'Sending Code...');
+
+        try {
+          await authService.signInWithOtp(email);
+
+          sessionStorage.setItem('schemematch_auth_email', email);
+          sessionStorage.removeItem('schemematch_pending_name');
+
+          document.getElementById('otp-target-email').textContent = email;
+          otpMessage.textContent = 'Sign-in code sent! Please check your inbox.';
+          otpMessage.className = 'text-xs p-3 rounded-xl bg-blue-50 text-blue-900 border border-blue-200 block leading-relaxed';
+
+          openModal('otp');
+          startResendCooldown(30);
+        } catch (err) {
+          console.error('Login OTP request error:', err);
+          errorEl.textContent = err.message || 'Unable to request sign-in code. Please try again.';
+          errorEl.classList.remove('hidden');
+        } finally {
+          setBusy(submitBtn, false);
+        }
+      });
+
+      // ==============================================================================
+      // 3. 6-DIGIT OTP INPUT BEHAVIOR (Auto-advance, Backspace, Paste)
+      // ==============================================================================
+      function setupOtpBoxes() {
+        const boxes = document.querySelectorAll('.otp-digit');
+        boxes.forEach((box, idx) => {
+          box.value = '';
+          box.addEventListener('input', (e) => {
+            const val = e.target.value.replace(/[^0-9]/g, '');
+            box.value = val ? val.slice(-1) : '';
+            if (val && idx < boxes.length - 1) {
+              boxes[idx + 1].focus();
+            }
+            updateCombinedOtp();
+          });
+
+          box.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && !box.value && idx > 0) {
+              boxes[idx - 1].focus();
+            }
+          });
+
+          box.addEventListener('paste', (e) => {
+            e.preventDefault();
+            const pasted = (e.clipboardData || window.clipboardData).getData('text').trim();
+            if (/^\d+$/.test(pasted)) {
+              const digits = pasted.slice(0, 6).split('');
+              digits.forEach((d, i) => {
+                if (boxes[i]) boxes[i].value = d;
+              });
+              const nextIndex = Math.min(digits.length, boxes.length - 1);
+              boxes[nextIndex].focus();
+              updateCombinedOtp();
+            }
+          });
+        });
+        if (boxes[0]) boxes[0].focus();
+      }
+
+      function updateCombinedOtp() {
+        const boxes = document.querySelectorAll('.otp-digit');
+        const code = Array.from(boxes).map(b => b.value).join('');
+        const hiddenInput = document.getElementById('otp-combined-value');
+        if (hiddenInput) hiddenInput.value = code;
+        return code;
+      }
+
+      // ==============================================================================
+      // 4. OTP VERIFICATION (supabase.auth.verifyOtp)
+      // ==============================================================================
+      document.getElementById('form-otp')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const code = updateCombinedOtp();
+        const email = sessionStorage.getItem('schemematch_auth_email');
+        const verifyBtn = document.getElementById('btn-verify-otp');
+
+        if (!email) {
+          otpMessage.textContent = 'Session expired. Please return to login and request a new code.';
+          otpMessage.className = 'text-xs p-3 rounded-xl bg-red-50 text-red-800 border border-red-200 block';
+          return;
+        }
+
+        if (code.length < 6) {
+          otpMessage.textContent = 'Please enter all 6 digits of the verification code.';
+          otpMessage.className = 'text-xs p-3 rounded-xl bg-amber-50 text-amber-900 border border-amber-200 block';
+          return;
+        }
+
+        otpMessage.className = 'hidden';
+        setBusy(verifyBtn, true, 'Verifying...');
+
+        try {
+          // Verify code through Supabase Auth
+          const data = await authService.verifyOtp(email, code);
+
+          if (!data?.user) {
+            throw new Error('Authentication succeeded but user identity could not be verified.');
+          }
+
+          const user = data.user;
+          const pendingName = sessionStorage.getItem('schemematch_pending_name') || user.email.split('@')[0];
+
+          // Save / update citizen profile with authenticated user ID
+          try {
+            await dbService.saveProfile({
+              full_name: pendingName,
+              email: user.email
+            }, user.id);
+          } catch (profileErr) {
+            console.warn('Profile sync note:', profileErr);
+          }
+
+          // Update local state for consistent UI display
+          localStorage.setItem('schemematch_user_id', user.id);
+          localStorage.setItem('schemematch_user_email', user.email);
+          localStorage.setItem('schemematch_user_name', pendingName);
+          sessionStorage.removeItem('schemematch_pending_name');
+
+          otpMessage.textContent = 'SUCCESS! One-time password verified. Loading citizen dashboard...';
+          otpMessage.className = 'text-xs p-3 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 block';
+
+          setTimeout(() => {
+            window.location.href = 'home.html?verified=true';
+          }, 500);
+        } catch (err) {
+          console.error('OTP verification error:', err);
+          otpMessage.textContent = 'Verification failed: ' + (err.message || 'Invalid or expired code. Please try again.');
+          otpMessage.className = 'text-xs p-3 rounded-xl bg-red-50 text-red-800 border border-red-200 block';
+        } finally {
+          setBusy(verifyBtn, false);
+        }
+      });
+
+      // ==============================================================================
+      // 5. RESEND OTP (Supabase signInWithOtp)
+      // ==============================================================================
+      document.getElementById('btn-resend-otp')?.addEventListener('click', async () => {
+        if (resendCooldownSeconds > 0) return;
+
+        const email = sessionStorage.getItem('schemematch_auth_email');
+        if (!email) {
+          otpMessage.textContent = 'No active email found. Please re-enter your email on the login screen.';
+          otpMessage.className = 'text-xs p-3 rounded-xl bg-red-50 text-red-800 border border-red-200 block';
+          return;
+        }
+
+        const resendBtn = document.getElementById('btn-resend-otp');
+        const resendLabel = document.getElementById('resend-label');
+        resendBtn.disabled = true;
+        resendLabel.textContent = 'Sending...';
+
+        try {
+          await authService.resendOtp(email);
+
+          otpMessage.textContent = 'A new 6-digit code has been dispatched to your email.';
+          otpMessage.className = 'text-xs p-3 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 block';
+          startResendCooldown(30);
+        } catch (err) {
+          console.error('Resend error:', err);
+          otpMessage.textContent = 'Failed to resend code: ' + (err.message || 'Please wait before trying again.');
+          otpMessage.className = 'text-xs p-3 rounded-xl bg-red-50 text-red-800 border border-red-200 block';
+          resendBtn.disabled = false;
+          resendLabel.textContent = 'Resend Code';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
