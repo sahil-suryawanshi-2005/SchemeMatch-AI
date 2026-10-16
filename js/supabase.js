@@ -156,57 +156,93 @@ export const authService = {
 // ==============================================================================
 
 export const dbService = {
-  // Fetch citizen profile by user ID (with fallback to local storage / mock)
+  // Fetch citizen profile by user ID
   async getProfile(userId) {
-    if (supabaseClient && userId) {
-      try {
-        const { data, error } = await supabaseClient
-          .from('profiles')
-          .select('*')
-          .eq('id', userId)
-          .single();
+    if (!supabaseClient || !userId) return null;
+    const { data, error } = await supabaseClient
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .maybeSingle();
 
-        if (data && !error) {
-          return data;
-        }
-      } catch (err) {
-        console.info('Remote profile fetch note: Falling back to local state.', err?.message);
-      }
+    if (error) {
+      console.error('Supabase profile query error:', error);
+      throw error;
     }
-
-    // Fallback: check localStorage or return default
-    const local = localStorage.getItem('schemematch_profile');
-    if (local) {
-      try {
-        return JSON.parse(local);
-      } catch (e) {}
-    }
-    return { ...CONFIG.DEFAULT_CITIZEN };
+    return data;
   },
 
-  // Save / Update citizen profile
+  // Save / Update citizen profile in profiles table
   async saveProfile(profileData, userId = null) {
-    // Always persist to localStorage for instant responsiveness
-    localStorage.setItem('schemematch_profile', JSON.stringify(profileData));
-
-    if (supabaseClient && userId) {
-      try {
-        const payload = { ...profileData, id: userId, updated_at: new Date().toISOString() };
-        const { data, error } = await supabaseClient
-          .from('profiles')
-          .upsert(payload)
-          .select();
-
-        if (error) {
-          console.warn('Supabase profile upsert warning (check if tables are created):', error.message);
-        } else {
-          return data?.[0] || profileData;
-        }
-      } catch (err) {
-        console.warn('Supabase profile save error:', err);
-      }
+    if (!supabaseClient) {
+      throw new Error('Supabase client is not initialized');
     }
-    return profileData;
+    if (!userId) {
+      throw new Error('User ID is required to save profile');
+    }
+
+    const payload = {
+      ...profileData,
+      id: userId,
+      updated_at: new Date().toISOString()
+    };
+
+    const { data, error } = await supabaseClient
+      .from('profiles')
+      .upsert(payload, { onConflict: 'id' })
+      .select();
+
+    if (error) {
+      console.error('Supabase profile save error:', error);
+      throw error;
+    }
+
+    localStorage.setItem('schemematch_profile', JSON.stringify(data?.[0] || payload));
+    return data?.[0] || payload;
+  },
+
+  // Fetch eligibility details from user_details table
+  async getUserDetails(userId) {
+    if (!supabaseClient || !userId) return null;
+    const { data, error } = await supabaseClient
+      .from('user_details')
+      .select('*')
+      .eq('user_id', userId)
+      .maybeSingle();
+
+    if (error) {
+      console.error('Supabase user_details query error:', error);
+      throw error;
+    }
+    return data;
+  },
+
+  // Save / Update eligibility details in user_details table (upsert with user_id key)
+  async saveUserDetails(userId, details) {
+    if (!supabaseClient) {
+      throw new Error('Supabase client is not initialized');
+    }
+    if (!userId) {
+      throw new Error('User ID is required to save eligibility details');
+    }
+
+    const payload = {
+      user_id: userId,
+      ...details,
+      updated_at: new Date().toISOString()
+    };
+
+    const { data, error } = await supabaseClient
+      .from('user_details')
+      .upsert(payload, { onConflict: 'user_id' })
+      .select();
+
+    if (error) {
+      console.error('Supabase user_details save error:', error);
+      throw error;
+    }
+
+    return data?.[0] || payload;
   },
 
   // Fetch all schemes from Supabase or fallback starter pack

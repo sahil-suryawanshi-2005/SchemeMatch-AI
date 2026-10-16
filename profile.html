@@ -53,50 +53,52 @@
 </head>
 <body class="bg-gov-bg text-gov-text min-h-screen flex flex-col font-sans antialiased selection:bg-gov-soft selection:text-gov">
 
-  <!-- Header -->
-  <header class="border-b border-gov-border bg-white sticky top-0 z-40">
+  <!-- ============================================================================== -->
+  <!-- SINGLE UNIFIED NON-SHAKING NAVBAR -->
+  <!-- ============================================================================== -->
+  <header class="border-b border-gov-border bg-white sticky top-0 z-40 shadow-2xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
       <!-- Logo -->
-      <a href="home.html" class="flex items-center space-x-3">
-        <div class="w-8 h-8 rounded-lg bg-gov flex items-center justify-center text-white font-bold text-lg shadow-sm">
+      <a href="home.html" class="flex items-center space-x-3 shrink-0 group">
+        <div class="w-9 h-9 rounded-xl bg-gov flex items-center justify-center text-white font-bold text-lg shadow-sm transition-transform group-hover:scale-105">
           <i data-lucide="shield-check" class="w-5 h-5"></i>
         </div>
         <div>
-          <span class="font-bold text-lg tracking-tight text-gov-text">SchemeMatch AI</span>
-          <span class="hidden md:inline-block text-xs text-gov-subtext ml-2 pl-2 border-l border-gov-border">Citizen Profile Dossier</span>
+          <span class="font-extrabold text-lg tracking-tight text-gov-text">SchemeMatch <span class="text-gov">AI</span></span>
+          <span class="hidden lg:inline-block text-xs text-gov-subtext ml-2 pl-2 border-l border-gov-border">Citizen Profile Dossier</span>
         </div>
       </a>
 
-      <!-- Navigation Tabs -->
-      <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
-        <a href="home.html" class="px-3.5 py-2 rounded-xl text-xs font-medium text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-2">
+      <!-- Navigation Tabs (Always in the single navbar row across all screens) -->
+      <nav class="flex items-center space-x-1 sm:space-x-2">
+        <a href="home.html" class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-1.5">
           <i data-lucide="home" class="w-4 h-4"></i>
-          <span>Home</span>
+          <span class="hidden sm:inline">Home</span>
         </a>
-        <a href="chat.html" class="px-3.5 py-2 rounded-xl text-xs font-medium text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-2">
+        <a href="chat.html" class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-1.5">
           <i data-lucide="bot" class="w-4 h-4"></i>
-          <span>AI Chat</span>
+          <span class="hidden sm:inline">AI Chat</span>
         </a>
-        <a href="profile.html" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-gov text-white shadow-xs flex items-center gap-2">
+        <a href="profile.html" class="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-bold bg-gov text-white shadow-xs flex items-center gap-1.5 transition">
           <i data-lucide="user-check" class="w-4 h-4"></i>
           <span>Profile</span>
         </a>
-        <a href="settings.html" class="px-3.5 py-2 rounded-xl text-xs font-medium text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-2">
+        <a href="settings.html" class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-1.5">
           <i data-lucide="settings" class="w-4 h-4"></i>
-          <span>Settings</span>
+          <span class="hidden sm:inline">Settings</span>
         </a>
       </nav>
 
       <!-- Right Header Actions -->
-      <div class="flex items-center space-x-3">
-        <div class="flex items-center gap-2 pl-2 border-l border-gov-border">
-          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-gov-border shadow-2xs">
+      <div class="flex items-center space-x-2.5 sm:space-x-3 shrink-0">
+        <a href="profile.html" class="flex items-center gap-2 pl-2 border-l border-gov-border group">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-gov-border shadow-2xs group-hover:border-gov transition">
           <div class="hidden lg:block text-left">
             <div class="text-xs font-bold text-gov-text leading-tight" id="header-user-name">Priya Sharma</div>
             <div class="text-[10px] text-gov-subtext">Citizen Services</div>
           </div>
-        </div>
+        </a>
         <a href="index.html" title="Sign Out" class="p-2 rounded-xl text-gov-subtext hover:text-red-600 hover:bg-red-50 transition">
           <i data-lucide="log-out" class="w-4 h-4"></i>
         </a>
@@ -249,73 +251,82 @@
         </div>
       </div>
 
-      <!-- Section 3: Document Readiness Vault -->
+      <!-- Section 3: Interactive Citizen Document Vault & Search Manager -->
       <div class="card-elevated p-6 rounded-2xl bg-white border border-gov-border space-y-4">
-        <div class="flex items-center justify-between pb-3 border-b border-gov-border">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-gov-border">
           <div class="flex items-center gap-2">
-            <i data-lucide="file-check" class="w-5 h-5 text-gov"></i>
-            <h2 class="text-base font-bold text-gov-text">3. Digital Document Readiness Checklist</h2>
+            <div class="w-8 h-8 rounded-lg bg-gov-soft text-gov flex items-center justify-center">
+              <i data-lucide="file-check" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h2 class="text-base font-bold text-gov-text">3. Citizen Verification Document Vault</h2>
+              <p class="text-[11px] text-gov-subtext">Search and attach required identity, land, and income documents to your entitlement dossier.</p>
+            </div>
           </div>
-          <span class="text-xs text-gov font-bold">4 of 5 Verified</span>
+          <span id="doc-count-badge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 self-start sm:self-center">
+            4 Documents Verified
+          </span>
         </div>
 
-        <div class="space-y-3 text-xs">
-          <div class="flex items-center justify-between p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/40">
-            <div class="flex items-center gap-3">
-              <i data-lucide="check-circle" class="w-5 h-5 text-emerald-700"></i>
-              <div>
-                <div class="font-bold text-emerald-950">Aadhaar Card (Mobile & Bank DBT Seeding Linked)</div>
-                <div class="text-[11px] text-emerald-800">UIDAI Authentication Token Active • Ends in ****8921</div>
-              </div>
+        <!-- Search Bar to Search Documents & Add -->
+        <div class="space-y-2.5 bg-gov-muted/40 p-4 rounded-xl border border-gov-border">
+          <label class="block text-xs font-bold text-gov-text">Search & Attach Document</label>
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+            <div class="relative flex-1">
+              <i data-lucide="search" class="w-4 h-4 text-gov-subtext absolute left-3.5 top-3 pointer-events-none"></i>
+              <input type="text" id="doc-search-input" list="gov-docs-datalist" placeholder="Search or type document (e.g. 7/12 Land Record, Ration Card, Caste Certificate)..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gov-border text-xs sm:text-sm bg-white focus:border-gov focus:ring-1 focus:ring-gov transition">
+              <datalist id="gov-docs-datalist">
+                <option value="7/12 Land Record (Saat Baara Extract / Khatauni)">
+                <option value="Caste & Tribe Validity Certificate">
+                <option value="Non-Creamy Layer (NCL) Certificate">
+                <option value="Orange / Yellow Ration Card">
+                <option value="DISCOM Domestic Electricity Bill (Consumer No.)">
+                <option value="Divyangjan Disability (UDID) Certificate">
+                <option value="Self-Help Group (SHG) Membership Passbook">
+                <option value="Farmer Kisan Credit Card (KCC)">
+                <option value="MGNREGA Job Card">
+                <option value="Birth / School Leaving Certificate">
+                <option value="Voter ID (EPIC Card)">
+                <option value="Passport Size Digital Photograph">
+              </datalist>
             </div>
-            <span class="px-2.5 py-1 rounded bg-emerald-200 text-emerald-900 text-[10px] font-bold">VERIFIED</span>
-          </div>
-
-          <div class="flex items-center justify-between p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/40">
-            <div class="flex items-center gap-3">
-              <i data-lucide="check-circle" class="w-5 h-5 text-emerald-700"></i>
-              <div>
-                <div class="font-bold text-emerald-950">Maharashtra Domicile Certificate (Age & Residence Proof)</div>
-                <div class="text-[11px] text-emerald-800">Issued by Tahsildar Haveli, Pune • Certificate #MH-DOM-2023-882</div>
-              </div>
-            </div>
-            <span class="px-2.5 py-1 rounded bg-emerald-200 text-emerald-900 text-[10px] font-bold">VERIFIED</span>
-          </div>
-
-          <div class="flex items-center justify-between p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/40">
-            <div class="flex items-center gap-3">
-              <i data-lucide="check-circle" class="w-5 h-5 text-emerald-700"></i>
-              <div>
-                <div class="font-bold text-emerald-950">Annual Income Certificate (&lt; ₹2.50 Lakh)</div>
-                <div class="text-[11px] text-emerald-800">Issued April 2024 • Valid for Financial Year 2024-25</div>
-              </div>
-            </div>
-            <span class="px-2.5 py-1 rounded bg-emerald-200 text-emerald-900 text-[10px] font-bold">VERIFIED</span>
-          </div>
-
-          <div class="flex items-center justify-between p-3.5 rounded-xl border border-amber-300 bg-amber-50/50">
-            <div class="flex items-center gap-3">
-              <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-700"></i>
-              <div>
-                <div class="font-bold text-amber-950">7/12 Land Record (Saat Baara Extract / Khatauni)</div>
-                <div class="text-[11px] text-amber-800">Needed for PM-KISAN Samman Nidhi DBT activation</div>
-              </div>
-            </div>
-            <button type="button" onclick="alert('Select your digital Saat Baara PDF from Bhulekh portal to upload.')" class="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition flex items-center gap-1">
-              <i data-lucide="upload" class="w-3.5 h-3.5"></i>
-              <span>Upload PDF</span>
+            <button type="button" id="btn-add-doc" class="px-5 py-2.5 rounded-xl bg-gov hover:bg-gov-hover text-white text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition shrink-0 transform active:scale-98">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+              <span>Add Document</span>
             </button>
           </div>
 
-          <div class="flex items-center justify-between p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/40">
-            <div class="flex items-center gap-3">
-              <i data-lucide="check-circle" class="w-5 h-5 text-emerald-700"></i>
-              <div>
-                <div class="font-bold text-emerald-950">Bank Account Passbook with Aadhaar NPCI DBT Active</div>
-                <div class="text-[11px] text-emerald-800">State Bank of India • Account ends in ****4012</div>
-              </div>
-            </div>
-            <span class="px-2.5 py-1 rounded bg-emerald-200 text-emerald-900 text-[10px] font-bold">VERIFIED</span>
+          <!-- Quick Suggested Chips -->
+          <div class="flex flex-wrap items-center gap-1.5 pt-1 text-xs">
+            <span class="text-[11px] font-semibold text-gov-subtext">Quick add:</span>
+            <button type="button" onclick="quickAddDoc('7/12 Land Record (Saat Baara Extract / Khatauni)')" class="px-2.5 py-1 rounded-lg border border-gov-border bg-white hover:bg-gov-soft text-gov text-[11px] font-medium transition flex items-center gap-1">
+              <i data-lucide="plus" class="w-3 h-3"></i>
+              <span>7/12 Land Record</span>
+            </button>
+            <button type="button" onclick="quickAddDoc('Caste & Tribe Validity Certificate')" class="px-2.5 py-1 rounded-lg border border-gov-border bg-white hover:bg-gov-soft text-gov text-[11px] font-medium transition flex items-center gap-1">
+              <i data-lucide="plus" class="w-3 h-3"></i>
+              <span>Caste Certificate</span>
+            </button>
+            <button type="button" onclick="quickAddDoc('DISCOM Domestic Electricity Bill (Consumer No.)')" class="px-2.5 py-1 rounded-lg border border-gov-border bg-white hover:bg-gov-soft text-gov text-[11px] font-medium transition flex items-center gap-1">
+              <i data-lucide="plus" class="w-3 h-3"></i>
+              <span>Electricity Bill</span>
+            </button>
+            <button type="button" onclick="quickAddDoc('Orange / Yellow Ration Card')" class="px-2.5 py-1 rounded-lg border border-gov-border bg-white hover:bg-gov-soft text-gov text-[11px] font-medium transition flex items-center gap-1">
+              <i data-lucide="plus" class="w-3 h-3"></i>
+              <span>Ration Card</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic List of Attached Documents -->
+        <div class="mt-4 pt-2">
+          <div class="text-xs font-bold text-gov-text mb-2.5 flex items-center justify-between">
+            <span>Attached Verification Documents:</span>
+            <span class="text-[11px] text-gov-subtext font-normal">Active in your reverse-matching profile</span>
+          </div>
+
+          <div id="citizen-docs-list" class="space-y-2.5 text-xs">
+            <!-- Rendered dynamically by JavaScript -->
           </div>
         </div>
       </div>
@@ -341,45 +352,186 @@
     </form>
   </main>
 
-  <!-- Interactive Script -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      if (window.lucide) window.lucide.createIcons();
+  <!-- Interactive Script: Supabase user_details persistence & Document Vault -->
+  <script type="module">
+    import { authService, dbService } from './js/supabase.js';
 
-      const storedName = localStorage.getItem('schemematch_user_name');
-      if (storedName) {
-        document.getElementById('prof-name').value = storedName;
-        document.getElementById('header-user-name').textContent = storedName;
+    // Default initial documents list
+    const DEFAULT_DOCUMENTS = [
+      {
+        id: 'doc-aadhaar',
+        title: 'Aadhaar Card (Mobile & Bank DBT Seeding Linked)',
+        subtitle: 'UIDAI Authentication Token Active • Ends in ****8921',
+        status: 'VERIFIED',
+        isDefault: true
+      },
+      {
+        id: 'doc-domicile',
+        title: 'Maharashtra Domicile Certificate (Age & Residence Proof)',
+        subtitle: 'Issued by Tahsildar Haveli, Pune • Certificate #MH-DOM-2023-882',
+        status: 'VERIFIED',
+        isDefault: true
+      },
+      {
+        id: 'doc-income',
+        title: 'Annual Income Certificate (< ₹2.50 Lakh)',
+        subtitle: 'Issued April 2024 • Valid for Financial Year 2024-25',
+        status: 'VERIFIED',
+        isDefault: true
+      },
+      {
+        id: 'doc-bank',
+        title: 'Bank Account Passbook with Aadhaar NPCI DBT Active',
+        subtitle: 'State Bank of India • Account ends in ****4012',
+        status: 'VERIFIED',
+        isDefault: true
+      }
+    ];
+
+    let userDocuments = [];
+    let currentUser = null;
+    let existingProfile = null;
+    let existingUserDetails = null;
+
+    // Load from localStorage or defaults
+    function loadDocuments() {
+      try {
+        const stored = localStorage.getItem('schemematch_user_docs');
+        if (stored) {
+          userDocuments = JSON.parse(stored);
+        } else {
+          userDocuments = [...DEFAULT_DOCUMENTS];
+          saveDocuments();
+        }
+      } catch (e) {
+        userDocuments = [...DEFAULT_DOCUMENTS];
+      }
+      renderDocuments();
+    }
+
+    function saveDocuments() {
+      try {
+        localStorage.setItem('schemematch_user_docs', JSON.stringify(userDocuments));
+      } catch (e) {
+        console.warn('Document save note:', e);
+      }
+    }
+
+    // Render documents list
+    function renderDocuments() {
+      const listEl = document.getElementById('citizen-docs-list');
+      const badgeEl = document.getElementById('doc-count-badge');
+      if (!listEl) return;
+
+      if (badgeEl) badgeEl.textContent = `${userDocuments.length} Documents Attached`;
+
+      // Update completion score
+      const scoreText = document.getElementById('score-text');
+      const scoreBar = document.getElementById('score-bar');
+      const hasLand = userDocuments.some(d => d.title.toLowerCase().includes('7/12') || d.title.toLowerCase().includes('land'));
+      const score = hasLand ? 100 : Math.min(85 + (userDocuments.length - 4) * 3, 95);
+      if (scoreText) scoreText.textContent = `${score}%`;
+      if (scoreBar) scoreBar.style.width = `${score}%`;
+
+      if (userDocuments.length === 0) {
+        listEl.innerHTML = `
+          <div class="p-6 text-center text-gov-subtext bg-gov-muted/30 rounded-xl border border-dashed border-gov-border">
+            <i data-lucide="file-question" class="w-8 h-8 mx-auto mb-2 text-gov-subtext/60"></i>
+            <p class="font-semibold text-xs">No documents attached yet.</p>
+            <p class="text-[11px] mt-0.5">Use the search bar above to attach standard verification documents.</p>
+          </div>
+        `;
+        if (window.lucide) window.lucide.createIcons();
+        return;
       }
 
-      document.getElementById('profile-form')?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = document.getElementById('prof-name').value;
-        const income = document.getElementById('prof-income').value;
-        const state = document.getElementById('prof-state').value;
-        
-        localStorage.setItem('schemematch_user_name', name);
-        localStorage.setItem('schemematch_user_income', income);
-        localStorage.setItem('schemematch_user_state', state);
+      listEl.innerHTML = userDocuments.map((doc, idx) => `
+        <div class="flex items-center justify-between p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/40 hover:bg-emerald-50/70 transition">
+          <div class="flex items-center gap-3 min-w-0 pr-2">
+            <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
+              <i data-lucide="check-circle" class="w-4 h-4"></i>
+            </div>
+            <div class="min-w-0">
+              <div class="font-bold text-emerald-950 truncate">${escapeHtml(doc.title)}</div>
+              <div class="text-[11px] text-emerald-800 truncate">${escapeHtml(doc.subtitle || 'Attached to citizen dossier')}</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <span class="px-2.5 py-1 rounded bg-emerald-200 text-emerald-900 text-[10px] font-bold">${escapeHtml(doc.status || 'ATTACHED')}</span>
+            <button type="button" onclick="removeDoc(${idx})" class="p-1 rounded-lg text-gov-subtext hover:text-red-700 hover:bg-red-50 transition" title="Remove Document">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
 
-        alert('Citizen profile and entitlement dossier updated! Redirecting to Home Dashboard with live matches...');
-        window.location.href = 'home.html?profileUpdated=true';
-      });
-    });
+      if (window.lucide) window.lucide.createIcons();
+    }
 
-    function downloadDossier() {
+    // Add document function
+    function addDocument(docName) {
+      const name = (docName || '').trim();
+      if (!name) return;
+
+      const exists = userDocuments.some(d => d.title.toLowerCase() === name.toLowerCase());
+      if (exists) {
+        alert('This document is already attached to your citizen dossier.');
+        return;
+      }
+
+      const newDoc = {
+        id: 'doc-' + Date.now(),
+        title: name,
+        subtitle: `Added on ${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })} • Self-Reported Document`,
+        status: 'ATTACHED',
+        isDefault: false
+      };
+
+      userDocuments.push(newDoc);
+      saveDocuments();
+      renderDocuments();
+
+      const input = document.getElementById('doc-search-input');
+      if (input) input.value = '';
+
+      if (name.toLowerCase().includes('7/12') || name.toLowerCase().includes('land')) {
+        alert('Saat Baara (7/12 Land Record) attached! PM-KISAN Samman Nidhi is now 100% unlocked.');
+      }
+    }
+
+    function removeDoc(index) {
+      if (index >= 0 && index < userDocuments.length) {
+        userDocuments.splice(index, 1);
+        saveDocuments();
+        renderDocuments();
+      }
+    }
+
+    function quickAddDoc(name) {
+      addDocument(name);
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    // Expose functions to window for inline onclick handlers
+    window.removeDoc = removeDoc;
+    window.quickAddDoc = quickAddDoc;
+    window.downloadDossier = function() {
       const dossier = {
-        name: document.getElementById('prof-name').value,
-        age: document.getElementById('prof-age').value,
-        gender: document.getElementById('prof-gender').value,
-        state: document.getElementById('prof-state').value,
-        district: document.getElementById('prof-district').value,
-        income: document.getElementById('prof-income').value,
-        land_acres: document.getElementById('prof-land').value,
-        occupation: document.getElementById('prof-occ').value,
-        ration_card: document.getElementById('prof-ration').value,
-        caste_category: document.getElementById('prof-caste').value,
-        verified_documents: ['Aadhaar', 'Maharashtra Domicile', 'Income Certificate', 'Bank Passbook'],
+        name: document.getElementById('prof-name')?.value || existingProfile?.full_name || '',
+        age: document.getElementById('prof-age')?.value || '',
+        gender: document.getElementById('prof-gender')?.value || '',
+        state: document.getElementById('prof-state')?.value || existingUserDetails?.state || '',
+        district: document.getElementById('prof-district')?.value || existingUserDetails?.district || '',
+        income: document.getElementById('prof-income')?.value || existingUserDetails?.annual_income || '',
+        land_acres: document.getElementById('prof-land')?.value || '',
+        occupation: document.getElementById('prof-occ')?.value || existingUserDetails?.occupation || '',
+        ration_card: document.getElementById('prof-ration')?.value || '',
+        caste_category: document.getElementById('prof-caste')?.value || existingUserDetails?.category || '',
+        verified_documents: userDocuments.map(d => d.title),
         generated_at: new Date().toISOString()
       };
 
@@ -387,10 +539,231 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `Citizen_Dossier_${dossier.name.replace(/\s+/g, '_')}.json`;
+      a.download = `Citizen_Dossier_${(dossier.name || 'User').replace(/\s+/g, '_')}.json`;
       a.click();
       URL.revokeObjectURL(url);
-    }
+    };
+
+    // ==============================================================================
+    // PAGE INITIALIZATION: FETCH & HYDRATE FROM SUPABASE
+    // ==============================================================================
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (window.lucide) window.lucide.createIcons();
+      loadDocuments();
+
+      // Setup document search listeners
+      document.getElementById('btn-add-doc')?.addEventListener('click', () => {
+        const input = document.getElementById('doc-search-input');
+        if (input && input.value.trim()) {
+          addDocument(input.value.trim());
+        } else {
+          alert('Please enter or select a document name from the search suggestions.');
+          input?.focus();
+        }
+      });
+
+      document.getElementById('doc-search-input')?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const input = e.target;
+          if (input.value.trim()) {
+            addDocument(input.value.trim());
+          }
+        }
+      });
+
+      // 1. Retrieve current authenticated session
+      try {
+        const session = await authService.getSession();
+        currentUser = session?.user || await authService.getUser();
+      } catch (err) {
+        console.warn('Session verification notice:', err);
+      }
+
+      // 2. Fetch authenticated records from public.profiles and public.user_details
+      if (currentUser?.id) {
+        try {
+          // Fetch from public.profiles
+          existingProfile = await dbService.getProfile(currentUser.id);
+          const fullName = existingProfile?.full_name || '';
+          const nameEl = document.getElementById('prof-name');
+          const headerEl = document.getElementById('header-user-name');
+
+          if (nameEl) nameEl.value = fullName;
+          if (headerEl) headerEl.textContent = fullName || currentUser.email || 'Citizen User';
+
+          const emailEl = document.getElementById('prof-email') || document.getElementById('user-email');
+          if (emailEl) emailEl.textContent = existingProfile?.email || currentUser.email || '';
+        } catch (pErr) {
+          console.error('Failed to retrieve profile from Supabase:', pErr);
+        }
+
+        try {
+          // Fetch from public.user_details
+          existingUserDetails = await dbService.getUserDetails(currentUser.id);
+
+          if (existingUserDetails) {
+            // Income
+            const incEl = document.getElementById('prof-income');
+            if (incEl) {
+              incEl.value = (existingUserDetails.annual_income !== null && existingUserDetails.annual_income !== undefined)
+                ? existingUserDetails.annual_income
+                : '';
+            }
+
+            // State dropdown
+            const stateEl = document.getElementById('prof-state');
+            if (stateEl && existingUserDetails.state) {
+              for (let opt of stateEl.options) {
+                if (opt.value.toLowerCase() === existingUserDetails.state.toLowerCase() || opt.text.toLowerCase() === existingUserDetails.state.toLowerCase()) {
+                  stateEl.value = opt.value;
+                  break;
+                }
+              }
+            }
+
+            // District
+            const distEl = document.getElementById('prof-district');
+            if (distEl) {
+              distEl.value = existingUserDetails.district || '';
+            }
+
+            // Category dropdown
+            const casteEl = document.getElementById('prof-caste');
+            if (casteEl && existingUserDetails.category) {
+              for (let opt of casteEl.options) {
+                if (opt.value.toLowerCase() === existingUserDetails.category.toLowerCase() || opt.text.toLowerCase().includes(existingUserDetails.category.toLowerCase())) {
+                  casteEl.value = opt.value;
+                  break;
+                }
+              }
+            }
+
+            // Occupation dropdown
+            const occEl = document.getElementById('prof-occ');
+            if (occEl && existingUserDetails.occupation) {
+              for (let opt of occEl.options) {
+                if (opt.value.toLowerCase() === existingUserDetails.occupation.toLowerCase() || opt.text.toLowerCase().includes(existingUserDetails.occupation.toLowerCase())) {
+                  occEl.value = opt.value;
+                  break;
+                }
+              }
+            }
+
+            // Date of birth -> Age
+            const ageEl = document.getElementById('prof-age');
+            if (ageEl) {
+              if (existingUserDetails.date_of_birth) {
+                const birthYear = new Date(existingUserDetails.date_of_birth).getFullYear();
+                const calcAge = new Date().getFullYear() - birthYear;
+                ageEl.value = (!isNaN(calcAge) && calcAge > 0) ? calcAge : '';
+              } else {
+                ageEl.value = '';
+              }
+            }
+
+            // Education level & Family size if corresponding fields exist
+            const eduEl = document.getElementById('prof-education');
+            if (eduEl) eduEl.value = existingUserDetails.education_level || '';
+
+            const famEl = document.getElementById('prof-family-size');
+            if (famEl) famEl.value = existingUserDetails.family_size !== null ? existingUserDetails.family_size : '';
+          } else {
+            // New authenticated user with no details yet: clear hardcoded demo placeholders
+            const incEl = document.getElementById('prof-income');
+            if (incEl) incEl.value = '';
+            const distEl = document.getElementById('prof-district');
+            if (distEl) distEl.value = '';
+            const ageEl = document.getElementById('prof-age');
+            if (ageEl) ageEl.value = '';
+          }
+        } catch (dErr) {
+          console.error('Failed to retrieve user_details from Supabase:', dErr);
+        }
+      } else {
+        // Fallback for unauthenticated visitors
+        const storedName = localStorage.getItem('schemematch_user_name');
+        if (storedName) {
+          const nameEl = document.getElementById('prof-name');
+          const headerEl = document.getElementById('header-user-name');
+          if (nameEl) nameEl.value = storedName;
+          if (headerEl) headerEl.textContent = storedName;
+        }
+      }
+
+      // ==============================================================================
+      // FORM SUBMISSION: SAVE ELIGIBILITY DETAILS & PROFILE NAME TO SUPABASE
+      // ==============================================================================
+      document.getElementById('profile-form')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<span>Saving to Supabase...</span>';
+        }
+
+        try {
+          // 1. Validate authenticated session
+          const session = await authService.getSession();
+          const user = session?.user || await authService.getUser() || currentUser;
+          if (!user?.id) {
+            alert('Authentication required: Please sign in via OTP first to persist your eligibility dossier.');
+            window.location.href = 'index.html';
+            return;
+          }
+
+          // 2. Read values from form fields
+          const nameVal = document.getElementById('prof-name')?.value?.trim();
+          const incomeVal = document.getElementById('prof-income')?.value?.trim();
+          const stateVal = document.getElementById('prof-state')?.value;
+          const distVal = document.getElementById('prof-district')?.value?.trim();
+          const casteVal = document.getElementById('prof-caste')?.value;
+          const occVal = document.getElementById('prof-occ')?.value;
+
+          // 3. Construct user_details payload, preserving unsupplied values
+          // Note: Do not fabricate Jan 1 date of birth if only age is known; preserve existing DOB
+          const detailsPayload = {
+            state: stateVal || existingUserDetails?.state || null,
+            district: distVal || existingUserDetails?.district || null,
+            annual_income: (incomeVal !== '' && !isNaN(Number(incomeVal))) ? Number(incomeVal) : (existingUserDetails?.annual_income ?? null),
+            category: casteVal || existingUserDetails?.category || null,
+            occupation: occVal || existingUserDetails?.occupation || null,
+            education_level: existingUserDetails?.education_level || null,
+            family_size: existingUserDetails?.family_size || null,
+            date_of_birth: existingUserDetails?.date_of_birth || null
+          };
+
+          // 4. Save to public.user_details (upsert on user_id)
+          await dbService.saveUserDetails(user.id, detailsPayload);
+          existingUserDetails = { ...existingUserDetails, ...detailsPayload };
+
+          // 5. Save full_name to public.profiles
+          if (nameVal) {
+            await dbService.saveProfile({ full_name: nameVal }, user.id);
+            if (existingProfile) existingProfile.full_name = nameVal;
+          }
+
+          // 6. Update localStorage cache for backward compatibility
+          localStorage.setItem('schemematch_user_name', nameVal || '');
+          localStorage.setItem('schemematch_user_income', incomeVal || '');
+          localStorage.setItem('schemematch_user_state', stateVal || '');
+
+          alert('Citizen eligibility details saved successfully to Supabase! Redirecting to Home Dashboard...');
+          window.location.href = 'home.html?profileUpdated=true';
+        } catch (err) {
+          console.error('Database Save Error:', err);
+          alert('Database Save Error: ' + (err.message || 'Failed to save eligibility details to Supabase. Check console/network.'));
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnHtml;
+            if (window.lucide) window.lucide.createIcons();
+          }
+        }
+      });
+    });
   </script>
 </body>
 </html>

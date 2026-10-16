@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SchemeMatch AI — Find Government Schemes Made for You</title>
-  <meta name="description" content="Discover government schemes that match your circumstances, understand eligibility requirements, and identify prerequisite documents.">
+  <meta name="description" content="Discover government welfare schemes that match your circumstances, understand verified eligibility requirements, and identify prerequisite documents.">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23075E50'><path d='M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm-2 16l-4-4 1.41-1.41L10 15.17l6.59-6.59L18 10l-8 8z'/></svg>">
@@ -26,12 +26,12 @@
               hover: '#064C41',
               soft: '#E5F1ED',
               dark: '#04362E',
-              bg: '#F7F8F5',
+              bg: '#F8FAF8',
               surface: '#FFFFFF',
-              muted: '#F0F3EF',
-              border: '#DDE4DE',
-              text: '#202923',
-              subtext: '#5D6962',
+              muted: '#F1F5F2',
+              border: '#DDE5DF',
+              text: '#17231B',
+              subtext: '#526357',
               accent: '#D99A42'
             }
           },
@@ -52,276 +52,565 @@
   <!-- Custom Styles -->
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="bg-gov-bg text-gov-text min-h-screen flex flex-col font-sans antialiased selection:bg-gov-soft selection:text-gov">
+<body class="bg-gov-bg text-gov-text min-h-screen flex flex-col font-sans antialiased selection:bg-gov-soft selection:text-gov relative">
+
+  <!-- Ambient Light Orbs -->
+  <div class="ambient-glow top-0 left-1/2 -translate-x-1/2"></div>
 
   <!-- ============================================================================== -->
-  <!-- 5. LANDING PAGE (Public Landing Page) -->
+  <!-- PUBLIC LANDING PAGE HEADER -->
   <!-- ============================================================================== -->
-  <div class="flex-1 flex flex-col">
-    <!-- Landing Header -->
-    <header class="border-b border-gov-border bg-white sticky top-0 z-40">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <a href="index.html" class="flex items-center space-x-3">
-          <div class="w-8 h-8 rounded-lg bg-gov flex items-center justify-center text-white font-bold text-lg shadow-sm">
-            <i data-lucide="shield-check" class="w-5 h-5"></i>
+  <header class="glass-header border-b border-gov-border sticky top-0 z-40 shadow-2xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center space-x-3 group">
+        <div class="w-9 h-9 rounded-xl bg-gov flex items-center justify-center text-white font-bold text-lg shadow-sm transition-transform group-hover:scale-105">
+          <i data-lucide="shield-check" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-lg tracking-tight text-gov-text">SchemeMatch <span class="text-gov">AI</span></span>
+            <span class="hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-bold bg-gov-soft text-gov border border-emerald-200">GovTech 2026</span>
           </div>
+          <span class="hidden md:block text-[11px] text-gov-subtext font-medium leading-none">Find schemes. Know your verified eligibility.</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center space-x-6">
+        <a href="#how-it-works" class="text-xs font-semibold text-gov-subtext hover:text-gov transition">How It Works</a>
+        <a href="#categories" class="text-xs font-semibold text-gov-subtext hover:text-gov transition">Welfare Sectors</a>
+        <a href="#preview-calc" class="text-xs font-semibold text-gov-subtext hover:text-gov transition">Instant Match Preview</a>
+        <a href="#faq" class="text-xs font-semibold text-gov-subtext hover:text-gov transition">FAQ</a>
+        <a href="home.html" class="text-xs font-bold text-gov hover:text-gov-hover transition flex items-center gap-1">
+          <span>Explore All Schemes</span>
+          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center space-x-2.5">
+        <button id="btn-landing-login" class="text-xs font-semibold text-gov hover:text-gov-hover px-4 py-2 rounded-xl border border-gov-border bg-white hover:bg-gov-soft transition shadow-2xs">
+          Sign In
+        </button>
+        <button id="btn-landing-register" class="text-xs font-bold text-white bg-gov hover:bg-gov-hover px-4 py-2 rounded-xl shadow-xs transition transform hover:-translate-y-0.5">
+          Register
+        </button>
+        <!-- Mobile Menu Toggle -->
+        <button id="btn-mobile-nav" class="md:hidden p-2 rounded-xl text-gov-subtext hover:text-gov hover:bg-gov-muted transition" aria-label="Toggle navigation">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-nav-drawer" class="hidden md:hidden border-t border-gov-border bg-white/95 backdrop-blur-md px-4 py-3 space-y-2 text-xs">
+      <a href="#how-it-works" class="block py-1.5 font-medium text-gov-subtext hover:text-gov">How It Works</a>
+      <a href="#categories" class="block py-1.5 font-medium text-gov-subtext hover:text-gov">Welfare Sectors</a>
+      <a href="#preview-calc" class="block py-1.5 font-medium text-gov-subtext hover:text-gov">Instant Match Preview</a>
+      <a href="#faq" class="block py-1.5 font-medium text-gov-subtext hover:text-gov">FAQ</a>
+      <a href="home.html" class="block py-1.5 font-bold text-gov">Citizen Portal ↗</a>
+    </div>
+  </header>
+
+  <!-- ============================================================================== -->
+  <!-- MAIN LANDING CONTENT -->
+  <!-- ============================================================================== -->
+  <main class="flex-1 relative z-10">
+
+    <!-- HERO SECTION -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 pt-14 pb-16 text-center">
+      
+      <!-- AI Live Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 border border-emerald-300 text-gov text-xs font-semibold mb-6 shadow-xs backdrop-blur-xs">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>AI-Powered Reverse-Matching Welfare Engine</span>
+        <span class="text-emerald-300">•</span>
+        <span class="text-gov-subtext text-[11px]">Central & Maharashtra Gazettes</span>
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-gov"></i>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gov-text tracking-tight max-w-4xl mx-auto leading-[1.12]">
+        Find the Government Schemes <br class="hidden sm:inline">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-gov to-emerald-600">Made for You.</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="mt-6 text-base sm:text-lg text-gov-subtext max-w-2xl mx-auto leading-relaxed">
+        Discover central and state welfare entitlements that match your exact circumstances, understand deterministic eligibility criteria, and uncover document prerequisites before you apply.
+      </p>
+
+      <!-- Primary Action Buttons -->
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5 max-w-xl mx-auto">
+        <a href="home.html" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gov hover:bg-gov-hover text-white font-bold text-sm shadow-sm flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5">
+          <span>Explore Verified Schemes</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+        <button id="btn-landing-register-cta" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white border border-gov-border hover:bg-gov-soft text-gov-text font-semibold text-sm flex items-center justify-center gap-2 transition shadow-2xs">
+          <span>Register Citizen Account</span>
+          <i data-lucide="user-plus" class="w-4 h-4 text-gov"></i>
+        </button>
+        <a href="home.html?demo=true" class="w-full sm:w-auto px-5 py-3.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 font-bold text-xs flex items-center justify-center gap-2 hover:bg-emerald-100 transition shadow-2xs">
+          <i data-lucide="zap" class="w-3.5 h-3.5 text-emerald-600 fill-emerald-600"></i>
+          <span>Instant Demo (Priya)</span>
+        </a>
+      </div>
+
+      <!-- Trust Badges Bar -->
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-6 text-xs text-gov-subtext font-medium border-t border-gov-border/60 pt-6 max-w-3xl mx-auto">
+        <div class="flex items-center gap-2">
+          <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
+            <i data-lucide="check" class="w-3 h-3"></i>
+          </div>
+          <span>100% Free & Open GovTech</span>
+        </div>
+        <span class="hidden sm:inline text-gov-border">•</span>
+        <div class="flex items-center gap-2">
+          <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
+            <i data-lucide="file-check" class="w-3 h-3"></i>
+          </div>
+          <span>Verified Government Gazettes</span>
+        </div>
+        <span class="hidden sm:inline text-gov-border">•</span>
+        <div class="flex items-center gap-2">
+          <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
+            <i data-lucide="lock" class="w-3 h-3"></i>
+          </div>
+          <span>Zero Document Uploads Required</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================================== -->
+    <!-- INTERACTIVE ELIGIBILITY PREVIEW WIDGET (Instant Reverse-Matcher) -->
+    <!-- ============================================================================== -->
+    <section id="preview-calc" class="max-w-4xl mx-auto px-4 sm:px-6 mb-20">
+      <div class="card-elevated p-6 sm:p-8 bg-white border border-gov-border relative overflow-hidden rounded-2xl shadow-md">
+        
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-gov-border">
           <div>
-            <span class="font-bold text-lg tracking-tight text-gov-text">SchemeMatch AI</span>
-            <span class="hidden sm:inline-block text-xs text-gov-subtext ml-2 pl-2 border-l border-gov-border">Find schemes. Know your eligibility.</span>
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold uppercase tracking-wider mb-1">
+              <i data-lucide="cpu" class="w-3 h-3"></i>
+              <span>Live Reverse-Matcher Simulator</span>
+            </div>
+            <h2 class="text-xl font-bold text-gov-text">Try Instant Eligibility Check</h2>
+            <p class="text-xs text-gov-subtext">Adjust these test attributes to preview how the deterministic engine evaluates criteria.</p>
           </div>
+          <div class="text-right hidden sm:block">
+            <span class="text-[11px] text-gov-subtext block">Evaluation Speed</span>
+            <span class="text-xs font-bold text-gov">Deterministic &lt; 50ms</span>
+          </div>
+        </div>
+
+        <!-- Form Controls -->
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mt-5">
+          <!-- State -->
+          <div>
+            <label class="block text-xs font-semibold text-gov-text mb-1">Domicile State</label>
+            <select id="sim-state" class="w-full input-premium text-xs">
+              <option value="Maharashtra" selected>Maharashtra</option>
+              <option value="Uttar Pradesh">Uttar Pradesh</option>
+              <option value="Karnataka">Karnataka</option>
+              <option value="Gujarat">Gujarat</option>
+              <option value="Other">Other State</option>
+            </select>
+          </div>
+
+          <!-- Gender -->
+          <div>
+            <label class="block text-xs font-semibold text-gov-text mb-1">Gender</label>
+            <select id="sim-gender" class="w-full input-premium text-xs">
+              <option value="Female" selected>Female</option>
+              <option value="Male">Male</option>
+              <option value="Other">Other / Transgender</option>
+            </select>
+          </div>
+
+          <!-- Age -->
+          <div>
+            <label class="block text-xs font-semibold text-gov-text mb-1">Applicant Age</label>
+            <select id="sim-age" class="w-full input-premium text-xs">
+              <option value="19">19 Years</option>
+              <option value="28" selected>28 Years</option>
+              <option value="45">45 Years</option>
+              <option value="62">62 Years</option>
+            </select>
+          </div>
+
+          <!-- Annual Income -->
+          <div>
+            <label class="block text-xs font-semibold text-gov-text mb-1">Annual Family Income</label>
+            <select id="sim-income" class="w-full input-premium text-xs">
+              <option value="180000" selected>₹1,80,000 (BPL/APL)</option>
+              <option value="240000">₹2,40,000</option>
+              <option value="350000">₹3,50,000</option>
+              <option value="600000">₹6,00,000+</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Live Results Box -->
+        <div class="mt-6 p-4 rounded-xl bg-gov-muted/50 border border-gov-border">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold text-gov-text flex items-center gap-1.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+              <span id="sim-match-count">3 Flagship Schemes Matched for this Scenario</span>
+            </span>
+            <span class="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full">
+              Estimated Entitlement: <span id="sim-benefit-amount">₹1,02,000+</span>/yr
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="sim-results-grid">
+            <!-- Simulated Card 1 -->
+            <div class="p-3 bg-white rounded-lg border border-emerald-200 shadow-2xs">
+              <div class="flex items-center justify-between text-[10px] font-bold mb-1">
+                <span class="text-pink-700 bg-pink-50 px-1.5 py-0.2 rounded">Maharashtra</span>
+                <span class="text-emerald-700">✓ ELIGIBLE</span>
+              </div>
+              <div class="text-xs font-bold text-gov-text truncate">Majhi Ladki Bahin Yojana</div>
+              <div class="text-xs font-extrabold text-gov mt-0.5">₹18,000 / year</div>
+              <div class="text-[10px] text-gov-subtext mt-1">Direct Bank Transfer (DBT)</div>
+            </div>
+
+            <!-- Simulated Card 2 -->
+            <div class="p-3 bg-white rounded-lg border border-emerald-200 shadow-2xs">
+              <div class="flex items-center justify-between text-[10px] font-bold mb-1">
+                <span class="text-blue-700 bg-blue-50 px-1.5 py-0.2 rounded">Central</span>
+                <span class="text-emerald-700">✓ ELIGIBLE</span>
+              </div>
+              <div class="text-xs font-bold text-gov-text truncate">Ayushman Bharat PM-JAY</div>
+              <div class="text-xs font-extrabold text-gov mt-0.5">₹5,00,000 Cover</div>
+              <div class="text-[10px] text-gov-subtext mt-1">Cashless Hospitalization</div>
+            </div>
+
+            <!-- Simulated Card 3 -->
+            <div class="p-3 bg-white rounded-lg border border-amber-200 shadow-2xs">
+              <div class="flex items-center justify-between text-[10px] font-bold mb-1">
+                <span class="text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded">Central</span>
+                <span class="text-amber-800">⚠️ ACTION NEEDED</span>
+              </div>
+              <div class="text-xs font-bold text-gov-text truncate">PM Surya Ghar Rooftop Solar</div>
+              <div class="text-xs font-extrabold text-gov mt-0.5">Up to ₹78,000 Subsidy</div>
+              <div class="text-[10px] text-gov-subtext mt-1">Requires DISCOM consumer no.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <span class="text-gov-subtext">Clicking below loads these attributes directly into your citizen dashboard.</span>
+          <a href="home.html" class="font-bold text-gov hover:text-gov-hover inline-flex items-center gap-1.5">
+            <span>Open Complete Scheme Dossier</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================================== -->
+    <!-- WELFARE SECTOR HIGHLIGHTS -->
+    <!-- ============================================================================== -->
+    <section id="categories" class="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
+      <div class="text-center mb-10">
+        <span class="text-xs font-bold tracking-widest text-gov uppercase">Comprehensive Coverage</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-gov-text mt-1.5">Explore Key Welfare Sectors</h2>
+        <p class="text-xs sm:text-sm text-gov-subtext mt-1">Cross-referenced against official Maharashtra & Central Government gazettes.</p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+        <!-- Agriculture -->
+        <a href="home.html?cat=agriculture" class="card-elevated card-lift p-4 rounded-xl text-center group">
+          <div class="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto mb-2.5 group-hover:bg-gov group-hover:text-white transition shadow-2xs">
+            <i data-lucide="sprout" class="w-5 h-5"></i>
+          </div>
+          <div class="text-xs font-bold text-gov-text group-hover:text-gov transition">Agriculture</div>
+          <div class="text-[11px] text-gov-subtext mt-0.5">PM-KISAN, Krishi</div>
+          <span class="inline-block mt-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gov-muted text-gov-subtext group-hover:bg-gov-soft group-hover:text-gov">1 Scheme</span>
         </a>
 
-        <nav class="flex items-center space-x-3 sm:space-x-5">
-          <a href="#how-it-works" class="text-sm font-medium text-gov-subtext hover:text-gov transition hidden sm:inline-block">About</a>
-          <a href="home.html" class="text-sm font-medium text-gov-subtext hover:text-gov transition">Explore Schemes</a>
-          <button id="btn-landing-login" class="text-sm font-semibold text-gov hover:text-gov-hover px-4 py-2 rounded-lg border border-gov-border bg-white hover:bg-gov-soft transition">
-            Login
-          </button>
-          <button id="btn-landing-register" class="text-sm font-semibold text-white bg-gov hover:bg-gov-hover px-4 py-2 rounded-lg shadow-sm transition">
-            Sign Up
-          </button>
-        </nav>
+        <!-- Women -->
+        <a href="home.html?cat=women" class="card-elevated card-lift p-4 rounded-xl text-center group">
+          <div class="w-11 h-11 rounded-xl bg-pink-100 text-pink-800 flex items-center justify-center mx-auto mb-2.5 group-hover:bg-pink-700 group-hover:text-white transition shadow-2xs">
+            <i data-lucide="heart" class="w-5 h-5"></i>
+          </div>
+          <div class="text-xs font-bold text-gov-text group-hover:text-pink-700 transition">Women & Child</div>
+          <div class="text-[11px] text-gov-subtext mt-0.5">Ladki Bahin, Lakhpati</div>
+          <span class="inline-block mt-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gov-muted text-gov-subtext group-hover:bg-pink-100 group-hover:text-pink-800">2 Schemes</span>
+        </a>
+
+        <!-- Health -->
+        <a href="home.html?cat=health" class="card-elevated card-lift p-4 rounded-xl text-center group">
+          <div class="w-11 h-11 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center mx-auto mb-2.5 group-hover:bg-blue-700 group-hover:text-white transition shadow-2xs">
+            <i data-lucide="activity" class="w-5 h-5"></i>
+          </div>
+          <div class="text-xs font-bold text-gov-text group-hover:text-blue-700 transition">Healthcare</div>
+          <div class="text-[11px] text-gov-subtext mt-0.5">Ayushman PM-JAY</div>
+          <span class="inline-block mt-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gov-muted text-gov-subtext group-hover:bg-blue-100 group-hover:text-blue-800">1 Scheme</span>
+        </a>
+
+        <!-- Energy -->
+        <a href="home.html?cat=energy" class="card-elevated card-lift p-4 rounded-xl text-center group">
+          <div class="w-11 h-11 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center mx-auto mb-2.5 group-hover:bg-amber-700 group-hover:text-white transition shadow-2xs">
+            <i data-lucide="sun" class="w-5 h-5"></i>
+          </div>
+          <div class="text-xs font-bold text-gov-text group-hover:text-amber-700 transition">Energy & Solar</div>
+          <div class="text-[11px] text-gov-subtext mt-0.5">PM Surya Ghar</div>
+          <span class="inline-block mt-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gov-muted text-gov-subtext group-hover:bg-amber-100 group-hover:text-amber-800">1 Scheme</span>
+        </a>
+
+        <!-- Business -->
+        <a href="home.html?cat=business" class="card-elevated card-lift p-4 rounded-xl text-center group">
+          <div class="w-11 h-11 rounded-xl bg-purple-100 text-purple-800 flex items-center justify-center mx-auto mb-2.5 group-hover:bg-purple-700 group-hover:text-white transition shadow-2xs">
+            <i data-lucide="briefcase" class="w-5 h-5"></i>
+          </div>
+          <div class="text-xs font-bold text-gov-text group-hover:text-purple-700 transition">MSME & Livelihood</div>
+          <div class="text-[11px] text-gov-subtext mt-0.5">PMEGP 35% Subsidy</div>
+          <span class="inline-block mt-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gov-muted text-gov-subtext group-hover:bg-purple-100 group-hover:text-purple-800">1 Scheme</span>
+        </a>
+
+        <!-- AI Assistant -->
+        <a href="chat.html" class="card-elevated card-lift p-4 rounded-xl text-center border-gov/40 bg-gov-soft/40 hover:bg-gov hover:text-white transition group">
+          <div class="w-11 h-11 rounded-xl bg-gov text-white flex items-center justify-center mx-auto mb-2.5 group-hover:bg-white group-hover:text-gov transition shadow-2xs">
+            <i data-lucide="bot" class="w-5 h-5"></i>
+          </div>
+          <div class="text-xs font-bold text-gov group-hover:text-white transition">AI SchemeBot</div>
+          <div class="text-[11px] text-gov-subtext group-hover:text-white/80 mt-0.5">Ask Anything</div>
+          <span class="inline-block mt-2 px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-gov group-hover:bg-white/20 group-hover:text-white">Live AI</span>
+        </a>
       </div>
-    </header>
+    </section>
 
-    <!-- Hero Section -->
-    <main class="flex-1">
-      <section class="max-w-5xl mx-auto px-4 sm:px-6 pt-16 pb-20 text-center">
-        <!-- AI Badge -->
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gov-soft border border-emerald-200 text-gov text-xs font-semibold mb-6 shadow-xs">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>AI-Powered Government Scheme Discovery</span>
-          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-gov"></i>
+    <!-- ============================================================================== -->
+    <!-- HOW IT WORKS (Structured 3-Step Process) -->
+    <!-- ============================================================================== -->
+    <section id="how-it-works" class="bg-gov-soft/40 py-20 border-y border-gov-border">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-14">
+          <span class="text-xs font-bold tracking-widest text-gov uppercase">Deterministic Logic</span>
+          <h2 class="text-3xl font-extrabold text-gov-text mt-1.5">How SchemeMatch AI Works</h2>
+          <p class="text-gov-subtext text-xs sm:text-sm mt-1 max-w-lg mx-auto">
+            From natural language to legally grounded government notifications in 3 intuitive steps.
+          </p>
         </div>
 
-        <!-- Main Headline -->
-        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gov-text tracking-tight max-w-4xl mx-auto leading-tight sm:leading-none">
-          Find the Government Schemes Made for You.
-        </h1>
-
-        <!-- Subtitle -->
-        <p class="mt-6 text-base sm:text-lg text-gov-subtext max-w-2xl mx-auto leading-relaxed">
-          Discover government schemes that match your circumstances, understand eligibility requirements, and find the documents you may need—all in one simple place.
-        </p>
-
-        <!-- CTA Buttons -->
-        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href="home.html" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gov hover:bg-gov-hover text-white font-semibold text-sm shadow-sm flex items-center justify-center gap-2 transition transform hover:-translate-y-0.5">
-            <span>Explore Schemes Now</span>
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </a>
-          <button id="btn-landing-register-cta" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-white border border-gov-border hover:bg-gov-soft text-gov-text font-semibold text-sm flex items-center justify-center gap-2 transition">
-            <span>Register Citizen Account</span>
-            <i data-lucide="user-plus" class="w-4 h-4 text-gov-subtext"></i>
-          </button>
-          <a href="home.html?demo=true" class="w-full sm:w-auto px-5 py-3.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 font-semibold text-sm flex items-center justify-center gap-2 hover:bg-emerald-100 transition">
-            <i data-lucide="sparkles" class="w-4 h-4 text-emerald-600"></i>
-            <span>Instant Demo Access</span>
-          </a>
-        </div>
-
-        <!-- Trust Badges -->
-        <div class="mt-10 flex flex-wrap items-center justify-center gap-6 text-xs text-gov-subtext font-medium">
-          <div class="flex items-center gap-1.5">
-            <i data-lucide="check-circle-2" class="w-4 h-4 text-gov"></i>
-            <span>Simple to use</span>
-          </div>
-          <span class="hidden sm:inline text-gov-border">•</span>
-          <div class="flex items-center gap-1.5">
-            <i data-lucide="shield-check" class="w-4 h-4 text-gov"></i>
-            <span>Clear eligibility guidance</span>
-          </div>
-          <span class="hidden sm:inline text-gov-border">•</span>
-          <div class="flex items-center gap-1.5">
-            <i data-lucide="link" class="w-4 h-4 text-gov"></i>
-            <span>Official scheme links</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Key Scheme Category Highlights -->
-      <section class="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-          <a href="home.html?cat=agriculture" class="card-elevated p-4 rounded-xl text-center hover:border-gov hover:bg-gov-soft/30 transition group">
-            <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto mb-2 group-hover:bg-gov group-hover:text-white transition">
-              <i data-lucide="sprout" class="w-5 h-5"></i>
-            </div>
-            <div class="text-xs font-bold text-gov-text">Agriculture</div>
-            <div class="text-[10px] text-gov-subtext mt-0.5">PM-KISAN, Solar</div>
-          </a>
-
-          <a href="home.html?cat=women" class="card-elevated p-4 rounded-xl text-center hover:border-gov hover:bg-gov-soft/30 transition group">
-            <div class="w-10 h-10 rounded-lg bg-pink-100 text-pink-800 flex items-center justify-center mx-auto mb-2 group-hover:bg-pink-700 group-hover:text-white transition">
-              <i data-lucide="heart" class="w-5 h-5"></i>
-            </div>
-            <div class="text-xs font-bold text-gov-text">Women & Child</div>
-            <div class="text-[10px] text-gov-subtext mt-0.5">Ladki Bahin, Lakhpati</div>
-          </a>
-
-          <a href="home.html?cat=health" class="card-elevated p-4 rounded-xl text-center hover:border-gov hover:bg-gov-soft/30 transition group">
-            <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-800 flex items-center justify-center mx-auto mb-2 group-hover:bg-blue-700 group-hover:text-white transition">
-              <i data-lucide="activity" class="w-5 h-5"></i>
-            </div>
-            <div class="text-xs font-bold text-gov-text">Healthcare</div>
-            <div class="text-[10px] text-gov-subtext mt-0.5">Ayushman PM-JAY</div>
-          </a>
-
-          <a href="home.html?cat=energy" class="card-elevated p-4 rounded-xl text-center hover:border-gov hover:bg-gov-soft/30 transition group">
-            <div class="w-10 h-10 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center mx-auto mb-2 group-hover:bg-amber-700 group-hover:text-white transition">
-              <i data-lucide="sun" class="w-5 h-5"></i>
-            </div>
-            <div class="text-xs font-bold text-gov-text">Energy & Rooftop</div>
-            <div class="text-[10px] text-gov-subtext mt-0.5">PM Surya Ghar</div>
-          </a>
-
-          <a href="home.html?cat=business" class="card-elevated p-4 rounded-xl text-center hover:border-gov hover:bg-gov-soft/30 transition group">
-            <div class="w-10 h-10 rounded-lg bg-purple-100 text-purple-800 flex items-center justify-center mx-auto mb-2 group-hover:bg-purple-700 group-hover:text-white transition">
-              <i data-lucide="briefcase" class="w-5 h-5"></i>
-            </div>
-            <div class="text-xs font-bold text-gov-text">Business & MSME</div>
-            <div class="text-[10px] text-gov-subtext mt-0.5">PMEGP Subsidy</div>
-          </a>
-
-          <a href="chat.html" class="card-elevated p-4 rounded-xl text-center border-gov/40 bg-gov-soft/40 hover:bg-gov hover:text-white transition group">
-            <div class="w-10 h-10 rounded-lg bg-gov text-white flex items-center justify-center mx-auto mb-2 group-hover:bg-white group-hover:text-gov transition">
-              <i data-lucide="bot" class="w-5 h-5"></i>
-            </div>
-            <div class="text-xs font-bold text-gov group-hover:text-white">AI Assistant</div>
-            <div class="text-[10px] text-gov-subtext group-hover:text-white/80 mt-0.5">Ask Anything</div>
-          </a>
-        </div>
-      </section>
-
-      <!-- How It Works Section (3 Step Cards) -->
-      <section id="how-it-works" class="bg-gov-soft/40 py-20 border-y border-gov-border">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-          <div class="text-center mb-12">
-            <span class="text-xs font-bold tracking-widest text-gov uppercase">Structured Workflow</span>
-            <h2 class="text-3xl font-bold text-gov-text mt-2">How It Works</h2>
-            <p class="text-gov-subtext text-sm mt-2">Three intuitive steps from natural language to verified schemes.</p>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Step 1 -->
-            <div class="card-elevated rounded-2xl p-7 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between mb-5">
-                  <span class="px-2.5 py-1 rounded-md bg-gov-soft text-gov text-xs font-bold">01</span>
-                  <div class="w-9 h-9 rounded-lg bg-gov-soft/60 flex items-center justify-center text-gov">
-                    <i data-lucide="user-check" class="w-5 h-5"></i>
-                  </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+          <!-- Step 1 -->
+          <div class="card-elevated rounded-2xl p-7 bg-white flex flex-col justify-between relative group hover:border-gov transition">
+            <div>
+              <div class="flex items-center justify-between mb-5">
+                <span class="px-3 py-1 rounded-lg bg-gov-soft text-gov text-xs font-bold">Step 01</span>
+                <div class="w-10 h-10 rounded-xl bg-gov-soft/70 flex items-center justify-center text-gov shadow-2xs">
+                  <i data-lucide="user-check" class="w-5 h-5"></i>
                 </div>
-                <h3 class="text-lg font-bold text-gov-text mb-2">Tell Us About Yourself</h3>
-                <p class="text-xs sm:text-sm text-gov-subtext leading-relaxed">
-                  Share the details needed to discover potentially relevant government schemes—such as occupation, region, age bracket, or household setup.
-                </p>
               </div>
-              <div class="mt-6 pt-4 border-t border-gov-border">
-                <a href="profile.html" class="text-xs font-semibold text-gov hover:text-gov-hover flex items-center gap-1">
-                  <span>Profile profiling</span>
-                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-                </a>
-              </div>
+              <h3 class="text-lg font-bold text-gov-text mb-2">Describe Your Circumstances</h3>
+              <p class="text-xs sm:text-sm text-gov-subtext leading-relaxed">
+                Describe your situation in simple words or complete your structured citizen profile—such as occupation, domicile, age, and annual family income.
+              </p>
             </div>
-
-            <!-- Step 2 -->
-            <div class="card-elevated rounded-2xl p-7 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between mb-5">
-                  <span class="px-2.5 py-1 rounded-md bg-gov-soft text-gov text-xs font-bold">02</span>
-                  <div class="w-9 h-9 rounded-lg bg-gov-soft/60 flex items-center justify-center text-gov">
-                    <i data-lucide="compass" class="w-5 h-5"></i>
-                  </div>
-                </div>
-                <h3 class="text-lg font-bold text-gov-text mb-2">Discover Matching Schemes</h3>
-                <p class="text-xs sm:text-sm text-gov-subtext leading-relaxed">
-                  Review scheme requirements and understand which eligibility conditions match your information through structured breakdowns and official references.
-                </p>
-              </div>
-              <div class="mt-6 pt-4 border-t border-gov-border">
-                <a href="home.html" class="text-xs font-semibold text-gov hover:text-gov-hover flex items-center gap-1">
-                  <span>Instant rule crosscheck</span>
-                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-                </a>
-              </div>
+            <div class="mt-6 pt-4 border-t border-gov-border">
+              <span class="text-xs font-semibold text-gov flex items-center gap-1.5">
+                <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+                <span>Zero biometric upload needed</span>
+              </span>
             </div>
+          </div>
 
-            <!-- Step 3 -->
-            <div class="card-elevated rounded-2xl p-7 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between mb-5">
-                  <span class="px-2.5 py-1 rounded-md bg-gov-soft text-gov text-xs font-bold">03</span>
-                  <div class="w-9 h-9 rounded-lg bg-gov-soft/60 flex items-center justify-center text-gov">
-                    <i data-lucide="check-square" class="w-5 h-5"></i>
-                  </div>
+          <!-- Step 2 -->
+          <div class="card-elevated rounded-2xl p-7 bg-white flex flex-col justify-between relative group hover:border-gov transition">
+            <div>
+              <div class="flex items-center justify-between mb-5">
+                <span class="px-3 py-1 rounded-lg bg-gov-soft text-gov text-xs font-bold">Step 02</span>
+                <div class="w-10 h-10 rounded-xl bg-gov-soft/70 flex items-center justify-center text-gov shadow-2xs">
+                  <i data-lucide="git-merge" class="w-5 h-5"></i>
                 </div>
-                <h3 class="text-lg font-bold text-gov-text mb-2">Check Your Documents</h3>
-                <p class="text-xs sm:text-sm text-gov-subtext leading-relaxed">
-                  See a helpful checklist of documents that may be required for the schemes you explore, allowing you to identify prerequisites early and prepare reliably.
-                </p>
               </div>
-              <div class="mt-6 pt-4 border-t border-gov-border">
-                <a href="home.html" class="text-xs font-semibold text-gov hover:text-gov-hover flex items-center gap-1">
-                  <span>Filing readiness</span>
-                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-                </a>
+              <h3 class="text-lg font-bold text-gov-text mb-2">Deterministic Gazette Crosscheck</h3>
+              <p class="text-xs sm:text-sm text-gov-subtext leading-relaxed">
+                Our rule engine compares your attributes against official Central and Maharashtra gazette notifications, evaluating conditions as Met, Unmet, or Action Needed.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-gov-border">
+              <span class="text-xs font-semibold text-gov flex items-center gap-1.5">
+                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                <span>Zero model hallucination</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="card-elevated rounded-2xl p-7 bg-white flex flex-col justify-between relative group hover:border-gov transition">
+            <div>
+              <div class="flex items-center justify-between mb-5">
+                <span class="px-3 py-1 rounded-lg bg-gov-soft text-gov text-xs font-bold">Step 03</span>
+                <div class="w-10 h-10 rounded-xl bg-gov-soft/70 flex items-center justify-center text-gov shadow-2xs">
+                  <i data-lucide="file-text" class="w-5 h-5"></i>
+                </div>
               </div>
+              <h3 class="text-lg font-bold text-gov-text mb-2">Document Readiness Checklist</h3>
+              <p class="text-xs sm:text-sm text-gov-subtext leading-relaxed">
+                Receive an actionable checklist of required documents (Aadhaar seeding, Domicile, Tahsildar Income Certificate) with direct links to official state portals.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-gov-border">
+              <span class="text-xs font-semibold text-gov flex items-center gap-1.5">
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                <span>Verified official portal links</span>
+              </span>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Transparency Callout Banner -->
-      <section class="max-w-4xl mx-auto px-4 sm:px-6 my-16">
-        <div class="card-elevated rounded-2xl p-8 bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div class="flex-1">
-            <div class="flex items-center gap-2 text-gov text-xs font-bold mb-2">
-              <i data-lucide="info" class="w-4 h-4"></i>
-              <span>Civic Tech Transparency</span>
+    <!-- ============================================================================== -->
+    <!-- TRUST, TRANSPARENCY & DATA PRIVACY -->
+    <!-- ============================================================================== -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 py-20">
+      <div class="card-elevated p-8 sm:p-10 rounded-2xl bg-white border border-gov-border">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center mb-4">
+              <i data-lucide="file-check-2" class="w-6 h-6"></i>
             </div>
-            <h3 class="text-xl font-bold text-gov-text mb-1">About SchemeMatch AI</h3>
-            <p class="text-sm text-gov-subtext">
-              SchemeMatch AI is an open-source civic tech project designed to help people explore government schemes, understand eligibility requirements, and identify potential document gaps through an easy-to-use digital experience.
+            <h3 class="text-base font-bold text-gov-text mb-1">Gazette Traceability</h3>
+            <p class="text-xs text-gov-subtext leading-relaxed">
+              Every scheme rule links directly to verified government orders (such as Government Resolution No. 20240628172909 for Ladki Bahin).
             </p>
           </div>
-          <a href="home.html" class="px-5 py-2.5 rounded-xl bg-gov-soft text-gov hover:bg-gov hover:text-white font-medium text-xs flex items-center gap-2 transition whitespace-nowrap">
-            <span>Explore Schemes</span>
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </a>
-        </div>
-      </section>
-    </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-gov-border py-8 bg-white text-xs text-gov-subtext">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div>© 2026 SchemeMatch AI. Open GovTech Civic Platform.</div>
-        <div class="flex items-center gap-6">
-          <a href="home.html" class="hover:text-gov transition">Dashboard</a>
-          <a href="chat.html" class="hover:text-gov transition">AI Assistant</a>
-          <a href="profile.html" class="hover:text-gov transition">Profile</a>
-          <a href="settings.html" class="hover:text-gov transition">Settings</a>
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-800 flex items-center justify-center mb-4">
+              <i data-lucide="lock" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-gov-text mb-1">Privacy By Design</h3>
+            <p class="text-xs text-gov-subtext leading-relaxed">
+              We never ask for or store full Aadhaar numbers or biometrics. Your reverse-matching calculations execute with minimal client-side data.
+            </p>
+          </div>
+
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center mb-4">
+              <i data-lucide="scale" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-gov-text mb-1">Civic Transparency</h3>
+            <p class="text-xs text-gov-subtext leading-relaxed">
+              SchemeMatch AI is an informational discovery engine. We do not replace official departmental approval or take agency fees.
+            </p>
+          </div>
         </div>
       </div>
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 text-center sm:text-left text-gov-subtext/80 text-[11px]">
-        SchemeMatch AI provides informational guidance only. Final eligibility and application decisions depend on the relevant government authority.
+    </section>
+
+    <!-- ============================================================================== -->
+    <!-- FREQUENTLY ASKED QUESTIONS (Accordion) -->
+    <!-- ============================================================================== -->
+    <section id="faq" class="max-w-4xl mx-auto px-4 sm:px-6 pb-20">
+      <div class="text-center mb-10">
+        <span class="text-xs font-bold tracking-widest text-gov uppercase">Citizen Help</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-gov-text mt-1.5">Frequently Asked Questions</h2>
+        <p class="text-xs sm:text-sm text-gov-subtext mt-1">Clear answers regarding data privacy, accuracy, and official procedures.</p>
       </div>
-    </footer>
-  </div>
+
+      <div class="space-y-3" id="faq-accordion">
+        <!-- FAQ 1 -->
+        <div class="card-elevated rounded-xl bg-white border border-gov-border overflow-hidden">
+          <button class="w-full p-4 text-left flex items-center justify-between text-xs sm:text-sm font-bold text-gov-text hover:text-gov transition" onclick="toggleFaq(this)">
+            <span>Is SchemeMatch AI an official government department?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-gov-subtext transition-transform"></i>
+          </button>
+          <div class="faq-content hidden px-4 pb-4 text-xs text-gov-subtext leading-relaxed border-t border-gov-border/40 pt-3">
+            No. SchemeMatch AI is an open-source civic technology platform developed to help citizens discover schemes and evaluate eligibility based on published government gazettes. Final application approval always rests with the respective government authority.
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="card-elevated rounded-xl bg-white border border-gov-border overflow-hidden">
+          <button class="w-full p-4 text-left flex items-center justify-between text-xs sm:text-sm font-bold text-gov-text hover:text-gov transition" onclick="toggleFaq(this)">
+            <span>How does the reverse-matching engine avoid hallucinations?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-gov-subtext transition-transform"></i>
+          </button>
+          <div class="faq-content hidden px-4 pb-4 text-xs text-gov-subtext leading-relaxed border-t border-gov-border/40 pt-3">
+            Eligibility decisions are computed deterministically using structured rules extracted directly from state and central government resolutions. The AI layer (Qwen 2.5) only parses your natural-language intent and explains rules—it never guesses or fabricates eligibility scores.
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="card-elevated rounded-xl bg-white border border-gov-border overflow-hidden">
+          <button class="w-full p-4 text-left flex items-center justify-between text-xs sm:text-sm font-bold text-gov-text hover:text-gov transition" onclick="toggleFaq(this)">
+            <span>Do I need to upload Aadhaar or bank passbook to see my eligibility?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-gov-subtext transition-transform"></i>
+          </button>
+          <div class="faq-content hidden px-4 pb-4 text-xs text-gov-subtext leading-relaxed border-t border-gov-border/40 pt-3">
+            No document uploads are required to discover schemes. You simply state your attributes (age, district, income range), and the system provides a document readiness checklist indicating what you will need when you submit your formal application on official portals.
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="card-elevated rounded-xl bg-white border border-gov-border overflow-hidden">
+          <button class="w-full p-4 text-left flex items-center justify-between text-xs sm:text-sm font-bold text-gov-text hover:text-gov transition" onclick="toggleFaq(this)">
+            <span>Can I test SchemeMatch AI without creating an account?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-gov-subtext transition-transform"></i>
+          </button>
+          <div class="faq-content hidden px-4 pb-4 text-xs text-gov-subtext leading-relaxed border-t border-gov-border/40 pt-3">
+            Yes! You can use our "Instant Demo Access" feature to immediately explore the portal pre-configured with a verified citizen profile (Priya Sharma, resident of Pune, Maharashtra).
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <!-- ============================================================================== -->
-  <!-- 6. SIGN UP / LOG IN POP UP (Exact design match, only Name, Email, Password) -->
+  <!-- PUBLIC FOOTER -->
   <!-- ============================================================================== -->
-  <div id="auth-modal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs hidden flex items-center justify-center p-4">
-    <div class="card-elevated rounded-2xl w-full max-w-md p-6 sm:p-8 bg-white relative animate-in fade-in zoom-in-95 duration-200">
-      <button id="btn-close-auth" class="absolute top-4 right-4 text-gov-subtext hover:text-gov p-1 rounded-lg">
+  <footer class="border-t border-gov-border bg-white text-xs text-gov-subtext mt-auto py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-gov-border/60">
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 rounded-lg bg-gov text-white flex items-center justify-center font-bold">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <span class="font-bold text-sm text-gov-text">SchemeMatch AI</span>
+            <div class="text-[11px] text-gov-subtext">Open-source Government Scheme Reverse-Matcher</div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-6 text-xs font-medium">
+          <a href="home.html" class="hover:text-gov transition">Citizen Dashboard</a>
+          <a href="chat.html" class="hover:text-gov transition">AI SchemeBot</a>
+          <a href="profile.html" class="hover:text-gov transition">Entitlement Dossier</a>
+          <a href="settings.html" class="hover:text-gov transition">Settings & Security</a>
+          <a href="home.html?demo=true" class="text-gov font-bold hover:underline">Instant Demo</a>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px]">
+        <div>© 2026 SchemeMatch AI. Open GovTech Civic Platform. Designed for Indian Citizens.</div>
+        <div class="text-gov-subtext/80 text-center sm:text-right">
+          Informational guidance only. Scheme rules derived from published state & central notifications.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================================== -->
+  <!-- SIGN UP / SIGN IN / OTP POPUP MODAL (Preserves all existing IDs & Auth flow) -->
+  <!-- ============================================================================== -->
+  <div id="auth-modal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs hidden flex items-center justify-center p-4">
+    <div class="card-elevated rounded-2xl w-full max-w-md p-6 sm:p-8 bg-white relative animate-modal-in shadow-lg">
+      <button id="btn-close-auth" class="absolute top-4 right-4 text-gov-subtext hover:text-gov p-1.5 rounded-lg hover:bg-gov-muted transition" aria-label="Close dialog">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
 
       <!-- SUB-VIEW 1: SIGN IN POPUP (Email OTP) -->
       <div id="auth-sub-login">
         <div class="text-center mb-6">
-          <div class="w-10 h-10 rounded-xl bg-gov text-white flex items-center justify-center mx-auto mb-3">
+          <div class="w-11 h-11 rounded-2xl bg-gov text-white flex items-center justify-center mx-auto mb-3 shadow-sm">
             <i data-lucide="shield-check" class="w-6 h-6"></i>
           </div>
           <h2 class="text-2xl font-bold text-gov-text">Sign In to SchemeMatch AI</h2>
@@ -329,27 +618,27 @@
         </div>
 
         <!-- Quick Demo Access Button -->
-        <a href="home.html?demo=true" class="w-full py-2.5 px-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-semibold flex items-center justify-center gap-2 mb-4 hover:bg-emerald-100 transition shadow-2xs">
+        <a href="home.html?demo=true" class="w-full py-2.5 px-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-bold flex items-center justify-center gap-2 mb-4 hover:bg-emerald-100 transition shadow-2xs">
           <i data-lucide="sparkles" class="w-4 h-4 text-emerald-600"></i>
           <span>Instant Citizen Demo Access (Priya Sharma)</span>
         </a>
 
         <div class="relative flex py-2 items-center">
           <div class="flex-grow border-t border-gov-border"></div>
-          <span class="flex-shrink mx-3 text-[11px] text-gov-subtext font-medium uppercase tracking-wider">Passwordless Sign In</span>
+          <span class="flex-shrink mx-3 text-[11px] text-gov-subtext font-medium uppercase tracking-wider">Passwordless OTP</span>
           <div class="flex-grow border-t border-gov-border"></div>
         </div>
 
         <form id="form-login" class="space-y-4 mt-2">
           <div>
             <label class="block text-xs font-semibold text-gov-text mb-1">Email Address</label>
-            <input type="email" id="login-email" required placeholder="name@example.com" autocomplete="email" class="w-full px-3.5 py-2.5 rounded-xl border border-gov-border text-sm focus:border-gov focus:ring-1 focus:ring-gov">
+            <input type="email" id="login-email" required placeholder="name@example.com" autocomplete="email" class="w-full input-premium">
             <span class="text-[11px] text-gov-subtext mt-1 block">We will send a 6-digit one-time password (OTP) to your email.</span>
           </div>
 
           <div id="login-error" class="hidden text-xs text-red-600 bg-red-50 p-2.5 rounded-lg border border-red-200"></div>
 
-          <button type="submit" id="btn-submit-login" class="w-full py-3 rounded-xl bg-gov hover:bg-gov-hover text-white font-medium text-sm transition shadow-sm flex items-center justify-center gap-2">
+          <button type="submit" id="btn-submit-login" class="w-full py-3 rounded-xl bg-gov hover:bg-gov-hover text-white font-bold text-sm transition shadow-sm flex items-center justify-center gap-2">
             <span>Send Sign-In Code</span>
             <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </button>
@@ -357,14 +646,14 @@
 
         <p class="text-center text-xs text-gov-subtext mt-6">
           Don't have an account? 
-          <button id="btn-switch-register" class="text-gov font-semibold hover:underline">Register Citizen Account</button>
+          <button id="btn-switch-register" class="text-gov font-bold hover:underline">Register Citizen Account</button>
         </p>
       </div>
 
       <!-- SUB-VIEW 2: REGISTER CITIZEN POPUP (Full Name, Email -> Supabase OTP) -->
       <div id="auth-sub-register" class="hidden">
         <div class="text-center mb-6">
-          <div class="w-10 h-10 rounded-xl bg-gov-soft text-gov flex items-center justify-center mx-auto mb-3">
+          <div class="w-11 h-11 rounded-2xl bg-gov-soft text-gov flex items-center justify-center mx-auto mb-3 shadow-sm">
             <i data-lucide="user-plus" class="w-6 h-6"></i>
           </div>
           <h2 class="text-2xl font-bold text-gov-text">Create Citizen Account</h2>
@@ -374,17 +663,17 @@
         <form id="form-register" class="space-y-3.5">
           <div>
             <label class="block text-xs font-semibold text-gov-text mb-1">Full Name</label>
-            <input type="text" id="reg-name" required placeholder="e.g. Priya Sharma" autocomplete="name" class="w-full px-3.5 py-2.5 rounded-xl border border-gov-border text-sm focus:border-gov focus:ring-1 focus:ring-gov">
+            <input type="text" id="reg-name" required placeholder="e.g. Priya Sharma" autocomplete="name" class="w-full input-premium">
           </div>
           <div>
             <label class="block text-xs font-semibold text-gov-text mb-1">Email Address</label>
-            <input type="email" id="reg-email" required placeholder="name@example.com" autocomplete="email" class="w-full px-3.5 py-2.5 rounded-xl border border-gov-border text-sm focus:border-gov focus:ring-1 focus:ring-gov">
+            <input type="email" id="reg-email" required placeholder="name@example.com" autocomplete="email" class="w-full input-premium">
             <span class="text-[11px] text-gov-subtext mt-1 block">A secure one-time password will be sent to this email.</span>
           </div>
 
           <div id="register-error" class="hidden text-xs text-red-600 bg-red-50 p-2.5 rounded-lg border border-red-200"></div>
 
-          <button type="submit" id="btn-submit-register" class="w-full py-3 rounded-xl bg-gov hover:bg-gov-hover text-white font-medium text-sm transition shadow-sm mt-3 flex items-center justify-center gap-2">
+          <button type="submit" id="btn-submit-register" class="w-full py-3 rounded-xl bg-gov hover:bg-gov-hover text-white font-bold text-sm transition shadow-sm mt-3 flex items-center justify-center gap-2">
             <span>Continue to Verification</span>
             <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </button>
@@ -392,7 +681,7 @@
 
         <p class="text-center text-xs text-gov-subtext mt-5">
           Already registered? 
-          <button id="btn-switch-login" class="text-gov font-semibold hover:underline">Sign In</button>
+          <button id="btn-switch-login" class="text-gov font-bold hover:underline">Sign In</button>
         </p>
       </div>
 
@@ -425,7 +714,7 @@
 
           <div id="otp-message" class="hidden text-xs p-3 rounded-xl"></div>
 
-          <button type="submit" id="btn-verify-otp" class="w-full py-3 rounded-xl bg-gov hover:bg-gov-hover text-white font-medium text-sm transition shadow-sm flex items-center justify-center gap-2">
+          <button type="submit" id="btn-verify-otp" class="w-full py-3 rounded-xl bg-gov hover:bg-gov-hover text-white font-bold text-sm transition shadow-sm flex items-center justify-center gap-2">
             <span>Verify & Complete Sign In</span>
             <i data-lucide="check" class="w-4 h-4"></i>
           </button>
@@ -433,7 +722,7 @@
           <!-- Resend Code Cooldown Timer -->
           <div class="flex items-center justify-between text-xs text-gov-subtext pt-1">
             <span>Didn't receive code?</span>
-            <button type="button" id="btn-resend-otp" class="font-semibold text-gov hover:underline flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed">
+            <button type="button" id="btn-resend-otp" class="font-bold text-gov hover:underline flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed">
               <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
               <span id="resend-label">Resend Code</span>
             </button>
@@ -441,7 +730,7 @@
         </form>
 
         <div class="text-center mt-5 pt-3 border-t border-gov-border">
-          <button id="btn-back-to-login" class="text-xs text-gov font-semibold hover:underline flex items-center justify-center gap-1 mx-auto">
+          <button id="btn-back-to-login" class="text-xs text-gov font-bold hover:underline flex items-center justify-center gap-1 mx-auto">
             <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
             <span>Back to Sign In</span>
           </button>
@@ -452,6 +741,109 @@
 
   <!-- Toast Notification Container -->
   <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+
+  <!-- Client-Side FAQ Toggle Script & Live Simulator -->
+  <script>
+    function toggleFaq(btn) {
+      const content = btn.nextElementSibling;
+      const icon = btn.querySelector('svg');
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        if (icon) icon.style.transform = 'rotate(180deg)';
+      } else {
+        content.classList.add('hidden');
+        if (icon) icon.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    // Mobile nav drawer
+    document.getElementById('btn-mobile-nav')?.addEventListener('click', () => {
+      const drawer = document.getElementById('mobile-nav-drawer');
+      drawer?.classList.toggle('hidden');
+    });
+
+    // Live Simulator Logic
+    function updateSimulator() {
+      const state = document.getElementById('sim-state').value;
+      const gender = document.getElementById('sim-gender').value;
+      const age = parseInt(document.getElementById('sim-age').value, 10);
+      const income = parseInt(document.getElementById('sim-income').value, 10);
+
+      const grid = document.getElementById('sim-results-grid');
+      const countEl = document.getElementById('sim-match-count');
+      const benefitEl = document.getElementById('sim-benefit-amount');
+
+      let matches = [];
+      let totalBenefit = 0;
+
+      // 1. Ladki Bahin
+      if (state === 'Maharashtra' && gender === 'Female' && age >= 21 && age <= 65 && income <= 250000) {
+        matches.push({
+          title: 'Majhi Ladki Bahin Yojana',
+          scope: 'Maharashtra',
+          status: 'ELIGIBLE',
+          benefit: '₹18,000 / year',
+          note: 'Direct Bank Transfer (DBT)',
+          val: 18000
+        });
+      }
+
+      // 2. Ayushman Bharat
+      if (income <= 250000) {
+        matches.push({
+          title: 'Ayushman Bharat PM-JAY',
+          scope: 'Central',
+          status: 'ELIGIBLE',
+          benefit: '₹5,00,000 Cover',
+          note: 'Cashless Hospitalization',
+          val: 75000
+        });
+      }
+
+      // 3. PM Surya Ghar
+      matches.push({
+        title: 'PM Surya Ghar Rooftop Solar',
+        scope: 'Central',
+        status: 'ACTION NEEDED',
+        benefit: 'Up to ₹78,000 Subsidy',
+        note: 'Requires DISCOM consumer no.',
+        val: 30000
+      });
+
+      // 4. Lakhpati Didi (if female + self-help)
+      if (gender === 'Female') {
+        matches.push({
+          title: 'Lakhpati Didi (NRLM)',
+          scope: 'Central',
+          status: 'ACTION NEEDED',
+          benefit: 'Interest-Free Loan',
+          note: 'Requires SHG membership',
+          val: 25000
+        });
+      }
+
+      totalBenefit = matches.reduce((acc, m) => acc + m.val, 0);
+
+      countEl.textContent = `${matches.length} Flagship Schemes Matched for this Scenario`;
+      benefitEl.textContent = `₹${(totalBenefit).toLocaleString('en-IN')}+`;
+
+      grid.innerHTML = matches.slice(0, 3).map(m => `
+        <div class="p-3 bg-white rounded-lg border ${m.status === 'ELIGIBLE' ? 'border-emerald-200' : 'border-amber-200'} shadow-2xs">
+          <div class="flex items-center justify-between text-[10px] font-bold mb-1">
+            <span class="${m.scope === 'Maharashtra' ? 'text-pink-700 bg-pink-50' : 'text-blue-700 bg-blue-50'} px-1.5 py-0.2 rounded">${m.scope}</span>
+            <span class="${m.status === 'ELIGIBLE' ? 'text-emerald-700' : 'text-amber-800'}">${m.status === 'ELIGIBLE' ? '✓ ELIGIBLE' : '⚠️ ' + m.status}</span>
+          </div>
+          <div class="text-xs font-bold text-gov-text truncate">${m.title}</div>
+          <div class="text-xs font-extrabold text-gov mt-0.5">${m.benefit}</div>
+          <div class="text-[10px] text-gov-subtext mt-1">${m.note}</div>
+        </div>
+      `).join('');
+    }
+
+    ['sim-state', 'sim-gender', 'sim-age', 'sim-income'].forEach(id => {
+      document.getElementById(id)?.addEventListener('change', updateSimulator);
+    });
+  </script>
 
   <!-- Client Auth Controller (Supabase Auth Service Layer Integration) -->
   <script type="module">
@@ -567,9 +959,7 @@
         }, 1000);
       }
 
-      // ==============================================================================
-      // 1. REGISTRATION SUBMISSION (signInWithOtp with shouldCreateUser: true)
-      // ==============================================================================
+      // 1. REGISTRATION SUBMISSION
       document.getElementById('form-register')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const nameInput = document.getElementById('reg-name');
@@ -598,16 +988,12 @@
         setBusy(submitBtn, true, 'Requesting OTP...');
 
         try {
-          // Call Supabase Auth service directly
           await authService.signInWithOtp(email);
-
-          // Store temporary details until OTP verification succeeds
           sessionStorage.setItem('schemematch_auth_email', email);
           sessionStorage.setItem('schemematch_pending_name', name);
 
-          // Display OTP modal ONLY when Supabase accepts request
           document.getElementById('otp-target-email').textContent = email;
-          otpMessage.textContent = 'We sent a 6-digit one-time password to your email. Please check your inbox and spam folder.';
+          otpMessage.textContent = 'We sent a 6-digit one-time password to your email. Please check your inbox.';
           otpMessage.className = 'text-xs p-3 rounded-xl bg-blue-50 text-blue-900 border border-blue-200 block leading-relaxed';
 
           openModal('otp');
@@ -621,9 +1007,7 @@
         }
       });
 
-      // ==============================================================================
-      // 2. LOGIN SUBMISSION (Passwordless Email OTP)
-      // ==============================================================================
+      // 2. LOGIN SUBMISSION
       document.getElementById('form-login')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const emailInput = document.getElementById('login-email');
@@ -644,7 +1028,6 @@
 
         try {
           await authService.signInWithOtp(email);
-
           sessionStorage.setItem('schemematch_auth_email', email);
           sessionStorage.removeItem('schemematch_pending_name');
 
@@ -663,9 +1046,7 @@
         }
       });
 
-      // ==============================================================================
-      // 3. 6-DIGIT OTP INPUT BEHAVIOR (Auto-advance, Backspace, Paste)
-      // ==============================================================================
+      // 3. OTP AUTO-ADVANCE & PASTE
       function setupOtpBoxes() {
         const boxes = document.querySelectorAll('.otp-digit');
         boxes.forEach((box, idx) => {
@@ -710,9 +1091,7 @@
         return code;
       }
 
-      // ==============================================================================
-      // 4. OTP VERIFICATION (supabase.auth.verifyOtp)
-      // ==============================================================================
+      // 4. OTP VERIFICATION
       document.getElementById('form-otp')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const code = updateCombinedOtp();
@@ -735,7 +1114,6 @@
         setBusy(verifyBtn, true, 'Verifying...');
 
         try {
-          // Verify code through Supabase Auth
           const data = await authService.verifyOtp(email, code);
 
           if (!data?.user) {
@@ -745,7 +1123,6 @@
           const user = data.user;
           const pendingName = sessionStorage.getItem('schemematch_pending_name') || user.email.split('@')[0];
 
-          // Save / update citizen profile with authenticated user ID
           try {
             await dbService.saveProfile({
               full_name: pendingName,
@@ -755,7 +1132,6 @@
             console.warn('Profile sync note:', profileErr);
           }
 
-          // Update local state for consistent UI display
           localStorage.setItem('schemematch_user_id', user.id);
           localStorage.setItem('schemematch_user_email', user.email);
           localStorage.setItem('schemematch_user_name', pendingName);
@@ -776,9 +1152,7 @@
         }
       });
 
-      // ==============================================================================
-      // 5. RESEND OTP (Supabase signInWithOtp)
-      // ==============================================================================
+      // 5. RESEND OTP
       document.getElementById('btn-resend-otp')?.addEventListener('click', async () => {
         if (resendCooldownSeconds > 0) return;
 
@@ -796,7 +1170,6 @@
 
         try {
           await authService.resendOtp(email);
-
           otpMessage.textContent = 'A new 6-digit code has been dispatched to your email.';
           otpMessage.className = 'text-xs p-3 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 block';
           startResendCooldown(30);
