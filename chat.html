@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Chat Interface — SchemeBot | SchemeMatch AI</title>
-  <meta name="description" content="Chat with SchemeBot AI to reverse-match government welfare schemes, decode gazette eligibility rules, and verify document prerequisites.">
+  <meta name="description"
+    content="Chat with SchemeBot AI to reverse-match government welfare schemes, decode gazette eligibility rules, and verify document prerequisites.">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23075E50'><path d='M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm-2 16l-4-4 1.41-1.41L10 15.17l6.59-6.59L18 10l-8 8z'/></svg>">
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23075E50'><path d='M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm-2 16l-4-4 1.41-1.41L10 15.17l6.59-6.59L18 10l-8 8z'/></svg>">
 
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -51,40 +55,49 @@
   <!-- Custom Styles -->
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="bg-gov-bg text-gov-text min-h-screen flex flex-col font-sans antialiased selection:bg-gov-soft selection:text-gov">
+
+<body
+  class="bg-gov-bg text-gov-text min-h-screen flex flex-col font-sans antialiased selection:bg-gov-soft selection:text-gov">
 
   <!-- ============================================================================== -->
   <!-- SINGLE UNIFIED NON-SHAKING NAVBAR -->
   <!-- ============================================================================== -->
   <header class="border-b border-gov-border bg-white sticky top-0 z-40 shadow-2xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      
+
       <!-- Logo -->
       <a href="home.html" class="flex items-center space-x-3 shrink-0 group">
-        <div class="w-9 h-9 rounded-xl bg-gov flex items-center justify-center text-white font-bold text-lg shadow-sm transition-transform group-hover:scale-105">
+        <div
+          class="w-9 h-9 rounded-xl bg-gov flex items-center justify-center text-white font-bold text-lg shadow-sm transition-transform group-hover:scale-105">
           <i data-lucide="shield-check" class="w-5 h-5"></i>
         </div>
         <div>
-          <span class="font-extrabold text-lg tracking-tight text-gov-text">SchemeMatch <span class="text-gov">AI</span></span>
-          <span class="hidden lg:inline-block text-xs text-gov-subtext ml-2 pl-2 border-l border-gov-border">SchemeBot AI Assistant</span>
+          <span class="font-extrabold text-lg tracking-tight text-gov-text">SchemeMatch <span
+              class="text-gov">AI</span></span>
+          <span class="hidden lg:inline-block text-xs text-gov-subtext ml-2 pl-2 border-l border-gov-border">SchemeBot
+            AI Assistant</span>
         </div>
       </a>
 
       <!-- Navigation Tabs (Always in the single navbar row across all screens) -->
       <nav class="flex items-center space-x-1 sm:space-x-2">
-        <a href="home.html" class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-1.5">
+        <a href="home.html"
+          class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-1.5">
           <i data-lucide="home" class="w-4 h-4"></i>
           <span class="hidden sm:inline">Home</span>
         </a>
-        <a href="chat.html" class="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-bold bg-gov text-white shadow-xs flex items-center gap-1.5 transition">
+        <a href="chat.html"
+          class="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-bold bg-gov text-white shadow-xs flex items-center gap-1.5 transition">
           <i data-lucide="bot" class="w-4 h-4"></i>
           <span>AI Chat</span>
         </a>
-        <a href="profile.html" class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-1.5">
+        <a href="profile.html"
+          class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-1.5">
           <i data-lucide="user-check" class="w-4 h-4"></i>
           <span class="hidden sm:inline">Profile</span>
         </a>
-        <a href="settings.html" class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-1.5">
+        <a href="settings.html"
+          class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold text-gov-subtext hover:text-gov hover:bg-gov-soft transition flex items-center gap-1.5">
           <i data-lucide="settings" class="w-4 h-4"></i>
           <span class="hidden sm:inline">Settings</span>
         </a>
@@ -93,13 +106,16 @@
       <!-- Right Header Actions -->
       <div class="flex items-center space-x-2.5 sm:space-x-3 shrink-0">
         <a href="profile.html" class="flex items-center gap-2 pl-2 border-l border-gov-border group">
-          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-gov-border shadow-2xs group-hover:border-gov transition">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80"
+            alt="Avatar"
+            class="w-8 h-8 rounded-full object-cover border border-gov-border shadow-2xs group-hover:border-gov transition">
           <div class="hidden lg:block text-left">
-            <div class="text-xs font-bold text-gov-text leading-tight">Priya Sharma</div>
+            <div class="text-xs font-bold text-gov-text leading-tight">Pranav Shah</div>
             <div class="text-[10px] text-gov-subtext">Citizen Services</div>
           </div>
         </a>
-        <a href="index.html" title="Sign Out" class="p-2 rounded-xl text-gov-subtext hover:text-red-600 hover:bg-red-50 transition">
+        <a href="index.html" title="Sign Out"
+          class="p-2 rounded-xl text-gov-subtext hover:text-red-600 hover:bg-red-50 transition">
           <i data-lucide="log-out" class="w-4 h-4"></i>
         </a>
       </div>
@@ -109,12 +125,15 @@
   <!-- ============================================================================== -->
   <!-- 2. AI CHAT INTERFACE (SchemeBot AI) -->
   <!-- ============================================================================== -->
-  <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row gap-6 h-[calc(100vh-4.5rem)]">
-    
+  <main
+    class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row gap-6 h-[calc(100vh-4.5rem)]">
+
     <!-- Left Sidebar: Consultation & Prompt Shortcuts -->
-    <aside class="hidden md:flex flex-col w-72 shrink-0 bg-white border border-gov-border rounded-2xl p-4 justify-between">
+    <aside
+      class="hidden md:flex flex-col w-72 shrink-0 bg-white border border-gov-border rounded-2xl p-4 justify-between">
       <div>
-        <button onclick="startNewChat()" class="w-full py-2.5 px-4 rounded-xl bg-gov hover:bg-gov-hover text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-xs transition">
+        <button onclick="startNewChat()"
+          class="w-full py-2.5 px-4 rounded-xl bg-gov hover:bg-gov-hover text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-xs transition">
           <i data-lucide="plus" class="w-4 h-4"></i>
           <span>New Consultation</span>
         </button>
@@ -122,19 +141,23 @@
         <div class="mt-6">
           <div class="text-[11px] font-bold text-gov-subtext uppercase tracking-wider mb-2">Suggested Topics</div>
           <div class="space-y-1.5">
-            <button onclick="askPrompt('Am I eligible for Majhi Ladki Bahin Yojana if my family income is ₹1.8 Lakh?')" class="w-full text-left p-2.5 rounded-xl text-xs hover:bg-gov-soft text-gov-text hover:text-gov border border-transparent hover:border-gov-border transition">
+            <button onclick="askPrompt('Am I eligible for Majhi Ladki Bahin Yojana if my family income is ₹1.8 Lakh?')"
+              class="w-full text-left p-2.5 rounded-xl text-xs hover:bg-gov-soft text-gov-text hover:text-gov border border-transparent hover:border-gov-border transition">
               <span class="font-medium">Ladki Bahin Income Rules</span>
               <div class="text-[10px] text-gov-subtext mt-0.5">Maharashtra Govt criteria</div>
             </button>
-            <button onclick="askPrompt('What documents do I need to apply for PM-KISAN 6,000 yearly benefit?')" class="w-full text-left p-2.5 rounded-xl text-xs hover:bg-gov-soft text-gov-text hover:text-gov border border-transparent hover:border-gov-border transition">
+            <button onclick="askPrompt('What documents do I need to apply for PM-KISAN 6,000 yearly benefit?')"
+              class="w-full text-left p-2.5 rounded-xl text-xs hover:bg-gov-soft text-gov-text hover:text-gov border border-transparent hover:border-gov-border transition">
               <span class="font-medium">PM-KISAN Document Gap</span>
               <div class="text-[10px] text-gov-subtext mt-0.5">7/12 Land record details</div>
             </button>
-            <button onclick="askPrompt('How can I get free solar rooftop subsidy under PM Surya Ghar?')" class="w-full text-left p-2.5 rounded-xl text-xs hover:bg-gov-soft text-gov-text hover:text-gov border border-transparent hover:border-gov-border transition">
+            <button onclick="askPrompt('How can I get free solar rooftop subsidy under PM Surya Ghar?')"
+              class="w-full text-left p-2.5 rounded-xl text-xs hover:bg-gov-soft text-gov-text hover:text-gov border border-transparent hover:border-gov-border transition">
               <span class="font-medium">PM Surya Ghar Subsidy</span>
               <div class="text-[10px] text-gov-subtext mt-0.5">Up to ₹78,000 subsidy</div>
             </button>
-            <button onclick="askPrompt('Can a woman start a business under PMEGP or Lakhpati Didi?')" class="w-full text-left p-2.5 rounded-xl text-xs hover:bg-gov-soft text-gov-text hover:text-gov border border-transparent hover:border-gov-border transition">
+            <button onclick="askPrompt('Can a woman start a business under PMEGP or Lakhpati Didi?')"
+              class="w-full text-left p-2.5 rounded-xl text-xs hover:bg-gov-soft text-gov-text hover:text-gov border border-transparent hover:border-gov-border transition">
               <span class="font-medium">Women Business Subsidies</span>
               <div class="text-[10px] text-gov-subtext mt-0.5">SHG loans and 35% subsidy</div>
             </button>
@@ -154,22 +177,26 @@
 
     <!-- Main Chat Window -->
     <div class="flex-1 flex flex-col bg-white border border-gov-border rounded-2xl overflow-hidden shadow-xs">
-      
+
       <!-- Chat Header -->
       <div class="h-14 border-b border-gov-border px-6 flex items-center justify-between shrink-0 bg-gov-muted/20">
         <div class="flex items-center gap-3">
           <div class="relative">
-            <div class="w-8 h-8 rounded-lg bg-gov text-white flex items-center justify-center font-bold text-sm shadow-xs">
+            <div
+              class="w-8 h-8 rounded-lg bg-gov text-white flex items-center justify-center font-bold text-sm shadow-xs">
               <i data-lucide="bot" class="w-4 h-4"></i>
             </div>
-            <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white"></span>
+            <span
+              class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white"></span>
           </div>
           <div>
             <div class="text-xs font-bold text-gov-text flex items-center gap-1.5">
               <span>SchemeBot AI</span>
-              <span id="chat-status-badge" class="px-1.5 py-0.5 rounded text-[10px] bg-emerald-100 text-emerald-800 font-semibold">Connecting...</span>
+              <span id="chat-status-badge"
+                class="px-1.5 py-0.5 rounded text-[10px] bg-emerald-100 text-emerald-800 font-semibold">Connecting...</span>
             </div>
-            <div id="chat-model-label" class="text-[10px] text-gov-subtext">Qwen 2.5 7B • Central & Maharashtra Gazettes</div>
+            <div id="chat-model-label" class="text-[10px] text-gov-subtext">Qwen 2.5 7B • Central & Maharashtra Gazettes
+            </div>
           </div>
         </div>
 
@@ -177,7 +204,8 @@
           <!-- Language Selector -->
           <div class="flex items-center gap-1.5 text-xs text-gov-subtext">
             <i data-lucide="globe" class="w-3.5 h-3.5 text-gov"></i>
-            <select id="chat-language" class="text-xs font-medium bg-transparent border-0 text-gov focus:ring-0 cursor-pointer">
+            <select id="chat-language"
+              class="text-xs font-medium bg-transparent border-0 text-gov focus:ring-0 cursor-pointer">
               <option value="en">English</option>
               <option value="hi">हिन्दी (Hindi)</option>
               <option value="mr">मराठी (Marathi)</option>
@@ -185,7 +213,8 @@
           </div>
 
           <!-- Clear Chat -->
-          <button onclick="clearChat()" class="text-gov-subtext hover:text-gov p-1.5 rounded-lg hover:bg-gov-muted transition" title="Clear Chat">
+          <button onclick="clearChat()"
+            class="text-gov-subtext hover:text-gov p-1.5 rounded-lg hover:bg-gov-muted transition" title="Clear Chat">
             <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
           </button>
         </div>
@@ -193,29 +222,31 @@
 
       <!-- Messages Stream -->
       <div id="chat-messages" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
-        
+
         <!-- Bot Introduction -->
         <div class="flex items-start gap-3 max-w-2xl">
-          <div class="w-8 h-8 rounded-lg bg-gov text-white flex items-center justify-center shrink-0 text-xs font-bold shadow-xs">
+          <div
+            class="w-8 h-8 rounded-lg bg-gov text-white flex items-center justify-center shrink-0 text-xs font-bold shadow-xs">
             <i data-lucide="bot" class="w-4 h-4"></i>
           </div>
           <div class="space-y-2">
-            <div class="bg-gov-muted/50 p-4 rounded-2xl rounded-tl-xs border border-gov-border text-xs sm:text-sm text-gov-text leading-relaxed">
-              <p class="font-bold text-gov mb-1">Namaste Priya! I am SchemeBot AI.</p>
-              <p>I have scanned your citizen dossier (Female, 28 years old, Resident of Maharashtra, Family Income ₹1,80,000/yr).</p>
-              <p class="mt-2">You are currently <strong>100% eligible</strong> for the <strong>Mukhyamantri Majhi Ladki Bahin Yojana</strong> and <strong>Ayushman Bharat</strong>!</p>
-              <p class="mt-2">How can I assist you today? You can ask about eligibility, document requirements, or how to resolve document gaps.</p>
+            <div
+              class="bg-gov-muted/50 p-4 rounded-2xl rounded-tl-xs border border-gov-border text-xs sm:text-sm text-gov-text leading-relaxed">
+              <p class="font-bold text-gov mb-1">Namaste Pranav Shah! I am SchemeBot AI.</p>
             </div>
-            
+
             <!-- Quick Suggestion Buttons -->
             <div class="flex flex-wrap gap-2 pt-1">
-              <button onclick="askPrompt('What documents do I need to prepare for Ladki Bahin application?')" class="text-[11px] px-3 py-1.5 rounded-lg bg-white border border-gov-border hover:bg-gov-soft text-gov transition font-medium">
+              <button onclick="askPrompt('What documents do I need to prepare for Ladki Bahin application?')"
+                class="text-[11px] px-3 py-1.5 rounded-lg bg-white border border-gov-border hover:bg-gov-soft text-gov transition font-medium">
                 📄 Ladki Bahin Document Checklist
               </button>
-              <button onclick="askPrompt('Why does PM-KISAN say Action Needed?')" class="text-[11px] px-3 py-1.5 rounded-lg bg-white border border-gov-border hover:bg-gov-soft text-gov transition font-medium">
+              <button onclick="askPrompt('Why does PM-KISAN say Action Needed?')"
+                class="text-[11px] px-3 py-1.5 rounded-lg bg-white border border-gov-border hover:bg-gov-soft text-gov transition font-medium">
                 ⚠️ Why PM-KISAN needs action?
               </button>
-              <button onclick="askPrompt('How to apply for PM Surya Ghar Rooftop Solar?')" class="text-[11px] px-3 py-1.5 rounded-lg bg-white border border-gov-border hover:bg-gov-soft text-gov transition font-medium">
+              <button onclick="askPrompt('How to apply for PM Surya Ghar Rooftop Solar?')"
+                class="text-[11px] px-3 py-1.5 rounded-lg bg-white border border-gov-border hover:bg-gov-soft text-gov transition font-medium">
                 ☀️ Solar Subsidies
               </button>
             </div>
@@ -228,12 +259,15 @@
       <div class="p-4 border-t border-gov-border bg-white">
         <form id="chat-form" class="flex items-center gap-2">
           <div class="relative flex-1">
-            <input type="text" id="chat-input" placeholder="Ask anything about schemes, eligibility rules, documents..." class="w-full px-4 py-3 rounded-xl border border-gov-border bg-gov-muted/30 text-xs sm:text-sm text-gov-text focus:bg-white focus:border-gov focus:ring-1 focus:ring-gov transition pr-10">
-            <button type="button" onclick="alert('Voice input feature activated.')" class="absolute right-3 top-3 text-gov-subtext hover:text-gov">
+            <input type="text" id="chat-input" placeholder="Ask anything about schemes, eligibility rules, documents..."
+              class="w-full px-4 py-3 rounded-xl border border-gov-border bg-gov-muted/30 text-xs sm:text-sm text-gov-text focus:bg-white focus:border-gov focus:ring-1 focus:ring-gov transition pr-10">
+            <button type="button" onclick="alert('Voice input feature activated.')"
+              class="absolute right-3 top-3 text-gov-subtext hover:text-gov">
               <i data-lucide="mic" class="w-4 h-4"></i>
             </button>
           </div>
-          <button type="submit" class="px-5 py-3 rounded-xl bg-gov hover:bg-gov-hover text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition">
+          <button type="submit"
+            class="px-5 py-3 rounded-xl bg-gov hover:bg-gov-hover text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition">
             <span>Send</span>
             <i data-lucide="send" class="w-4 h-4"></i>
           </button>
@@ -287,7 +321,7 @@
         const res = await fetch(`${API_BASE}/api/health`);
         if (!res.ok) throw new Error('Health check failed');
         const data = await res.json();
-        
+
         if (data.ollama_connected) {
           if (badge) {
             badge.className = 'px-1.5 py-0.5 rounded text-[10px] bg-emerald-100 text-emerald-800 font-semibold flex items-center gap-1';
@@ -316,7 +350,7 @@
       }
     }
 
-    // Get current citizen context from localStorage or fallback to Priya Sharma
+    // Get current citizen context from localStorage or fallback to Pranav Shah
     function getCitizenContext() {
       try {
         const stored = localStorage.getItem('schemematch_profile');
@@ -434,11 +468,11 @@
 
     function generateLocalGazetteReply(query, citizen, lang) {
       const q = (query || '').toLowerCase();
-      
+
       if (q.includes('ladki bahin') || q.includes('majhi ladki') || q.includes('1500') || (q.includes('woman') && q.includes('maharashtra'))) {
         return `### Mukhyamantri Majhi Ladki Bahin Yojana (Maharashtra)
 
-**Eligibility Status for Priya Sharma:**  
+**Eligibility Status for Pranav Shah:**  
 ✅ **100% Directly Eligible**
 
 **Key Criteria Breakdown:**
@@ -459,7 +493,7 @@
       if (q.includes('kisan') || q.includes('pm-kisan') || q.includes('farmer') || q.includes('7/12') || q.includes('land')) {
         return `### PM-KISAN Samman Nidhi (Central Scheme)
 
-**Eligibility Status for Priya Sharma:**  
+**Eligibility Status for Pranav Shah:**  
 ⚠️ **Action Required: Missing 7/12 Land Record**
 
 **Key Details:**
@@ -478,7 +512,7 @@
       if (q.includes('surya') || q.includes('solar') || q.includes('bijli') || q.includes('rooftop')) {
         return `### PM Surya Ghar: Muft Bijli Yojana (Central Scheme)
 
-**Eligibility Status for Priya Sharma:**  
+**Eligibility Status for Pranav Shah:**  
 ✅ **Directly Eligible**
 
 **Scheme Highlights:**
@@ -495,7 +529,7 @@
       if (q.includes('ayushman') || q.includes('health') || q.includes('hospital') || q.includes('pmjay') || q.includes('medical')) {
         return `### Ayushman Bharat Pradhan Mantri Jan Arogya Yojana (PM-JAY)
 
-**Eligibility Status for Priya Sharma:**  
+**Eligibility Status for Pranav Shah:**  
 ✅ **100% Directly Eligible**
 
 **Key Details:**
@@ -519,7 +553,7 @@
 **Next Step:** You can prepare your preliminary project profile DPR and submit it via [kviconline.gov.in](https://www.kviconline.gov.in/).`;
       }
 
-      return `### SchemeMatch AI Guidance for Priya Sharma
+      return `### SchemeMatch AI Guidance for Pranav Shah
 
 I have evaluated your query against our verified database of central and Maharashtra welfare gazettes.
 
@@ -713,26 +747,27 @@ Would you like specific details on required documents, application portal steps,
     }
 
     // Window global functions for existing inline button onclick handlers
-    window.askPrompt = function(text) {
+    window.askPrompt = function (text) {
       sendChatMessage(text);
     };
 
-    window.clearChat = function() {
+    window.clearChat = function () {
       conversationHistory = [];
       const container = document.getElementById('chat-messages');
       container.innerHTML = '';
       appendBotMessage('Chat history cleared. Feel free to ask any question regarding Central or State Government welfare schemes, eligibility rules, or prerequisite documents.');
     };
 
-    window.startNewChat = function() {
+    window.startNewChat = function () {
       window.clearChat();
     };
 
-    window.retryLastMessage = function() {
+    window.retryLastMessage = function () {
       if (lastUserQuery) {
         sendChatMessage(lastUserQuery);
       }
     };
   </script>
 </body>
+
 </html>

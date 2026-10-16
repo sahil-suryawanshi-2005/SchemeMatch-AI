@@ -1,0 +1,632 @@
+{
+  "dataset_info": {
+    "name": "YojnaLens Maharashtra Government Schemes Dataset",
+    "version": "1.0.0",
+    "last_reviewed": "2026-10-16",
+    "language": [
+      "en"
+    ],
+    "state": "Maharashtra",
+    "purpose": "Starter dataset for scheme discovery, eligibility screening, and document checklist generation.",
+    "important_notice": "This is a starter dataset, not a complete official government database. Eligibility, benefit amounts, application windows, and document requirements can change by Government Resolution (GR), department, course, category, and academic year. Verify each scheme on its official portal before showing a user as eligible or advising them to apply.",
+    "primary_portals": [
+      {
+        "name": "MahaDBT official portal",
+        "url": "https://mahadbt.maharashtra.gov.in/"
+      },
+      {
+        "name": "MahaDBT 2.0 portal",
+        "url": "https://mahadbt2.maharashtra.gov.in/"
+      },
+      {
+        "name": "MahaDBT Find Eligible Schemes",
+        "url": "https://www.mahadbt.maharashtra.gov.in/FindEligibleSchemes/FindEligibleSchemes"
+      },
+      {
+        "name": "Directorate of Technical Education, Maharashtra",
+        "url": "https://dte.maharashtra.gov.in/"
+      }
+    ],
+    "data_quality_rules": [
+      "Treat eligibility as a preliminary match, not a final government decision.",
+      "Do not invent income limits, benefit amounts, deadlines, or document requirements when they are not verified for the current scheme year.",
+      "Ask for only the personal details required to assess a scheme.",
+      "Do not store Aadhaar numbers, bank account numbers, or uploaded identity documents in this public scheme dataset.",
+      "Keep source URLs and last-verified dates for each scheme."
+    ]
+  },
+  "common_user_profile_fields": [
+    {
+      "key": "state_domicile",
+      "label": "Maharashtra domicile",
+      "type": "boolean",
+      "required_for_screening": true
+    },
+    {
+      "key": "age",
+      "label": "Age",
+      "type": "integer",
+      "required_for_screening": false
+    },
+    {
+      "key": "education_level",
+      "label": "Current education level",
+      "type": "enum",
+      "options": [
+        "school",
+        "iti",
+        "diploma",
+        "undergraduate",
+        "postgraduate",
+        "other"
+      ],
+      "required_for_screening": true
+    },
+    {
+      "key": "course_name",
+      "label": "Course name",
+      "type": "string",
+      "required_for_screening": false
+    },
+    {
+      "key": "admission_type",
+      "label": "Admission type",
+      "type": "enum",
+      "options": [
+        "CAP",
+        "direct",
+        "other",
+        "unknown"
+      ],
+      "required_for_screening": false
+    },
+    {
+      "key": "category",
+      "label": "Caste / reservation category",
+      "type": "enum",
+      "options": [
+        "SC",
+        "ST",
+        "OBC",
+        "VJNT",
+        "SBC",
+        "SEBC",
+        "EWS",
+        "EBC",
+        "Open",
+        "Other",
+        "Prefer not to say"
+      ],
+      "required_for_screening": false
+    },
+    {
+      "key": "annual_family_income_inr",
+      "label": "Annual family income in INR",
+      "type": "number",
+      "required_for_screening": false
+    },
+    {
+      "key": "disability_status",
+      "label": "Person with benchmark disability / disability certificate",
+      "type": "boolean",
+      "required_for_screening": false
+    },
+    {
+      "key": "hostel_status",
+      "label": "Living in hostel / paying guest / rented accommodation",
+      "type": "boolean",
+      "required_for_screening": false
+    },
+    {
+      "key": "previous_year_result",
+      "label": "Previous academic year result available",
+      "type": "boolean",
+      "required_for_screening": false
+    }
+  ],
+  "document_catalog": [
+    {
+      "key": "aadhaar_or_identity_proof",
+      "label": "Aadhaar or other accepted identity proof",
+      "note": "Use only where requested by the application portal."
+    },
+    {
+      "key": "maharashtra_domicile",
+      "label": "Maharashtra domicile certificate",
+      "note": "Some schemes may accept an eligible parent’s domicile proof; verify the scheme rules."
+    },
+    {
+      "key": "income_certificate",
+      "label": "Family income certificate",
+      "note": "Issuing authority and financial year requirements vary by scheme."
+    },
+    {
+      "key": "caste_certificate",
+      "label": "Caste certificate",
+      "note": "Required for category-specific schemes."
+    },
+    {
+      "key": "caste_validity",
+      "label": "Caste validity certificate",
+      "note": "Required only for schemes/courses where the rules specify it."
+    },
+    {
+      "key": "non_creamy_layer",
+      "label": "Non-creamy layer certificate",
+      "note": "Required only for applicable categories and schemes."
+    },
+    {
+      "key": "admission_receipt",
+      "label": "Current-year admission receipt",
+      "note": "Keep the fee receipt and admission confirmation available."
+    },
+    {
+      "key": "cap_allotment_letter",
+      "label": "CAP allotment/admission document",
+      "note": "Required where the scheme requires CAP admission."
+    },
+    {
+      "key": "bonafide_certificate",
+      "label": "Bonafide student certificate",
+      "note": "Usually issued by the educational institution."
+    },
+    {
+      "key": "previous_marksheets",
+      "label": "Previous examination marksheets",
+      "note": "Exact classes/semesters required vary."
+    },
+    {
+      "key": "bank_passbook",
+      "label": "Bank passbook / account proof",
+      "note": "Bank account should meet the portal's DBT and Aadhaar-seeding requirements where applicable."
+    },
+    {
+      "key": "disability_certificate",
+      "label": "Disability certificate",
+      "note": "Required for disability-specific benefits."
+    },
+    {
+      "key": "hostel_proof",
+      "label": "Hostel / PG / rent proof",
+      "note": "Agreement or certificate may be required for private accommodation."
+    },
+    {
+      "key": "attendance_certificate",
+      "label": "Attendance certificate",
+      "note": "Required by some maintenance allowance schemes."
+    },
+    {
+      "key": "family_declaration",
+      "label": "Family declaration / undertaking",
+      "note": "Only where the scheme rules require it."
+    },
+    {
+      "key": "gap_certificate",
+      "label": "Education gap supporting document",
+      "note": "Required only if there is an education gap and the scheme asks for proof."
+    }
+  ],
+  "schemes": [
+    {
+      "scheme_id": "MH-SC-POST-MATRIC-001",
+      "name": "Government of India Post-Matric Scholarship for Scheduled Caste Students",
+      "short_name": "SC Post-Matric Scholarship",
+      "department": "Social Justice and Special Assistance Department",
+      "category": [
+        "SC"
+      ],
+      "scheme_type": [
+        "education",
+        "scholarship",
+        "fee_support"
+      ],
+      "description": "Financial assistance for eligible Scheduled Caste students studying after matriculation, subject to the current scheme rules.",
+      "benefits": {
+        "summary": "Scholarship and eligible educational support as defined by the current Government Resolution.",
+        "amount_inr": null,
+        "amount_note": "Do not display a fixed amount until verified against the current scheme rules and course."
+      },
+      "eligibility": [
+        {
+          "field": "category",
+          "operator": "equals",
+          "value": "SC",
+          "required": true
+        },
+        {
+          "field": "education_level",
+          "operator": "in",
+          "value": [
+            "iti",
+            "diploma",
+            "undergraduate",
+            "postgraduate"
+          ],
+          "required": true
+        },
+        {
+          "field": "state_domicile",
+          "operator": "equals",
+          "value": true,
+          "required": true
+        }
+      ],
+      "additional_conditions_to_verify": [
+        "Current family income ceiling and any course-specific conditions.",
+        "Whether the institution and course are approved for the scheme.",
+        "Whether the applicant is eligible for another scholarship or fee benefit.",
+        "Fresh or renewal application rules for the relevant academic year."
+      ],
+      "documents_required": [
+        "maharashtra_domicile",
+        "caste_certificate",
+        "income_certificate",
+        "admission_receipt",
+        "bonafide_certificate",
+        "previous_marksheets",
+        "bank_passbook"
+      ],
+      "documents_conditional": [
+        "caste_validity",
+        "cap_allotment_letter",
+        "family_declaration",
+        "gap_certificate"
+      ],
+      "application_portal": "https://mahadbt.maharashtra.gov.in/",
+      "official_source_urls": [
+        "https://mahadbt.maharashtra.gov.in/"
+      ],
+      "last_verified": "2026-10-16",
+      "verification_status": "scheme-listed; verify current GR and detailed eligibility before production use"
+    },
+    {
+      "scheme_id": "MH-ST-POST-MATRIC-001",
+      "name": "Post-Matric Scholarship Scheme (Government of India) for Scheduled Tribe Students",
+      "short_name": "ST Post-Matric Scholarship",
+      "department": "Tribal Development Department",
+      "category": [
+        "ST"
+      ],
+      "scheme_type": [
+        "education",
+        "scholarship",
+        "fee_support"
+      ],
+      "description": "Financial assistance for eligible Scheduled Tribe students pursuing post-matric education, subject to current rules.",
+      "benefits": {
+        "summary": "Scholarship and eligible educational support as defined by the current scheme rules.",
+        "amount_inr": null,
+        "amount_note": "Benefit varies by applicable rules, course, and approved fees."
+      },
+      "eligibility": [
+        {
+          "field": "category",
+          "operator": "equals",
+          "value": "ST",
+          "required": true
+        },
+        {
+          "field": "education_level",
+          "operator": "in",
+          "value": [
+            "iti",
+            "diploma",
+            "undergraduate",
+            "postgraduate"
+          ],
+          "required": true
+        },
+        {
+          "field": "state_domicile",
+          "operator": "equals",
+          "value": true,
+          "required": true
+        }
+      ],
+      "additional_conditions_to_verify": [
+        "Current family income ceiling.",
+        "Course and institution approval.",
+        "Fresh/renewal rules and any minimum academic requirements."
+      ],
+      "documents_required": [
+        "maharashtra_domicile",
+        "caste_certificate",
+        "income_certificate",
+        "admission_receipt",
+        "bonafide_certificate",
+        "previous_marksheets",
+        "bank_passbook"
+      ],
+      "documents_conditional": [
+        "cap_allotment_letter",
+        "family_declaration",
+        "gap_certificate"
+      ],
+      "application_portal": "https://mahadbt.maharashtra.gov.in/",
+      "official_source_urls": [
+        "https://mahadbt.maharashtra.gov.in/"
+      ],
+      "last_verified": "2026-10-16",
+      "verification_status": "scheme-listed; verify current GR and detailed eligibility before production use"
+    },
+    {
+      "scheme_id": "MH-OBC-POST-MATRIC-001",
+      "name": "Post-Matric Scholarship for OBC / VJNT / SBC Students",
+      "short_name": "OBC/VJNT/SBC Post-Matric Scholarship",
+      "department": "Other Backward Bahujan Welfare Department",
+      "category": [
+        "OBC",
+        "VJNT",
+        "SBC"
+      ],
+      "scheme_type": [
+        "education",
+        "scholarship",
+        "fee_support"
+      ],
+      "description": "Post-matric scholarship support for eligible students in applicable backward-class categories. Exact scheme mapping depends on the applicant's category and current portal listing.",
+      "benefits": {
+        "summary": "Scholarship and eligible fee/maintenance support as specified by the applicable scheme.",
+        "amount_inr": null,
+        "amount_note": "Do not assume one benefit amount applies to every category or course."
+      },
+      "eligibility": [
+        {
+          "field": "category",
+          "operator": "in",
+          "value": [
+            "OBC",
+            "VJNT",
+            "SBC"
+          ],
+          "required": true
+        },
+        {
+          "field": "education_level",
+          "operator": "in",
+          "value": [
+            "iti",
+            "diploma",
+            "undergraduate",
+            "postgraduate"
+          ],
+          "required": true
+        },
+        {
+          "field": "state_domicile",
+          "operator": "equals",
+          "value": true,
+          "required": true
+        }
+      ],
+      "additional_conditions_to_verify": [
+        "Exact scheme for the applicant's subcategory.",
+        "Current income ceiling and non-creamy layer requirement, if applicable.",
+        "Course/institute eligibility, admission route, and renewal conditions."
+      ],
+      "documents_required": [
+        "maharashtra_domicile",
+        "caste_certificate",
+        "income_certificate",
+        "admission_receipt",
+        "bonafide_certificate",
+        "previous_marksheets",
+        "bank_passbook"
+      ],
+      "documents_conditional": [
+        "caste_validity",
+        "non_creamy_layer",
+        "cap_allotment_letter",
+        "family_declaration",
+        "gap_certificate"
+      ],
+      "application_portal": "https://mahadbt.maharashtra.gov.in/",
+      "official_source_urls": [
+        "https://mahadbt.maharashtra.gov.in/"
+      ],
+      "last_verified": "2026-10-16",
+      "verification_status": "category grouping only; map to the exact current portal scheme before eligibility decisions"
+    },
+    {
+      "scheme_id": "MH-EBC-DHE-001",
+      "name": "Rajarshi Chhatrapati Shahu Maharaj Shikshan Shulkh Shishyavrutti Yojna (EBC)",
+      "short_name": "EBC Tuition Fee Scholarship",
+      "department": "Directorate of Higher Education",
+      "category": [
+        "EBC",
+        "EWS",
+        "Open",
+        "SEBC"
+      ],
+      "scheme_type": [
+        "education",
+        "tuition_fee_support"
+      ],
+      "description": "Tuition-fee scholarship support for eligible students under the applicable higher-education rules. Eligibility differs by course, category, gender where specified, admission route, and academic year.",
+      "benefits": {
+        "summary": "Eligible tuition/examination fee support according to the current scheme rules.",
+        "amount_inr": null,
+        "amount_note": "Percentage and fee coverage must be confirmed for the exact course and current academic year."
+      },
+      "eligibility": [
+        {
+          "field": "state_domicile",
+          "operator": "equals",
+          "value": true,
+          "required": true
+        },
+        {
+          "field": "education_level",
+          "operator": "in",
+          "value": [
+            "diploma",
+            "undergraduate",
+            "postgraduate"
+          ],
+          "required": true
+        }
+      ],
+      "additional_conditions_to_verify": [
+        "Current family income limit.",
+        "Eligible course, institution, and admission route.",
+        "Category-specific rules and any gender-specific provisions.",
+        "Whether another scholarship or fee reimbursement can be claimed simultaneously."
+      ],
+      "documents_required": [
+        "maharashtra_domicile",
+        "income_certificate",
+        "admission_receipt",
+        "bonafide_certificate",
+        "previous_marksheets",
+        "bank_passbook"
+      ],
+      "documents_conditional": [
+        "cap_allotment_letter",
+        "family_declaration",
+        "gap_certificate"
+      ],
+      "application_portal": "https://mahadbt.maharashtra.gov.in/",
+      "official_source_urls": [
+        "https://mahadbt.maharashtra.gov.in/",
+        "https://dte.maharashtra.gov.in/"
+      ],
+      "last_verified": "2026-10-16",
+      "verification_status": "scheme-listed; verify current GR and exact course/category conditions"
+    },
+    {
+      "scheme_id": "MH-PWD-POST-MATRIC-001",
+      "name": "Post-Matric Scholarship for Persons with Disability",
+      "short_name": "Disability Post-Matric Scholarship",
+      "department": "Applicable Maharashtra government department / MahaDBT listing",
+      "category": [
+        "Persons with disabilities"
+      ],
+      "scheme_type": [
+        "education",
+        "scholarship",
+        "disability_support"
+      ],
+      "description": "Educational scholarship support for eligible students with disabilities, subject to the current scheme's disability and course conditions.",
+      "benefits": {
+        "summary": "Scholarship and eligible educational support as specified by current rules.",
+        "amount_inr": null,
+        "amount_note": "Confirm benefit components and disability criteria on the official scheme page."
+      },
+      "eligibility": [
+        {
+          "field": "disability_status",
+          "operator": "equals",
+          "value": true,
+          "required": true
+        },
+        {
+          "field": "education_level",
+          "operator": "in",
+          "value": [
+            "iti",
+            "diploma",
+            "undergraduate",
+            "postgraduate"
+          ],
+          "required": true
+        }
+      ],
+      "additional_conditions_to_verify": [
+        "Minimum disability percentage and accepted certificate format.",
+        "Current income and academic conditions, if specified.",
+        "Course and institution eligibility."
+      ],
+      "documents_required": [
+        "disability_certificate",
+        "admission_receipt",
+        "bonafide_certificate",
+        "previous_marksheets",
+        "bank_passbook"
+      ],
+      "documents_conditional": [
+        "maharashtra_domicile",
+        "income_certificate",
+        "cap_allotment_letter",
+        "gap_certificate"
+      ],
+      "application_portal": "https://mahadbt.maharashtra.gov.in/",
+      "official_source_urls": [
+        "https://mahadbt.maharashtra.gov.in/"
+      ],
+      "last_verified": "2026-10-16",
+      "verification_status": "scheme-listed; verify exact department and current conditions"
+    },
+    {
+      "scheme_id": "MH-DHE-HOSTEL-ALLOWANCE-001",
+      "name": "Dr. Panjabrao Deshmukh Vasatigruh Nirvah Bhatta Yojna",
+      "short_name": "Dr. Panjabrao Deshmukh Hostel Maintenance Allowance",
+      "department": "Directorate of Higher Education / applicable course department",
+      "category": [
+        "Eligible students under current scheme rules"
+      ],
+      "scheme_type": [
+        "education",
+        "hostel_allowance",
+        "maintenance_allowance"
+      ],
+      "description": "Maintenance assistance for eligible students who meet the scheme's course, admission, domicile, income/occupation, and accommodation conditions.",
+      "benefits": {
+        "summary": "Maintenance allowance; amount depends on the applicable rules and location/course grouping.",
+        "amount_inr": null,
+        "amount_note": "Do not hardcode an allowance amount without checking the applicable scheme page and Government Resolution."
+      },
+      "eligibility": [
+        {
+          "field": "state_domicile",
+          "operator": "equals",
+          "value": true,
+          "required": true
+        },
+        {
+          "field": "hostel_status",
+          "operator": "equals",
+          "value": true,
+          "required": true
+        },
+        {
+          "field": "education_level",
+          "operator": "in",
+          "value": [
+            "diploma",
+            "undergraduate",
+            "postgraduate"
+          ],
+          "required": true
+        }
+      ],
+      "additional_conditions_to_verify": [
+        "Eligible course and admission route, including CAP where required.",
+        "Current family income and parent occupation/landholding conditions, where applicable.",
+        "Attendance, examination, family-beneficiary limits, and restrictions on receiving another maintenance allowance.",
+        "Accepted hostel, PG, or rental proof."
+      ],
+      "documents_required": [
+        "maharashtra_domicile",
+        "income_certificate",
+        "admission_receipt",
+        "bonafide_certificate",
+        "hostel_proof",
+        "previous_marksheets",
+        "bank_passbook"
+      ],
+      "documents_conditional": [
+        "cap_allotment_letter",
+        "attendance_certificate",
+        "family_declaration",
+        "gap_certificate"
+      ],
+      "application_portal": "https://mahadbt.maharashtra.gov.in/",
+      "official_source_urls": [
+        "https://mahadbt.maharashtra.gov.in/",
+        "https://www.mahadbt.maharashtra.gov.in/FindEligibleSchemes/FindEligibleSchemes"
+      ],
+      "last_verified": "2026-10-16",
+      "verification_status": "scheme-listed; conditions vary by department/course, verify before use"
+    }
+  ]
+}
